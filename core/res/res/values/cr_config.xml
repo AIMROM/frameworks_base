@@ -35,4 +35,7 @@
   <integer-array name="keypressboost_strong_param_value"/>
   <integer-array name="keypressboost_weak_param_value"/>
 
+  <!-- Package Manager -->
+  <java-symbol type="array" name="config_disabledComponents" />
+
 </resources>
