@@ -4177,6 +4177,13 @@ public final class Settings {
        public static final String QS_FOOTER_WARNINGS = "qs_footer_warnings";
 
         /**
+         * Whether to mute annoying notifications
+         * @hide
+         */
+        public static final String MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD =
+                "mute_annoying_notifications_threshold";
+
+       /**
         * Whether to show battery light when DND mode is active
         * @hide
         */
