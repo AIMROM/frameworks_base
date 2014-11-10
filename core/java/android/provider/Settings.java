@@ -4050,6 +4050,12 @@ public final class Settings {
          */
         public static final String BATTERY_BAR_CHARGING_COLOR = "battery_bar_charging_color";
 
+        /** Whether to allow one finger quick settings expansion on the right side of the statusbar.
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
+
         /**
          * @hide
          */

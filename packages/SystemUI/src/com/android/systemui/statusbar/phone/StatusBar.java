@@ -6626,6 +6626,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_BRIGHTNESS_MODE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -6634,7 +6637,10 @@ public class StatusBar extends SystemUI implements DemoMode,
 		update();
              if (uri.equals(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN))) {
-                setLockscreenDoubleTapToSleep();
+                 setStatusBarWindowViewOptions();
+             } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN))) {
+                 setStatusBarWindowViewOptions();
              } else if (uri.equals(Settings.System.getUriFor(
                      Settings.System.LOCKSCREEN_MEDIA_METADATA))) {
                  setLockscreenMediaMetadata();
@@ -6677,7 +6683,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
 
         public void update() {
-            setLockscreenDoubleTapToSleep();
+            setStatusBarWindowViewOptions();
             setLockscreenMediaMetadata();
 	    setQsPanelOptions();
             setQsRowsColumns();
@@ -6711,13 +6717,13 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
 
-    private void setLockscreenDoubleTapToSleep() {
+    private void setStatusBarWindowViewOptions() {
         if (mStatusBarWindow != null) {
-            mStatusBarWindow.setLockscreenDoubleTapToSleep();
+            mStatusBarWindow.setStatusBarWindowViewOptions();
         }
     }
 
-    private void setLockscreenMediaMetadata() {
+    private void mLockScreenMediaMetadata() {
         mLockscreenMediaMetadata = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.LOCKSCREEN_MEDIA_METADATA, 0, UserHandle.USER_CURRENT) == 1;
     }
