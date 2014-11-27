@@ -8510,13 +8510,6 @@ public final class Settings {
          */
         public static final String CMAS_ADDITIONAL_BROADCAST_PKG = "cmas_additional_broadcast_pkg";
 
-	/**
-          * Enable face auto unlock on secure lock screens
-          *
-          * @hide
-          */
-         public static final String FACE_AUTO_UNLOCK = "face_auto_unlock";
-
         /**
          * Whether the launcher should show any notification badges.
          * The value is boolean (1 or 0).
@@ -8552,6 +8545,30 @@ public final class Settings {
          * @hide
          */
         public static final String LOCK_POWER_MENU_DISABLED = "lockscreen_power_menu_disabled";
+
+        /**
+         * Force authorize Substratum (or equivalent) frontend calling packages by ThemeInterfacer
+         * The value is boolean (1 or 0).
+         * @hide
+         */
+        public static final String FORCE_AUTHORIZE_SUBSTRATUM_PACKAGES = "force_authorize_substratum_packages";
+
+        /**
+         * Enable face auto unlock on secure lock screens
+         *
+         * @hide
+         */
+        public static final String FACE_AUTO_UNLOCK = "face_auto_unlock";
+
+        /**
+         * Display style of the status bar battery information
+         * 0: Display the battery an icon in portrait mode
+         * 1: Display the battery an icon in landscape mode
+         * 2: Display the battery as a circle
+         * default: 0
+         * @hide
+         */
+        public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
 
         /**
          * This are the settings to be backed up.
@@ -9384,14 +9401,6 @@ public final class Settings {
         */
        public static final String HDMI_CONTROL_AUTO_WAKEUP_ENABLED =
                "hdmi_control_auto_wakeup_enabled";
-
-        /**
-          * Force authorize Substratum (or equivalent) frontend calling packages by ThemeInterfacer
-          * The value is boolean (1 or 0).
-          * @hide
-          */
-
-         public static final String FORCE_AUTHORIZE_SUBSTRATUM_PACKAGES = "force_authorize_substratum_packages"; 
 
       /**
         * Whether TV will also turn off other CEC devices when it goes to standby mode.
