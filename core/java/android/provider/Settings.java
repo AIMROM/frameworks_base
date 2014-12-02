@@ -6724,6 +6724,13 @@ public final class Settings {
          */
         public static final String FORCE_AUTHORIZE_SUBSTRATUM_PACKAGES = "force_authorize_substratum_packages";
 
+	/**
+         * Disable expanding quick settings on secure lock screens
+         *
+         * @hide
+         */
+        public static final String LOCK_ENABLE_QS = "lockscreen_enable_qs";
+
         /**
          * This are the settings to be backed up.
          *
