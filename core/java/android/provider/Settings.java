@@ -4182,22 +4182,23 @@ public final class Settings {
           */
          public static final String POWERMENU_SETTINGS = "powermenu_settings"
 
-	/**  
+	/**
           * AOKP Custom System Animations
           * @hide
-          */  
-         public static final String[] ACTIVITY_ANIMATION_CONTROLS = new String[] {  
-                 "activity_open",
-                 "activity_close",
-                 "task_open",  
-                 "task_close",  
-                 "task_to_front",
-                 "task_to_back",  
-                 "wallpaper_open",  
-                 "wallpaper_close",  
-                 "wallpaper_intra_open",  
-                 "wallpaper_intra_close",  
-         };  
+          */
+         public static final String[] ACTIVITY_ANIMATION_CONTROLS = new String[] {
+		 "activity_open",
+		 "activity_close",
+		 "task_open",
+		 "task_close",
+		 "task_to_front",
+		 "task_to_back",
+		 "wallpaper_open",
+		 "wallpaper_close",
+		 "wallpaper_intra_open",
+		 "wallpaper_intra_close",
+		 "task_open_behind",
+         };
          public static final String ANIMATION_CONTROLS_DURATION = "animation_controls_duration";
 
          /**
@@ -4337,7 +4338,7 @@ public final class Settings {
          * @hide
          */
         public static final String[] SETTINGS_TO_BACKUP = {
-            STAY_ON_WHILE_PLUGGED_IN,   // moved to global
+            STAY_ON_WHILE_PLUGGED_IN, // moved to global
             WIFI_USE_STATIC_IP,
             WIFI_STATIC_IP,
             WIFI_STATIC_GATEWAY,
@@ -4359,8 +4360,8 @@ public final class Settings {
             TEXT_AUTO_CAPS,
             TEXT_AUTO_PUNCTUATE,
             TEXT_SHOW_PASSWORD,
-            AUTO_TIME,                  // moved to global
-            AUTO_TIME_ZONE,             // moved to global
+            AUTO_TIME,                // moved to global
+            AUTO_TIME_ZONE,           // moved to global
             TIME_12_24,
             DATE_FORMAT,
             DTMF_TONE_WHEN_DIALING,
@@ -4370,8 +4371,8 @@ public final class Settings {
             MASTER_MONO,
             SOUND_EFFECTS_ENABLED,
             HAPTIC_FEEDBACK_ENABLED,
-            POWER_SOUNDS_ENABLED,       // moved to global
-            DOCK_SOUNDS_ENABLED,        // moved to global
+            POWER_SOUNDS_ENABLED,     // moved to global
+            DOCK_SOUNDS_ENABLED,      // moved to global
             LOCKSCREEN_SOUNDS_ENABLED,
             SHOW_WEB_SUGGESTIONS,
             SIP_CALL_OPTIONS,
@@ -7563,11 +7564,11 @@ public final class Settings {
          * @hide
          */
         public static final String[] SETTINGS_TO_BACKUP = {
-            BUGREPORT_IN_POWER_MENU,                            // moved to global
+            BUGREPORT_IN_POWER_MENU,                          // moved to global
             ALLOW_MOCK_LOCATION,
             PARENTAL_CONTROL_ENABLED,
             PARENTAL_CONTROL_REDIRECT_URL,
-            USB_MASS_STORAGE_ENABLED,                           // moved to global
+            USB_MASS_STORAGE_ENABLED,                         // moved to global
             ACCESSIBILITY_DISPLAY_INVERSION_ENABLED,
             ACCESSIBILITY_DISPLAY_DALTONIZER,
             ACCESSIBILITY_DISPLAY_DALTONIZER_ENABLED,
@@ -7607,9 +7608,9 @@ public final class Settings {
             TTS_ENABLED_PLUGINS,
             TTS_DEFAULT_LOCALE,
             SHOW_IME_WITH_HARD_KEYBOARD,
-            WIFI_NETWORKS_AVAILABLE_NOTIFICATION_ON,            // moved to global
-            WIFI_NETWORKS_AVAILABLE_REPEAT_DELAY,               // moved to global
-            WIFI_NUM_OPEN_NETWORKS_KEPT,                        // moved to global
+            WIFI_NETWORKS_AVAILABLE_NOTIFICATION_ON,          // moved to global
+            WIFI_NETWORKS_AVAILABLE_REPEAT_DELAY,             // moved to global
+            WIFI_NUM_OPEN_NETWORKS_KEPT,                      // moved to global
             SELECTED_SPELL_CHECKER,
             SELECTED_SPELL_CHECKER_SUBTYPE,
             SPELL_CHECKER_ENABLED,
