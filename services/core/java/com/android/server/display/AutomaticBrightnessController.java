@@ -342,11 +342,12 @@ class AutomaticBrightnessController {
     private void handleLightSensorEvent(long time, float lux) {
         mHandler.removeMessages(MSG_UPDATE_AMBIENT_LUX);
 
-        if (DEBUG) Slog.d(TAG, "handleLightSensorEvent: time=" + time + ", lux=" + lux);
         if (mAmbientLightRingBuffer.size() == 0) {
             // switch to using the steady-state sample rate after grabbing the initial light sample
             adjustLightSensorRate(mNormalLightSensorRate);
         }
+
+        if (DEBUG) Slog.d(TAG, "handleLightSensorEvent: time=" + time + ", lux=" + lux);
         applyLightSensorMeasurement(time, lux);
         updateAmbientLux(time);
         if (mUseActiveDozeLightSensorConfig && mDozing) {
