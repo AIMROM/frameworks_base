@@ -30,5 +30,7 @@
 
 <!-- Recents task locking button -->
     <dimen name="recents_task_view_header_lock_button_padding">44dp</dimen>
+    <!-- Membar spacing -->
+    <dimen name="recents_membar_spacing">12dp</dimen>
 
 </resources>
