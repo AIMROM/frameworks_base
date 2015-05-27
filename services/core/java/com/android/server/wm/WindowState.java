@@ -3188,6 +3188,11 @@ class WindowState extends WindowContainer<WindowState> implements WindowManagerP
             mWinAnimator.mSurfaceResized = false;
             mReportOrientationChanged = false;
         } catch (RemoteException e) {
+            mOverscanInsetsChanged = false;
+            mContentInsetsChanged = false;
+            mVisibleInsetsChanged = false;
+            mStableInsetsChanged = false;
+            mWinAnimator.mSurfaceResized = false;
             setOrientationChanging(false);
             mLastFreezeDuration = (int)(SystemClock.elapsedRealtime()
                     - mService.mDisplayFreezeTime);
