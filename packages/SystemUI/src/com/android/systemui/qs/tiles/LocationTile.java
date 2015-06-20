@@ -211,7 +211,7 @@ public class LocationTile extends QSTile<QSTile.BooleanState> {
 
         @Override
         public int getMetricsCategory() {
-            return MetricsEvent.QS_LOCATION_DETAIL;
+            return MetricsEvent.AIM;
         }
 
         @Override
