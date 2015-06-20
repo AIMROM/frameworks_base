@@ -2261,5 +2261,7 @@ message MetricsEvent {
    //FREEDOMHUB
    AMIFY = 801;
 
+    // Location detail adapter
+    QS_LOCATION_DETAIL = 504;
   }
 }
