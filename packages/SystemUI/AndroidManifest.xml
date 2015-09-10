@@ -31,6 +31,7 @@
 
     <uses-permission android:name="android.permission.INJECT_EVENTS" />
     <uses-permission android:name="android.permission.DUMP" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <uses-permission android:name="android.permission.STATUS_BAR_SERVICE" />
@@ -509,15 +510,19 @@
             android:singleUser="true"
             android:permission="android.permission.BIND_DREAM_SERVICE" />
 
-        <receiver
+      <service android:name=".aim.onthego.OnTheGoService"
+            android:process=":onthego"
+            android:exported="false" />
+  
+      <receiver
             android:name=".tuner.TunerService$ClearReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.android.systemui.action.CLEAR_TUNER" />
             </intent-filter>
         </receiver>
-
-        <receiver
+        
+       <receiver
             android:name=".statusbar.KeyboardShortcutsReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DISMISS_KEYBOARD_SHORTCUTS" />

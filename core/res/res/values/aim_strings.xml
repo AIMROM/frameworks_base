@@ -13,8 +13,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
 <!-- LuckyPatcher carnt dialog -->
-    <string name="lucky_patcher_installed_title">LuckyPatcher found!!! you cant escape from us you CUNT</string>
-    <string name="lucky_patcher_installed_message">I hereby willingly admit that I\'m a carnt,Fucker, thief and a pirate. I love to steal money from the hard working developers and to brag about it.</string>
+    <string name="lucky_patcher_installed_title">LuckyPatcher found!!! you cant escape from us you Pirate Scum</string>
+    <string name="lucky_patcher_installed_message">I hereby willingly admit that I\'m a carnt, thief and a pirate. I love to steal money from the hard working developers and to brag about it.</string>
     <string name="lucky_patcher_admit">I admit</string>
 
    <!-- Extended Boosts for QPerformance -->
@@ -27,5 +27,8 @@
  
    <!-- Boost parameters which get passed to QPerformance -->
     <integer-array name="onbootboost_param_value"/>
+
+<!-- On-The-Go -->
+    <string name="global_action_onthego">On-The-Go Mode</string>
 
 </resources>
