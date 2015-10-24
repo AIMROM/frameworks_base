@@ -4190,6 +4190,12 @@ public final class Settings {
           public static final String STATUS_BAR_LOGO = "status_bar_logo";
 
       /**
+	* Whether to show media art on lockscreen
+          * @hide
+          */
+         public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
+  
+          /**
 	* Whether to show the battery info on the lockscreen while charging
         * @hide
         */
@@ -4403,7 +4409,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER);
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_DELAY);
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_INCALL_ONLY);
-
+	    PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
 
 	}
 
