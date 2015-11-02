@@ -3900,6 +3900,12 @@ public final class Settings {
          public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
 
         /**
+	  * Volume key controls ringtone or media sound stream
+          * @hide
+          */
+         public static final String VOLUME_KEYS_CONTROL_MEDIA_STREAM =
+                 "volume_keys_control_media_stream";
+        /**
 	 * Setting to determine whether or not to show the battery percentage in the status bar.
          *    0 - Don't show percentage
          *    1 - Show percentage
