@@ -4006,7 +4006,14 @@ public final class Settings {
          public static final String DOUBLE_TAP_SLEEP_LOCKSCREEN =
                  "double_tap_sleep_lockscreen";
 
-        /**
+         /**
+ 	  * Whether to allow one finger quick settings expansion on the right side of the statusbar.
+           * @hide
+           */
+          public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
+
+
+	/**
 	 * Setting to determine whether or not to show the battery percentage in the status bar.
          *    0 - Don't show percentage
          *    1 - Show percentage
@@ -4410,7 +4417,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_DELAY);
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_INCALL_ONLY);
 	    PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
-
+	    PRIVATE_SETTINGS.add(STATUS_BAR_QUICK_QS_PULLDOWN);
 	}
 
         /**
