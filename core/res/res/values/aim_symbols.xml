@@ -39,5 +39,7 @@
 
     <!-- Usb drive persistent notification -->
     <java-symbol type="bool" name="config_persistUsbDriveNotification" />
+    <!-- vendor missing -->
+    <java-symbol type="string" name="system_error_vendorprint" />
 
 </resources>
