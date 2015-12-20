@@ -108,4 +108,8 @@
      <string name="notification_channel_screenrecord">Screenrecords</string>
      <string name="global_action_screenrecord">Screenrecord</string>
 
+     <!-- Screenrecord Tile -->
+     <string name="quick_settings_screenrecord">Screenrecord</string>
+ 
+
 </resources>
