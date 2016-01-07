@@ -4068,6 +4068,12 @@ public final class Settings {
          public static final String LISTVIEW_INTERPOLATOR = "listview_interpolator";
 
 	 /**
+          * Whether to show Brightness Icon On Brightness Slider
+          * @hide
+          */
+         public static final String QS_SHOW_BRIGHTNESS_ICON = "qs_show_brightness_icon";
+
+	 /**
 	  * Whether to use the MTP by default after connecting to PC
           * @hide
           */
