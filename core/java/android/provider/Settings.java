@@ -4593,6 +4593,12 @@ public final class Settings {
         public static final Validator STATUS_BAR_CLOCK_SECONDS_VALIDATOR =
                 sBooleanValidator;
 
+        /** Whether to skip music track with volume rocker
+        /**
+         * @hide
+         */
+        public static final String VOLUME_BUTTON_MUSIC_CONTROL = "volume_button_music_control";
+
         /**
          * AM/PM Style for clock options
          * 0 - Normal AM/PM
