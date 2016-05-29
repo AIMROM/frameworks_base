@@ -61,4 +61,11 @@
     <string name="quick_settings_compass_W">W</string>
     <string name="quick_settings_compass_NW">NW</string>
 
+<!-- Screenshot Crop & Share -->
+    <string name="action_delete_success">Deleted</string>
+    <string name="action_delete_fault">Deleting was unsuccessful</string>
+    <string name="action_save_success">Saved</string>
+    <string name="action_save_fault">Saving was unsuccessful</string>
+    <string name="action_edit">Edit</string>
+
 </resources>

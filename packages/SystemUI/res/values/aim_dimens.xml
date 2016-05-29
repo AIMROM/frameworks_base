@@ -33,4 +33,9 @@
     <!-- Membar spacing -->
     <dimen name="recents_membar_spacing">12dp</dimen>
 
+
+<!-- SS Crop & Share -->
+    <dimen name="crop_buttons">48dp</dimen>
+    <dimen name="crop_buttons_inlet">32dp</dimen>
+
 </resources>
