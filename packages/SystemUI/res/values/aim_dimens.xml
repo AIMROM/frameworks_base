@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2017 AIMROM
+     Copyright (C) 2016 The Pure Nexus Project
+
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
+
           http://www.apache.org/licenses/LICENSE-2.0
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,16 +15,17 @@
      limitations under the License.
 -->
 <resources>
+    <!-- Network traffic monitor single-line text size -->
+    <dimen name="net_traffic_single_text_size">12dp</dimen>
 
-    <!-- Custom Navbar Color -->
-    <color name="icon_color_back">@android:color/white</color>
-    <color name="icon_color_ime_switcher">@android:color/white</color>
-    <color name="icon_color_split_screen">@android:color/white</color>
-    <color name="icon_color_home">@android:color/white</color>
-    <color name="icon_color_overview">@android:color/white</color>
+    <!-- Network traffic monitor multi-line text size -->
+    <dimen name="net_traffic_multi_text_size">8dp</dimen>
 
-<!-- Clear-All recents FAB -->
-    <color name="fab_color">@*android:color/material_deep_teal_500</color>
-    <color name="floating_action_button_icon_color">#FFFFFFFF</color>
+ <!-- Clear-All recents FAB -->
+    <dimen name="floating_action_button_height">54dp</dimen>
+    <dimen name="floating_action_button_width">54dp</dimen>
+    <dimen name="floating_action_button_translation_z">12dp</dimen>
+    <dimen name="floating_action_button_margin_side">32dp</dimen>
+    <dimen name="floating_action_button_margin_bottom">46dp</dimen>
 
 </resources>
