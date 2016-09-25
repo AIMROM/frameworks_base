@@ -2261,5 +2261,7 @@ message MetricsEvent {
    //FREEDOMHUB
    AMIFY = 801;
 
+    // Quick setting tiles
+    QUICK_SETTINGS = 412;
   }
 }
