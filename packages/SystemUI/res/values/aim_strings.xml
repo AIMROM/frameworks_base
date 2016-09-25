@@ -39,6 +39,9 @@
     <string name="accessibility_quick_settings_pulse_changed_off">Pulse turned off</string>
     <string name="accessibility_quick_settings_pulse_changed_on">Pulse turned on</string>
 
+<!-- Quick Settings tiles -->
+    <string name="quick_settings_screenshot_label">Screenshot</string>
+
 <!-- Recents Membar -->
     <string name="recents_free_ram">FREE RAM</string>
 
