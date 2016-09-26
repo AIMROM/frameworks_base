@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
@@ -33,6 +34,12 @@
  <!-- Screenshot -->
      <string name="screenshot_abort_title">No screenshot taken</string>
      <string name="screenshot_abort_text">Operation aborted.</string>
+
+<!-- ADB network tile -->
+     <string name="quick_settings_adb_network">ADB network</string>
+     <string name="quick_settings_network_adb_enabled_label">Adb over Net</string>
+     <string name="quick_settings_network_adb_disabled_label">Adb over Net</string>
+ 
 
 </resources>
 
