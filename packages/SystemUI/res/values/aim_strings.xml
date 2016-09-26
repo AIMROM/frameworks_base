@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /* //device/apps/common/assets/res/any/strings.xml
@@ -38,5 +39,11 @@
  <!-- Screenshot -->
      <string name="screenshot_abort_title">No screenshot taken</string>
      <string name="screenshot_abort_text">Operation aborted.</string>
+
+<!-- ADB network tile -->
+     <string name="quick_settings_adb_network">ADB network</string>
+     <string name="quick_settings_network_adb_enabled_label">Adb over Net</string>
+     <string name="quick_settings_network_adb_disabled_label">Adb over Net</string>
+ 
 
 </resources>
