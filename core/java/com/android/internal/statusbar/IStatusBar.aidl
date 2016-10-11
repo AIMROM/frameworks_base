@@ -121,4 +121,5 @@ oneway interface IStatusBar
      * Aim
      */
     void toggleCameraFlash();
+    void toggleNavigationBar(boolean enable);
 }
