@@ -77,6 +77,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 	private int mCustomLogos;
     private boolean mShowLogo;
 	private int mLogoColor;
+
+    // Custom Carrier
+    private View mCustomCarrierLabel;
+    private int mShowCarrierLabel;
     private final Handler mHandler = new Handler();
 
     private class AimSettingsObserver extends ContentObserver {
@@ -88,19 +92,23 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_LOGO),
                     false, this, UserHandle.USER_ALL);
-		 getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+            getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                      Settings.System.STATUS_BAR_CUSTOM_LOGOS),
                      false, this, UserHandle.USER_ALL);
-		getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+ 	    getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                      Settings.System.STATUS_BAR_LOGO_COLOR),
                      false, this, UserHandle.USER_ALL);
+            getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CARRIER),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             if ((uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_LOGO))) ||
                 (uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_CUSTOM_LOGOS))) ||
-                (uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_LOGO_COLOR)))){
+                (uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_LOGO_COLOR))) ||
+                (uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_CARRIER))))  {
                 updateSettings(true);
             }
         }
@@ -142,6 +150,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mSignalClusterView = mStatusBar.findViewById(R.id.signal_cluster);
         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mSignalClusterView);
         mAimLogo = mStatusBar.findViewById(R.id.status_bar_logo);
+        mCustomCarrierLabel = mStatusBar.findViewById(R.id.statusbar_carrier_text);
         updateSettings(false);
         // Default to showing until we know otherwise.
         showSystemIconArea(false);
@@ -336,13 +345,17 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mShowLogo = Settings.System.getIntForUser(
                 getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO, 0,
                 UserHandle.USER_CURRENT) == 1;
-		mLogoColor = Settings.System.getIntForUser(
-                 getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO_COLOR, 0xff009688,
-                 UserHandle.USER_CURRENT);
-		mCustomLogos = Settings.System.getIntForUser(
-                 getContext().getContentResolver(), Settings.System.STATUS_BAR_CUSTOM_LOGOS, 0,
-                 UserHandle.USER_CURRENT);
- 
+	mLogoColor = Settings.System.getIntForUser(
+                getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO_COLOR, 0xff009688,
+                UserHandle.USER_CURRENT);
+	mCustomLogos = Settings.System.getIntForUser(
+                getContext().getContentResolver(), Settings.System.STATUS_BAR_CUSTOM_LOGOS, 0,
+                UserHandle.USER_CURRENT);
+
+        mShowCarrierLabel = Settings.System.getIntForUser(
+                getContext().getContentResolver(), Settings.System.STATUS_BAR_CARRIER, 1,
+                UserHandle.USER_CURRENT);
+
          switch(mCustomLogos) {
                 	 // Wolf thin
              case 1:
@@ -377,18 +390,17 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                  logo = getContext().getDrawable(R.drawable.status_bar_logo);
                  break;
          }
- 
+
          if (mAimLogo != null) {
              if (logo == null) {
                  // Something wrong. Do not show anything
                  mAimLogo.setImageDrawable(logo);
                  return;
              }
- 
+
              mAimLogo.setImageDrawable(logo);
 			 mAimLogo.setColorFilter(mLogoColor, PorterDuff.Mode.MULTIPLY);
          }
- 
 
         if (mNotificationIconAreaInner != null) {
             if (mShowLogo) {
