@@ -5597,6 +5597,12 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RECENTS_ICON_PACK),
                     false, this, UserHandle.USER_ALL);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.CLEAR_RECENTS_STYLE),
+ 		     false, this, UserHandle.USER_ALL);
+             resolver.registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.CLEAR_RECENTS_STYLE_ENABLE),
+ 		     false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -5632,6 +5638,15 @@ public class StatusBar extends SystemUI implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENTS_ICON_PACK))) {
                 updateRecentsIconPack();
+	    }  else if (uri.equals(Settings.System.getUriFor(
+                      Settings.System.CLEAR_RECENTS_STYLE))
+                      || uri.equals(Settings.System.getUriFor(
+                      Settings.System.CLEAR_RECENTS_STYLE_ENABLE))) {
+                      updateRowStates();
+                      updateSpeedBumpIndex();
+                      checkBarModes();
+                      updateClearAll();
+                      updateEmptyShadeView();
             }
         }
 

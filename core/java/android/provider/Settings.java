@@ -3958,6 +3958,60 @@ public final class Settings {
         public static final String SYSTEMUI_RECENTS_MEM_DISPLAY = "systemui_recents_mem_display";
 
         /**
+          * Recents Clear All Button Style
+          * @hide
+          */
+         public static final String CLEAR_RECENTS_STYLE = "clear_recents_style";
+ 
+        /**
+          * Recents Clear All Button Style Switch
+          * @hide
+          */
+         public static final String CLEAR_RECENTS_STYLE_ENABLE = "clear_recents_style_enable";
+ 
+        /**
+          * Recents Clear All Button Color
+          * @hide
+          */
+         public static final String FAB_BUTTON_COLOR= "fab_button_color";
+ 
+        /**
+          * Recents MemBar Color
+          * @hide
+          */
+         public static final String MEM_BAR_COLOR= "mem_bar_color";
+ 
+        /**
+          * Recents MemBar Text Color
+          * @hide
+          */
+         public static final String MEM_TEXT_COLOR= "mem_text_color";
+ 
+        /**
+          * Recents Clear Button Color
+          * @hide
+          */
+         public static final String CLEAR_BUTTON_COLOR= "clear_button_color";
+ 
+        /**
+          * Recents Date Text Color
+          * @hide
+          */
+         public static final String RECENTS_DATE_COLOR= "recents_date_color";
+ 
+        /**
+          * Recents Clock Text Color
+          * @hide
+          */
+         public static final String RECENTS_CLOCK_COLOR= "recents_clock_color";
+ 
+        /**
+          * Recents FAB animation
+          * @hide
+          */
+         public static final String RECENTS_ROTATE_FAB= "recents_rotate_fab";
+  
+	/**
          * IMPORTANT: If you add a new public settings you also have to add it to
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
