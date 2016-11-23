@@ -823,6 +823,7 @@ public class Build {
      * always hardcoded to the stock ROM fingerprint, provide that instead
      * of the actual one if possible.
      */
+
     private static String parseBuildTypeFromFingerprint() {
         final String fingerprint = SystemProperties.get("ro.build.fingerprint");
         if (TextUtils.isEmpty(fingerprint)) {
