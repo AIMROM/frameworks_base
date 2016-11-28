@@ -4023,8 +4023,14 @@ public final class Settings {
         public static final String NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD = "network_traffic_autohide_threshold";
 
         /**
-         * Whether to launch default music player when headset plugged in
-         * 0 = don't do anything (default)
+          * Whether to display qs tile titles in the qs panel
+          * @hide
+          */
+         public static final String QS_TILE_TITLE_VISIBILITY = "qs_tile_title_visibility";
+
+        /**
+	  * Whether to launch default music player when headset plugged in
+          * 0 = don't do anything (default)
           * 1 = launch only on wired connection
           * 2 = launch only on bt connection but no carkit
           * 3 = launch only on bt connection
