@@ -83,6 +83,7 @@ import com.android.internal.os.BackgroundThread;
 import com.android.internal.util.FastXmlSerializer;
 import com.android.internal.util.XmlUtils;
 import com.android.server.am.BatteryStatsService;
+import com.android.server.utils.ServiceHelper;
 
 import org.cyanogenmod.internal.util.PackageManagerUtils;
 
@@ -1321,6 +1322,7 @@ public class DeviceIdleController extends SystemService
             mLightEnabled = mDeepEnabled = getContext().getResources().getBoolean(
                     com.android.internal.R.bool.config_enableAutoPowerModes) &&
                     PackageManagerUtils.isAppInstalled(getContext(), "com.google.android.gms");
+                    ServiceHelper.isGMSInstalled(getContext());
             SystemConfig sysConfig = SystemConfig.getInstance();
             ArraySet<String> allowPowerExceptIdle = sysConfig.getAllowInPowerSaveExceptIdle();
             for (int i=0; i<allowPowerExceptIdle.size(); i++) {
