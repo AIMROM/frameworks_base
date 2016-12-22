@@ -3737,6 +3737,21 @@ public final class Settings {
         public static final String HOME_RESIZE_DURATION = "home_resize_anim_duration";
 
         /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_ENABLE_CHARGING_COLOR = "battery_bar_enable_charging_color";
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_BLEND_COLORS = "battery_bar_blend_color";
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_BLEND_COLORS_REVERSE = "battery_bar_blend_color_reverse";
+
+        /**
          * Enable statusbar double tap gesture on to put device to sleep
          * @hide
          */
