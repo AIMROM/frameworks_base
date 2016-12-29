@@ -828,4 +828,11 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
          */
         void onMetadataOrStateChanged(MediaMetadata metadata, @PlaybackState.State int state);
     }
+
+    private float getLockScreenMediaBlurLevel() {
+        float level = (float) Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_MEDIA_BLUR, 100,
+                UserHandle.USER_CURRENT) / 4;
+        return level;
+      }
 }
