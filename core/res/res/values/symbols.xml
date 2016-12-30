@@ -3050,7 +3050,12 @@
    <java-symbol type="integer" name="preflingboost_timeout_param" />
    <java-symbol type="array" name="preflingboost_param_value" />
  
-   <!-- cpu boost for overscroller fling -->
+  <!-- cpu boost for pre-fling -->
+   <java-symbol type="bool" name="config_enableCpuBoostForPreFling" />
+   <java-symbol type="integer" name="preflingboost_timeout_param" />
+   <java-symbol type="array" name="preflingboost_param_value" /> 
+
+  <!-- cpu boost for overscroller fling -->
    <java-symbol type="bool" name="config_enableCpuBoostForOverScrollerFling" />
    <java-symbol type="integer" name="flingboost_timeout_param" />
    <java-symbol type="array" name="flingboost_param_value" />
