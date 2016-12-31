@@ -77,4 +77,7 @@ interface IStatusBarService
     void startAssist(in Bundle args);
     void screenPinningStateChanged(boolean enabled);
     void showCustomIntentAfterKeyguard(inout Intent intent);
+
+    // SystemUI Restart API for masquerade
+    void restartUI();
 }
