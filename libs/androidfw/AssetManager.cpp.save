@@ -750,7 +750,22 @@ Asset* AssetManager::openIdmapLocked(const struct asset_path& ap) const
     return ass;
 }
 
-const ResTable& AssetManager::getResources(bool required) const
+void AssetManager::addSystemOverlays(const char* pathOverlaysList,
+        const String8& targetPackagePath, ResTable* sharedRes, size_t offset) const
+{
+    FILE* fin = fopen(pathOverlaysList, "r");
+    if (fin == NULL) {
+        return;
+    }
+
+#ifndef _WIN32
+    if (TEMP_FAILURE_RETRY(flock(fileno(fin), LOCK_SH)) != 0) {
+        fclose(fin);
+        return;
+    }
+#endif
+    char buf[1024];
+    while (fgconst ResTable& AssetManager::getResources(bool required) const
 {
     const ResTable* rt = getResTable(required);
     return *rt;
