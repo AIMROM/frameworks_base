@@ -2807,4 +2807,7 @@
 
     <!-- Allow the flashlight to use wakelocks -->
     <bool name="config_useWakeLockForFlashlight">false</bool>
+
+    <!-- True if the notifications should dynamically tint the app icon and app title -->
+    <bool name="config_allowNotificationIconTextTinting">true</bool>
 </resources>
