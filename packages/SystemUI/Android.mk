@@ -42,7 +42,10 @@ LOCAL_STATIC_ANDROID_LIBRARIES := \
 
 LOCAL_STATIC_JAVA_LIBRARIES := \
     SystemUI-tags \
-    SystemUI-proto
+    SystemUI-proto \
+	android-opt-cards
+	
+LOCAL_RESOURCE_DIR += frameworks/opt/cards/res \
 
 LOCAL_JAVA_LIBRARIES := telephony-common
 LOCAL_JAVA_LIBRARIES += android.car
@@ -63,7 +66,7 @@ endif
 
 include frameworks/base/packages/SettingsLib/common.mk
 
-LOCAL_AAPT_FLAGS := --extra-packages com.android.keyguard
+LOCAL_AAPT_FLAGS := --extra-packages com.android.keyguard --extra-packages com.android.cards
 
 include $(BUILD_PACKAGE)
 

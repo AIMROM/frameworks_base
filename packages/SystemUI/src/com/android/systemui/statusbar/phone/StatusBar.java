@@ -246,6 +246,8 @@ import com.android.systemui.statusbar.stack.StackStateAnimator;
 import com.android.systemui.util.NotificationChannels;
 import com.android.systemui.util.leak.LeakDetector;
 import com.android.systemui.volume.VolumeComponent;
+import com.android.systemui.slimrecent.RecentController;
+import com.android.systemui.slimrecent.SlimScreenPinningRequest;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -794,6 +796,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     private NavigationBarFragment mNavigationBar;
     private View mNavigationBarView;
     private boolean mLockscreenMediaMetadata;
+    private RecentController mSlimRecents;
+    private SlimScreenPinningRequest mSlimScreenPinningRequest;
 
     @Override
     public void start() {
@@ -889,6 +893,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mSettingsObserver.onChange(false); // set up
         mAimSettingsObserver.observe();
         mAimSettingsObserver.update();
+        updateRecents();
         mCommandQueue.disable(switches[0], switches[6], false /* animate */);
         setSystemUiVisibility(switches[1], switches[7], switches[8], 0xffffffff,
                 fullscreenStackBounds, dockedStackBounds);
@@ -1124,6 +1129,8 @@ public class StatusBar extends SystemUI implements DemoMode,
                 (ViewGroup) mStatusBarWindow.findViewById(R.id.keyguard_indication_area),
                 mKeyguardBottomArea.getLockIcon());
         mKeyguardBottomArea.setKeyguardIndicationController(mKeyguardIndicationController);
+
+	mSlimScreenPinningRequest = new SlimScreenPinningRequest(mContext);
 
         // set the initial view visibility
         setAreThereNotifications();
@@ -5183,6 +5190,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     public void showScreenPinningRequest(int taskId, boolean allowCancel) {
+        hideRecents(false, false);
+	//mSlimScreenPinningRequest.showPrompt(taskId, allowCancel);
         mScreenPinningRequest.showPrompt(taskId, allowCancel);
     }
 
@@ -5603,7 +5612,16 @@ public class StatusBar extends SystemUI implements DemoMode,
              resolver.registerContentObserver(Settings.System.getUriFor(
                      Settings.System.CLEAR_RECENTS_STYLE_ENABLE),
  		     false, this, UserHandle.USER_ALL);
-            update();
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.USE_SLIM_RECENTS), false, this,
+                     UserHandle.USER_ALL);
+             resolver.registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.RECENT_CARD_BG_COLOR), false, this,
+                     UserHandle.USER_ALL);
+             resolver.registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.RECENT_CARD_TEXT_COLOR), false, this,
+                     UserHandle.USER_ALL); 
+	   update();
         }
 
         @Override
@@ -5647,6 +5665,14 @@ public class StatusBar extends SystemUI implements DemoMode,
                       checkBarModes();
                       updateClearAll();
                       updateEmptyShadeView();
+	    } else if (uri.equals(Settings.System.getUriFor(
+                     Settings.System.USE_SLIM_RECENTS))) {
+                 updateRecents();
+             } else if (uri.equals(Settings.System.getUriFor(
+                     Settings.System.RECENT_CARD_BG_COLOR))
+                     || uri.equals(Settings.System.getUriFor(
+                     Settings.System.RECENT_CARD_TEXT_COLOR))) {
+                 rebuildRecentsScreen();
             }
         }
 
@@ -5658,7 +5684,11 @@ public class StatusBar extends SystemUI implements DemoMode,
             setQsRowsColumns();
             setUseLessBoringHeadsUp();
             updateRecentsIconPack();
-        }
+
+         // update recents
+             updateRecents();
+             rebuildRecentsScreen();
+	}
     }
 
     private void updateTickerSettings() {
@@ -7412,4 +7442,70 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
     // End Extra BaseStatusBarMethods.
+    
+    @Override
+     protected void hideRecents(boolean triggeredFromAltTab, boolean triggeredFromHomeKey) {
+         if (mSlimRecents != null) {
+             mSlimRecents.hideRecents(triggeredFromHomeKey);
+         } else {
+             super.hideRecents(triggeredFromAltTab, triggeredFromHomeKey);
+         }
+     }
+ 
+     @Override
+     protected void toggleRecents() {
+         if (mSlimRecents != null) {
+             sendCloseSystemWindows(mContext, SYSTEM_DIALOG_REASON_RECENT_APPS);
+             mSlimRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView());
+         } else {
+             super.toggleRecents();
+         }
+     }
+ 
+     @Override
+     protected void preloadRecents() {
+         if (mSlimRecents != null) {
+             mSlimRecents.preloadRecentTasksList();
+         } else {
+             super.preloadRecents();
+         }
+     }
+ 
+     @Override
+     protected void cancelPreloadingRecents() {
+         if (mSlimRecents != null) {
+             mSlimRecents.cancelPreloadingRecentTasksList();
+         } else {
+             super.cancelPreloadingRecents();
+         }
+     }
+ 
+     protected void rebuildRecentsScreen() {
+         if (mSlimRecents != null) {
+             mSlimRecents.rebuildRecentsScreen();
+         }
+     }
+ 
+     protected void updateRecents() {
+         boolean slimRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
+                 Settings.System.USE_SLIM_RECENTS, 0, UserHandle.USER_CURRENT) == 1;
+ 
+         if (slimRecents) {
+             mSlimRecents = new RecentController(mContext, mLayoutDirection);
+             //mSlimRecents.setCallback(this);
+             rebuildRecentsScreen();
+         } else {
+             mSlimRecents = null;
+         }
+     }
+ 
+     private static void sendCloseSystemWindows(Context context, String reason) {
+         if (ActivityManagerNative.isSystemReady()) {
+             try {
+                 ActivityManagerNative.getDefault().closeSystemDialogs(reason);
+             } catch (RemoteException e) {
+             }
+         }
+     }
+
 }
