@@ -126,14 +126,12 @@ public class RecentsView extends FrameLayout {
     private final PointF mStackButtonShadowDistance;
     private final int mStackButtonShadowColor;
 
-    private AimSettingsObserver mAimSettingsObserver;
-    private boolean showClearAllRecents;
     View mFloatingButton;
     View mClearRecents;
-    private int clearRecentsLocation;
 
     private boolean mAwaitingFirstLayout = true;
     private boolean mLastTaskLaunchedWasFreeform;
+    private boolean mShowClearAllRecents;
 
     @ViewDebug.ExportedProperty(category="recents")
     Rect mSystemInsets = new Rect();
@@ -155,6 +153,7 @@ public class RecentsView extends FrameLayout {
     @ViewDebug.ExportedProperty(deepExport=true, prefix="touch_")
     private RecentsViewTouchHandler mTouchHandler;
     private final FlingAnimationUtils mFlingAnimationUtils;
+    private CustomSettingsObserver mCustomSettingsObserver;
 
     public RecentsView(Context context) {
         this(context, null);
@@ -287,8 +286,14 @@ public class RecentsView extends FrameLayout {
         // Update the top level view's visibilities
         if (stack.getTaskCount() > 0) {
             hideEmptyView();
+            if (mFloatingButton != null) {
+                mFloatingButton.setVisibility(View.VISIBLE);
+            }
         } else {
             showEmptyView(R.string.recents_empty_message);
+            if (mFloatingButton != null) {
+                mFloatingButton.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -489,6 +494,9 @@ public class RecentsView extends FrameLayout {
         EventBus.getDefault().register(this, RecentsActivity.EVENT_BUS_PRIORITY + 1);
         EventBus.getDefault().register(mTouchHandler, RecentsActivity.EVENT_BUS_PRIORITY + 2);
         mAimSettingsObserver.observe();
+        mFloatingButton = ((View)getParent()).findViewById(R.id.floating_action_button);
+        mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents);
+
         mClearRecents.setVisibility(View.VISIBLE);
         mClearRecents.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -534,21 +542,14 @@ public class RecentsView extends FrameLayout {
 
         setMeasuredDimension(width, height);
 
-        if (mFloatingButton != null && showClearAllRecents) {
-            clearRecentsLocation = Settings.System.getIntForUser(
+        if (mFloatingButton != null && mShowClearAllRecents) {
+            int clearRecentsLocation = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.RECENTS_CLEAR_ALL_LOCATION,
                 3, UserHandle.USER_CURRENT);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                     mFloatingButton.getLayoutParams();
-            boolean isLandscape = mContext.getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE;
-            if (isLandscape) {
-                params.topMargin = mContext.getResources().
-                      getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height);
-            } else {
-                params.topMargin = 2*(mContext.getResources().
-                    getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height));
-            }
+            params.topMargin = 2*(mContext.getResources().
+                getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height));
 
             switch (clearRecentsLocation) {
                 case 0:
@@ -575,9 +576,6 @@ public class RecentsView extends FrameLayout {
         } else {
             mFloatingButton.setVisibility(View.GONE);
         }
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        float cornerRadius = mContext.getResources().getDimensionPixelSize(
-                    R.dimen.recents_task_view_rounded_corners_radius);
     }
 
     /**
@@ -900,7 +898,7 @@ public class RecentsView extends FrameLayout {
         if (!RecentsDebugFlags.Static.EnableStackActionButton) {
             return;
         }
-        if (showClearAllRecents) {
+        if (mShowClearAllRecents) {
             return;
         }
         final ReferenceCountedTrigger postAnimationTrigger = new ReferenceCountedTrigger();
@@ -1126,7 +1124,7 @@ public class RecentsView extends FrameLayout {
          void observe() {
              ContentResolver resolver = mContext.getContentResolver();
              resolver.registerContentObserver(Settings.System.getUriFor(
-                     Settings.System.SHOW_CLEAR_ALL_RECENTS), false, this, UserHandle.USER_ALL);
+                 Settings.System.SHOW_CLEAR_ALL_RECENTS), false, this, UserHandle.USER_ALL);
              update();
          }
 
@@ -1140,11 +1138,10 @@ public class RecentsView extends FrameLayout {
              update();
          }
 
-   public void update() {
-        mFloatingButton = ((View)getParent()).findViewById(R.id.floating_action_button);
-        mClearRecents = (ImageButton) ((View)getParent()).findViewById(R.id.clear_recents);
-        showClearAllRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.SHOW_CLEAR_ALL_RECENTS, 1, UserHandle.USER_CURRENT) != 0;
+        public void update() {
+            ContentResolver resolver = mContext.getContentResolver();
+            mShowClearAllRecents = Settings.System.getIntForUser(resolver,
+                Settings.System.SHOW_CLEAR_ALL_RECENTS, 0, UserHandle.USER_CURRENT) != 0;
          }
      }
 }
