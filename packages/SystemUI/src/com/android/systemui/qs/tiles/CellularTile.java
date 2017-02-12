@@ -198,8 +198,7 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
         @Override
         public void setMobileDataIndicators(IconState statusIcon, IconState qsIcon, int statusType,
                 int qsType, boolean activityIn, boolean activityOut, String typeContentDescription,
-
-                String description, boolean isWide, int subId, boolean roaming) {
+                String description, boolean isWide, int subId, boolean isMobileIms) {
             if (qsIcon == null) {
                 // Not data sim, don't display.
                 return;
@@ -213,7 +212,6 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
             mInfo.activityOut = activityOut;
             mInfo.enabledDesc = description;
             mInfo.isDataTypeIconWide = qsType != 0 && isWide;
-            mInfo.roaming = roaming;
             refreshState(mInfo);
         }
 

@@ -46,8 +46,8 @@ public interface NetworkController {
 
         default void setMobileDataIndicators(IconState statusIcon, IconState qsIcon, int statusType,
                 int qsType, boolean activityIn, boolean activityOut, String typeContentDescription,
-                String description, boolean isWide, int subId, boolean roaming) {}
 
+                String description, boolean isWide, int subId, boolean isMobileIms) {}
 
         default void setSubs(List<SubscriptionInfo> subs) {}
         default void setNoSims(boolean show) {}
