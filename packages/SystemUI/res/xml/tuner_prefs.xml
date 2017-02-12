@@ -131,4 +131,8 @@
         android:summary="@string/tuner_persistent_warning"
         android:selectable="false" />
 
+    <com.android.systemui.tuner.StatusBarSwitch
+        android:key="volte"
+        android:title="@string/status_bar_volte" />
+
 </PreferenceScreen>
