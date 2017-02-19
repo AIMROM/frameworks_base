@@ -3668,6 +3668,18 @@ public final class Settings {
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
 
         /**
+        * Define if screenshot crop & share is active
+         * @hide
+         */
+        public static final String SCREENSHOT_CROP_AND_SHARE = "screenshot_crop_and_share";
+
+        /**
+         * Define the crop behavior of screenshot crop & share
+         * @hide
+         */
+        public static final String SCREENSHOT_CROP_BEHAVIOR = "screenshot_crop_behavior";
+
+	/**
          * I am the lolrus.
          * <p>
          * Nonzero values indicate that the user has a bukkit.
@@ -6909,18 +6921,6 @@ public final class Settings {
          * @hide
          */
         public static final String ASSIST_SCREENSHOT_ENABLED = "assist_screenshot_enabled";
-
-        /**
-        * Define if screenshot crop & share is active
-         * @hide
-         */
-        public static final String SCREENSHOT_CROP_AND_SHARE = "screenshot_crop_and_share";
-
-        /**
-         * Define the crop behavior of screenshot crop & share
-         * @hide
-         */
-        public static final String SCREENSHOT_CROP_BEHAVIOR = "screenshot_crop_behavior";
 
         /**
 	 * Specifies whether the screen will show an animation if screen contents are sent to the
