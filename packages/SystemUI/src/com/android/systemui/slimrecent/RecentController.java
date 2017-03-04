@@ -34,6 +34,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.RemoteException;
@@ -41,6 +42,7 @@ import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -184,7 +186,8 @@ public class RecentController implements RecentPanelView.OnExitListener,
         final CardRecyclerView cardRecyclerView =
                 (CardRecyclerView) mRecentContainer.findViewById(R.id.recent_list);
 
-        LinearLayoutManager llm = new LinearLayoutManager(context);
+        cardRecyclerView.setHasFixedSize(true);
+        CacheMoreCardsLayoutManager llm = new CacheMoreCardsLayoutManager(context, mWindowManager);
         llm.setReverseLayout(true);
         cardRecyclerView.setLayoutManager(llm);
 
@@ -938,4 +941,64 @@ public class RecentController implements RecentPanelView.OnExitListener,
             mAppSidebar.cancelPendingSwipeAction();
         }
     }
+<<<<<<< HEAD
+=======
+
+    private boolean showMemDisplay() {
+        if (!enableMemDisplay) {
+            mMemText.setVisibility(View.GONE);
+            mMemBar.setVisibility(View.GONE);
+            return false;
+        }
+        mMemText.setVisibility(View.VISIBLE);
+        mMemBar.setVisibility(View.VISIBLE);
+
+        updateMemoryStatus();
+        return true;
+    }
+
+    public void updateMemoryStatus() {
+        if (mMemText.getVisibility() == View.GONE
+                || mMemBar.getVisibility() == View.GONE) return;
+
+        MemoryInfo memInfo = new MemoryInfo();
+        mAm.getMemoryInfo(memInfo);
+            int available = (int)(memInfo.availMem / 1048576L);
+            int max = (int)(getTotalMemory() / 1048576L);
+            mMemText.setText(String.format(mContext.getResources().getString(R.string.recents_free_ram),available));
+            mMemBar.setMax(max);
+            mMemBar.setProgress(available);
+    }
+
+    public long getTotalMemory() {
+        MemoryInfo memInfo = new MemoryInfo();
+        mAm.getMemoryInfo(memInfo);
+        long totalMem = memInfo.totalMem;
+        return totalMem;
+    }
+
+    private class CacheMoreCardsLayoutManager extends LinearLayoutManager {
+        private Context context;
+        private WindowManager mWindowManager;
+
+        public CacheMoreCardsLayoutManager(Context context, WindowManager windowManager) {
+            super(context);
+            this.context = context;
+            this.mWindowManager = windowManager;
+        }
+
+        @Override
+        protected int getExtraLayoutSpace(RecyclerView.State state) {
+            return getScreenHeight();
+        }
+
+        private int getScreenHeight() {
+            Display display = mWindowManager.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int screenHeight = size.y;
+            return screenHeight;
+        }
+    }
+>>>>>>> 68f3d828631... Slim Recent: fix scroll lag when Auto Expand and improve RecyclerView performances
 }
