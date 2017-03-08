@@ -20,6 +20,7 @@ package com.android.systemui.qs.tiles;
 import android.content.Context;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -43,7 +44,7 @@ import android.widget.Toast;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
-import com.android.internal.util.aospextended.AEXUtils;
+import com.android.internal.util.aim.AIMUtils;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.plugins.ActivityStarter;
@@ -70,6 +71,10 @@ public class WeatherTile extends QSTileImpl<BooleanState> implements OmniJawsCli
     private boolean mEnabled;
     private final ActivityStarter mActivityStarter;
     private WeatherDetailAdapter mDetailAdapter;
+
+    private static final String[] ALTERNATIVE_WEATHER_APPS = {
+            "cz.martykan.forecastie",
+    };
 
     public WeatherTile(QSHost host) {
         super(host);
@@ -170,13 +175,20 @@ public class WeatherTile extends QSTileImpl<BooleanState> implements OmniJawsCli
     @Override
     public Intent getLongClickIntent() {
         if (DEBUG) Log.d(TAG, "getLongClickIntent");
-        if (AEXUtils.isPackageInstalled(mContext, "com.google.android.googlequicksearchbox")) {
+        if (AIMUtils.isPackageInstalled(mContext, "com.google.android.googlequicksearchbox")) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("dynact://velour/weather/ProxyActivity"));
             intent.setComponent(new ComponentName("com.google.android.googlequicksearchbox",
                     "com.google.android.apps.gsa.velour.DynamicActivityTrampoline"));
             return intent;
         } else {
+            PackageManager pm = mContext.getPackageManager();
+            for (String app: ALTERNATIVE_WEATHER_APPS) {
+                Intent intent = pm.getLaunchIntentForPackage(app);
+                if (intent != null) {
+                    return intent;
+                }
+            }
             return mWeatherClient.getSettingsIntent();
         }
     }
