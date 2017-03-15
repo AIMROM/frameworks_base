@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.NetworkCapabilities;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.os.Looper;
@@ -77,6 +78,7 @@ public class MobileSignalController extends SignalController<
     private Config mConfig;
 
     private boolean mShow4gForLte;
+    private boolean mRoamingIconAllowed;
 
     // TODO: Reduce number of vars passed in, if we have the NetworkController, probably don't
     // need listener lists anymore.
@@ -130,6 +132,9 @@ public class MobileSignalController extends SignalController<
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.SHOW_FOURG_ICON), false,
                     this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.ROAMING_INDICATOR_ICON), false,
+                    this, UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -148,10 +153,14 @@ public class MobileSignalController extends SignalController<
         mShow4gForLte = Settings.System.getIntForUser(resolver,
                 Settings.System.SHOW_FOURG_ICON, 0,
                 UserHandle.USER_CURRENT) == 1;
+        mRoamingIconAllowed = Settings.System.getIntForUser(resolver,
+                Settings.System.ROAMING_INDICATOR_ICON, 1,
+                UserHandle.USER_CURRENT) == 1;
 
         mapIconSets();
         updateTelephony();
     }
+
 
     public void setConfiguration(Config config) {
         mConfig = config;
@@ -521,7 +530,7 @@ public class MobileSignalController extends SignalController<
         mCurrentState.dataConnected = mCurrentState.connected
                 && mDataState == TelephonyManager.DATA_CONNECTED;
 
-        mCurrentState.roaming = isRoaming();
+        mCurrentState.roaming = isRoaming() && mRoamingIconAllowed;
         if (isCarrierNetworkChangeActive()) {
             mCurrentState.iconGroup = TelephonyIcons.CARRIER_NETWORK_CHANGE;
         } else if (isDataDisabled()) {
