@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2016 The Pure Nexus Project
+     Copyright (C) 2017 AIMROM
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -37,5 +37,9 @@
 <!-- SS Crop & Share -->
     <dimen name="crop_buttons">48dp</dimen>
     <dimen name="crop_buttons_inlet">32dp</dimen>
+
+<!-- Custom headers -->
+    <dimen name="qs_panel_top_offset_normal">80dp</dimen>
+    <dimen name="qs_panel_top_offset_header">110dp</dimen>
 
 </resources>
