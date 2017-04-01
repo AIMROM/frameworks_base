@@ -41,6 +41,10 @@
     <!-- Battery meter drawable styles -->
     <style name="BatteryMeterViewDrawable.Portrait"/>
     <style name="BatteryMeterViewDrawable.Landscape"/>
+    <style name="BatteryMeterViewDrawable.Gauge">
+        <item name="blendMode">overlay</item>
+        <item name="android:gravity">bottom|center_horizontal</item>
+    </style>
     <style name="BatteryMeterViewDrawable.Circle">
         <item name="blendMode">overlay</item>
     </style>
