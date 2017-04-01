@@ -471,4 +471,10 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
        return false;
     }
 
- }
+    @Override
+    public void updateSettings() {
+        if (mQsPanel != null) {
+            mQsPanel.updateSettings();
+        }
+    }
+}
