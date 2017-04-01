@@ -3687,9 +3687,54 @@ public final class Settings {
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
          * the setting value. See an example above.
-         * Beginning of Pure System Settings Additions
+         **/
+        /**
+         * Pixel Anim Duration
          * @hide
          */
+        public static final String OPA_ANIM_DURATION_Y = "opa_anim_duration_y";
+
+        /**
+         * Pixel Anim Duration
+         * @hide
+         */
+        public static final String OPA_ANIM_DURATION_X = "opa_anim_duration_x";
+
+        /**
+         * Pixel Anim Duration
+         * @hide
+         */
+        public static final String COLLAPSE_ANIMATION_DURATION_RY = "collapse_anim_duration_ry";
+
+        /**
+         * Pixel Anim Duration
+         * @hide
+         */
+        public static final String COLLAPSE_ANIMATION_DURATION_BG = "collapse_anim_duration_bg";
+
+        /**
+         * Pixel Anim Duration
+         * @hide
+         */
+        public static final String RETRACT_ANIMATION_DURATION = "retract_anim_duration";
+
+        /**
+         * Pixel Anim Duration
+         * @hide
+         */
+        public static final String DIAMOND_ANIMATION_DURATION = "diamond_anim_duration";
+
+        /**
+         * Pixel Anim Duration
+         * @hide
+         */
+        public static final String DOTS_RESIZE_DURATION = "dots_anim_duration";
+
+        /**
+         * Pixel Anim Duration
+         * @hide
+         */
+        public static final String HOME_RESIZE_DURATION = "home_resize_anim_duration";
 
         /**
          * Enable statusbar double tap gesture on to put device to sleep
