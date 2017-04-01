@@ -42,4 +42,7 @@
     <java-symbol type="string" name="notify_battery_fully_charged_title" />
     <java-symbol type="string" name="notify_battery_fully_charged_text" />
 
+    <!-- Quick settings tiles columns and rows config -->
+    <java-symbol type="integer" name="config_qs_num_rows_landscape_default"/>
+
 </resources>
