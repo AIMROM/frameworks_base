@@ -3712,8 +3712,8 @@ public final class Settings {
         /**
          * Whether to show media art on lockscreen
          * @hide
+         */
         public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
-	 */
 
         /**
          * Network traffic indicator, goes from least to greatest significant bitwise
@@ -3724,6 +3724,36 @@ public final class Settings {
          * @hide
          */
         public static final String NETWORK_TRAFFIC_STATE = "network_traffic_state";
+
+        /**
+         * Pixel Anim Color
+         * @hide
+         */
+        public static final String DOT_TOP_COLOR = "dot_top_color";
+
+        /**
+         * Pixel Anim Color
+         * @hide
+         */
+        public static final String DOT_BOTTOM_COLOR = "dot_bottom_color";
+
+        /**
+         * Pixel Anim Color
+         * @hide
+         */
+        public static final String DOT_LEFT_COLOR = "dot_left_color";
+
+        /**
+         * Pixel Anim Color
+         * @hide
+         */
+        public static final String DOT_RIGHT_COLOR = "dot_right_color";
+
+        /**
+         * Pixel Anim Color
+         * @hide
+         */
+        public static final String DOT_COLOR_SWITCH = "dot_color_switch";
 
         /**
          * Whether or not to hide the network traffic indicator when there is no activity
