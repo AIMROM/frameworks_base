@@ -769,7 +769,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mLockScreenTimeout;
     boolean mLockScreenTimerActive;
 
-    // Behavior of ENDCALL Button.  (See Settings.System.END_BUTTON_BEHAVIOR.)
+    // AOSP grid style recents
+    private boolean mAospRecentsGrid;
+
+     // Behavior of ENDCALL Button.  (See Settings.System.END_BUTTON_BEHAVIOR.)
     int mEndcallBehavior;
 
     // Behavior of POWER button while in-call and screen on.
@@ -2634,6 +2637,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (mImmersiveModeConfirmation != null) {
                 mImmersiveModeConfirmation.loadSetting(mCurrentUserId);
             }
+
+        mAospRecentsGrid = (Settings.System.getIntForUser(resolver,
+                    Settings.System.RECENTS_USE_GRID, 0, UserHandle.USER_CURRENT) == 1);
+
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
             WindowManagerPolicyControl.reloadFromSetting(mContext);
