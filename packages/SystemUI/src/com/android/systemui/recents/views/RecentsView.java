@@ -45,6 +45,7 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.android.internal.colorextraction.ColorExtractor;
 import com.android.internal.colorextraction.drawable.GradientDrawable;
@@ -389,6 +390,14 @@ public class RecentsView extends FrameLayout {
     public void showEmptyView(int msgResId) {
         mTaskStackView.setVisibility(View.INVISIBLE);
         mEmptyView.setText(msgResId);
+
+   // Customize empty recents view drawable
+Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
+         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.no_recents_holder);
+         if (imageView != null){
+          imageView.setImageDrawable(drawable);
+          }
+
         mEmptyView.setVisibility(View.VISIBLE);
         mEmptyView.bringToFront();
         if (RecentsDebugFlags.Static.EnableStackActionButton) {
