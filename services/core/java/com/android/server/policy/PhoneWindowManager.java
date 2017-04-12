@@ -940,7 +940,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 case MSG_DISPATCH_BACK_KEY_TO_AUTOFILL:
                     mAutofillManagerInternal.onBackKeyPressed();
                     break;
-                }
                 case MSG_DISPATCH_KEYPRESS_BOOST_UNBLOCK:
                     mKeypressBoostBlocked = false;
                     break;
