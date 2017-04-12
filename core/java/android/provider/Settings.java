@@ -6667,10 +6667,7 @@ public final class Settings {
             DOZE_PULSE_ON_PICK_UP,
             DOZE_PULSE_ON_DOUBLE_TAP,
             ADVANCED_REBOOT,
-            CAMERA_GESTURE_DISABLED
-            STATUS_BAR_SHOW_BATTERY_PERCENT,
-            STATUS_BAR_BATTERY_STYLE,
-            STATUS_BAR_BATTERY_STYLE_TILE,
+            CAMERA_GESTURE_DISABLED,
             LOCKSCREEN_QUICK_UNLOCK_CONTROL
         };
 
