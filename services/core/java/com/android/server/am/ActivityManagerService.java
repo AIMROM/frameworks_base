@@ -1570,6 +1570,7 @@ public final class ActivityManagerService extends ActivityManagerNative
     static final int NOTIFY_ACTIVITY_DISMISSING_DOCKED_STACK_MSG = 68;
     static final int SHOW_UNSUPPORTED_DISPLAY_SIZE_DIALOG_MSG = 69;
     static final int NOTIFY_VR_SLEEPING_MSG = 70;
+    static final int SHOW_LUCKYPATCHER_CARNT_UI_MSG = 71;
 
     static final int POST_PRIVACY_NOTIFICATION_MSG = 90;
     static final int CANCEL_PRIVACY_NOTIFICATION_MSG = 91;

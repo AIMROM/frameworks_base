@@ -2943,17 +2943,5 @@
     <!-- Allow the flashlight to use wakelocks -->
     <bool name="config_useWakeLockForFlashlight">false</bool>
 
-    <!-- True if the notifications should dynamically tint the app icon and app title -->
-    <bool name="config_allowNotificationIconTextTinting">true</bool>
-    
-    <!-- Whether doze should invert colors for notifications. If the RRO theme causes
-    the NORMAL notification background to be dark and the text to be light, this boolean
-    needs to be set to false, to prevent the doze notifications from being light -->
-    <bool name="config_invert_colors_on_doze">true</bool>
-
-    <!-- True if the notification's dynamic app icon/title tint should be optimised for dark
-    backgrounds (requires config_allowNotificationIconTextTinting to be true)-->
-    <bool name="config_useDarkBgNotificationIconTextTinting">false</bool>
-
     <bool name="single_hand_mode">true</bool>
 </resources>

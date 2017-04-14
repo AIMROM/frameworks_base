@@ -57,8 +57,6 @@ public class PackageUserState {
 
     public String[] resourceDirs;
 
-    public String[] resourceDirs;
-
     public PackageUserState() {
         installed = true;
         hidden = false;
