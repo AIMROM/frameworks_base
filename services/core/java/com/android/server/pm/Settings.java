@@ -810,10 +810,8 @@ final class Settings {
                                     false, // suspended
                                     null, null, null,
                                     false, // blockUninstall
-                                    INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_UNDEFINED, 0, null,
-                                    null,
-                                    null
-                                    );
+
+                                    INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_UNDEFINED, 0, null);
                             writePackageRestrictionsLPr(user.id);
                         }
                     }
@@ -1614,10 +1612,8 @@ final class Settings {
                                 false,  // suspended
                                 null, null, null,
                                 false, // blockUninstall
-                                INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_UNDEFINED, 0, null,
-                                null,
-                                null
-                                );
+
+                                INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_UNDEFINED, 0, null);
                     }
                     return;
                 }
@@ -1725,8 +1721,8 @@ final class Settings {
 
                     ps.setUserState(userId, ceDataInode, enabled, installed, stopped, notLaunched,
                             hidden, suspended, enabledCaller, enabledComponents, disabledComponents,
-                            blockUninstall, verifState, linkGeneration, null,
-                            protectedComponents, visibleComponents);
+
+                            blockUninstall, verifState, linkGeneration, null);
                 } else if (tagName.equals("preferred-activities")) {
                     readPreferredActivitiesLPw(parser, userId);
                 } else if (tagName.equals(TAG_PERSISTENT_PREFERRED_ACTIVITIES)) {

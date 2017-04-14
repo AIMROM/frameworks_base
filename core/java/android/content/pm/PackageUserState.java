@@ -57,6 +57,8 @@ public class PackageUserState {
 
     public String[] resourceDirs;
 
+    public String[] resourceDirs;
+
     public PackageUserState() {
         installed = true;
         hidden = false;
@@ -82,10 +84,6 @@ public class PackageUserState {
         enabledComponents = ArrayUtils.cloneOrNull(o.enabledComponents);
         resourceDirs =
             o.resourceDirs == null ? null : Arrays.copyOf(o.resourceDirs, o.resourceDirs.length);
-        protectedComponents = o.protectedComponents != null
-                ? new ArraySet<String>(o.protectedComponents) : null;
-        visibleComponents = o.visibleComponents != null
-                ? new ArraySet<String>(o.visibleComponents) : null;
     }
 
     /**

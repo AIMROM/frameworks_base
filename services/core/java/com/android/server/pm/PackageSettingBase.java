@@ -380,8 +380,8 @@ abstract class PackageSettingBase extends SettingBase {
             boolean notLaunched, boolean hidden, boolean suspended,
             String lastDisableAppCaller, ArraySet<String> enabledComponents,
             ArraySet<String> disabledComponents, boolean blockUninstall, int domainVerifState,
-            int linkGeneration, String[] resourceDirs,
-            ArraySet<String> protectedComponents, ArraySet<String> visibleComponents) {
+            int linkGeneration, String[] resourceDirs) {
+
         PackageUserState state = modifyUserState(userId);
         state.ceDataInode = ceDataInode;
         state.enabled = enabled;
@@ -396,8 +396,6 @@ abstract class PackageSettingBase extends SettingBase {
         state.blockUninstall = blockUninstall;
         state.domainVerificationStatus = domainVerifState;
         state.appLinkGeneration = linkGeneration;
-        state.protectedComponents = protectedComponents;
-        state.visibleComponents = visibleComponents;
         state.resourceDirs = resourceDirs;
     }
 
