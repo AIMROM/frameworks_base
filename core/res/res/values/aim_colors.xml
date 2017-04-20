@@ -19,4 +19,9 @@
     <color name="material_pixel_blue_light">#ff3a3a3a</color><!-- Pixel Secondary Color-->
     <color name="material_pixel_blue_bright">#ff4285f4</color><!-- Pixel Accent Color-->
 
+<!-- Shutdown/reboot dialog -->
+    <color name="shutdown_background">#FFFFFFFF</color>
+    <color name="shutdown_primary_text">#0288D1</color>
+    <color name="shutdown_progress_tint">#FFAB00</color>
+
  </resources>
