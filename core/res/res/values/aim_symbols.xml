@@ -18,4 +18,17 @@
   <java-symbol type="string" name="lucky_patcher_installed_message" />
   <java-symbol type="string" name="lucky_patcher_admit" />
 
+
+    <!-- Shutdown/reboot screen -->
+    <java-symbol type="layout" name="shutdown_layout" />
+    <java-symbol type="color" name="shutdown_background" />
+    <java-symbol type="color" name="shutdown_primary_text" />
+    <java-symbol type="color" name="shutdown_progress_tint" />
+    <java-symbol type="dimen" name="shutdown_margin" />
+    <java-symbol type="dimen" name="shutdown_logo_margin_top" />
+    <java-symbol type="dimen" name="shutdown_primary_text_margin_top" />
+    <java-symbol type="id" name="shutdown_logo" />
+    <java-symbol type="id" name="shutdown_message" />
+    <java-symbol type="id" name="shutdown_progress" />
+
 </resources>
