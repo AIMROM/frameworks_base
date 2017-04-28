@@ -2257,5 +2257,9 @@ message MetricsEvent {
 
     // AIM ROM 
     AIM = 420;
+
+   //FREEDOMHUB
+   AMIFY = 801;
+
   }
 }
