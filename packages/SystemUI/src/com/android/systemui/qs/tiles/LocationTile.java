@@ -103,7 +103,7 @@ public class LocationTile extends QSTileImpl<BooleanState> {
         state.value = locationEnabled;
         checkIfRestrictionEnforcedByAdminOnly(state, UserManager.DISALLOW_SHARE_LOCATION);
         if (locationEnabled) {
-            state.icon = mEnable;
+            state.icon =  ResourceIcon.get(R.drawable.ic_qs_location_high_accuracy);
             state.label = mContext.getString(R.string.quick_settings_location_label);
             state.contentDescription = mContext.getString(
                     R.string.accessibility_quick_settings_location_on);
