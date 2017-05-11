@@ -68,7 +68,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="@color/shutdown_primary_text"
-                tools:text="AIM ROM is now rebooting"
+                tools:text="rebooting aimrom"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/shutdown_logo_shadow"
                 android:layout_marginTop="@dimen/shutdown_primary_text_margin_top" />
