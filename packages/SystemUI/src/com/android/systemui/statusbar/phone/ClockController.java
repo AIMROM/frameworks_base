@@ -12,9 +12,6 @@ import com.android.systemui.R;
 import com.android.systemui.statusbar.policy.Clock;
 import com.android.systemui.tuner.TunerService;
 
-import static com.android.systemui.statusbar.policy.Clock.AM_PM_STYLE_GONE;
-import static com.android.systemui.statusbar.policy.Clock.CLOCK_SECONDS;
-
 /**
  * To control your...clock
  */
@@ -33,7 +30,6 @@ public class ClockController implements TunerService.Tunable {
     private final Context mContext;
     private Clock mRightClock, mCenterClock, mLeftClock, mActiveClock;
 
-    private int mAmPmStyle = AM_PM_STYLE_GONE;
     private int mClockPosition = CLOCK_POSITION_RIGHT;
     private boolean mClockVisible = true;
     private boolean mShowSeconds = false;
@@ -50,7 +46,7 @@ public class ClockController implements TunerService.Tunable {
 
         mActiveClock = mRightClock;
 
-        TunerService.get(mContext).addTunable(this, CLOCK_POSITION, CLOCK_STYLE, CLOCK_SECONDS);
+        TunerService.get(mContext).addTunable(this, CLOCK_POSITION, CLOCK_STYLE);
     }
 
     private Clock getClockForCurrentLocation() {
@@ -78,10 +74,8 @@ public class ClockController implements TunerService.Tunable {
 
         mActiveClock = getClockForCurrentLocation();
         mActiveClock.setVisibility(View.VISIBLE);
-        mActiveClock.setAmPmStyle(mAmPmStyle);
         mActiveClock.setShowSeconds(mShowSeconds);
 
-        setClockAndDateStatus();
         setTextColor(mIconTint);
         updateFontSize();
     }
@@ -92,18 +86,8 @@ public class ClockController implements TunerService.Tunable {
 
         if (CLOCK_POSITION.equals(key)) {
             mClockPosition = newValue == null ? CLOCK_POSITION_RIGHT : Integer.valueOf(newValue);
-        } else if (CLOCK_STYLE.equals(key)) {
-            mAmPmStyle = newValue == null ? AM_PM_STYLE_GONE : Integer.valueOf(newValue);
-        } else if (CLOCK_SECONDS.equals(key)) {
-            mShowSeconds = newValue != null && Integer.parseInt(newValue) != 0;
         }
         updateActiveClock();
-    }
-
-    private void setClockAndDateStatus() {
-        if (mNotificationIconAreaController != null) {
-            mNotificationIconAreaController.setClockAndDateStatus(mClockPosition);
-        }
     }
 
     public void setVisibility(boolean visible) {

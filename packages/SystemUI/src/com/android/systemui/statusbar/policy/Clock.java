@@ -61,12 +61,6 @@ public class Clock extends TextView implements DemoMode {
     private SimpleDateFormat mContentDescriptionFormat;
     protected Locale mLocale;
 
-    public static final int AM_PM_STYLE_GONE    = 0;
-    public static final int AM_PM_STYLE_SMALL   = 1;
-    public static final int AM_PM_STYLE_NORMAL  = 2;
-
-    private static int AM_PM_STYLE = AM_PM_STYLE_GONE;
-
     public static final int CLOCK_DATE_DISPLAY_GONE = 0;
     public static final int CLOCK_DATE_DISPLAY_SMALL = 1;
     public static final int CLOCK_DATE_DISPLAY_NORMAL = 2;
@@ -79,7 +73,6 @@ public class Clock extends TextView implements DemoMode {
     public static final int AM_PM_STYLE_SMALL   = 1;
     public static final int AM_PM_STYLE_GONE    = 2;
 
-    private int mAmPmStyle = AM_PM_STYLE_GONE;
     public static final int STYLE_CLOCK_RIGHT  = 0;
     public static final int STYLE_CLOCK_CENTER = 1;
     public static final int STYLE_CLOCK_LEFT   = 2;
@@ -93,10 +86,9 @@ public class Clock extends TextView implements DemoMode {
     protected boolean mShowClock;
     private int mClockAndDateWidth;
     private int mAmPmStyle;
->>>>>>> a86416ed59a... Statusbar clock and date customizations [1/2]
     private boolean mShowSeconds;
     private Handler mSecondsHandler;
-
+    private static int AM_PM_STYLE = AM_PM_STYLE_GONE;
     private SettingsObserver mSettingsObserver;
     private StatusBarIconController mStatusBarIconController;
 
@@ -417,9 +409,9 @@ public class Clock extends TextView implements DemoMode {
 
     protected void updateClockVisibility() {
         if (mClockStyle == STYLE_CLOCK_RIGHT && mShowClock) {
-            setVisibility(View.VISIBLE);
+            setVisibility(VISIBLE);
         } else {
-            setVisibility(View.GONE);
+            setVisibility(GONE);
         }
     }
 
@@ -442,6 +434,7 @@ public class Clock extends TextView implements DemoMode {
                 int mm = Integer.parseInt(hhmm.substring(2));
                 boolean is24 = DateFormat.is24HourFormat(
                         getContext(), ActivityManager.getCurrentUser());
+
                 if (is24) {
                     mCalendar.set(Calendar.HOUR_OF_DAY, hh);
                 } else {
@@ -490,8 +483,6 @@ public class Clock extends TextView implements DemoMode {
     public void setShowSeconds(boolean showSeconds) {
         mShowSeconds = showSeconds;
         updateShowSeconds();;
-    public void setStatusBarIconController(StatusBarIconController statusBarIconController) {
-        mStatusBarIconController = statusBarIconController;
     }
 
     @Override
