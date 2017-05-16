@@ -25,19 +25,19 @@
     <color name="notification_action_color_filter">#9F9F9F</color>
 
     <!-- System - Accents -->
- 	<color name="accent_material_light">#009688</color>
- 	<color name="accent_material_dark">#009688</color>
+ 	<color name="accent_material_light">#5F97F6</color>
+ 	<color name="accent_material_dark">#5F97F6</color>
  
  	<!-- StatusBar Expanded - User Icons -->
- 	<color name="user_icon_1">#009688</color>
- 	<color name="user_icon_2">#009688</color>
- 	<color name="user_icon_3">#009688</color>
- 	<color name="user_icon_4">#009688</color>
- 	<color name="user_icon_5">#009688</color>
- 	<color name="user_icon_6">#009688</color>
- 	<color name="user_icon_7">#009688</color>
- 	<color name="user_icon_8">#009688</color>
- 	<color name="user_icon_default_gray">#009688</color>
- 	<color name="user_icon_default_white">#009688</color>
+ 	<color name="user_icon_1">#5F97F6</color>
+ 	<color name="user_icon_2">#5F97F6</color>
+ 	<color name="user_icon_3">#5F97F6</color>
+ 	<color name="user_icon_4">#5F97F6</color>
+ 	<color name="user_icon_5">#5F97F6</color>
+ 	<color name="user_icon_6">#5F97F6</color>
+ 	<color name="user_icon_7">#5F97F6</color>
+ 	<color name="user_icon_8">#5F97F6</color>
+ 	<color name="user_icon_default_gray">#5F97F6</color>
+ 	<color name="user_icon_default_white">#5F97F6</color>
 
 </resources>
