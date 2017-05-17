@@ -28,8 +28,6 @@ public class NotificationIconAreaController {
 
     private int mIconSize;
     private int mIconHPadding;
-    private int mClockLocation;
-    private boolean mShowClock;
     private int mIconTint = Color.WHITE;
 
     private PhoneStatusBar mPhoneStatusBar;
@@ -211,11 +209,9 @@ public class NotificationIconAreaController {
         }
     }
 
-    public void setClockAndDateStatus(int width, int mode, boolean enabled) {
+    public void setClockAndDateStatus(int mode) {
         if (mNotificationIcons != null) {
-            mNotificationIcons.setClockAndDateStatus(width, mode, enabled);
+            mNotificationIcons.setClockAndDateStatus(mode);
         }
-        mClockLocation = mode;
-        mShowClock = enabled;
     }
 }
