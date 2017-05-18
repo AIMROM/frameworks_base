@@ -440,10 +440,10 @@
 
     <!-- Reboot to Recovery for factory reset. -->
     <string name="reboot_to_reset_title">Factory data reset</string>
-    <string name="reboot_to_reset_message">Restarting\u2026</string>
+    <string name="reboot_to_reset_message">Rebooting AimRom\u2026</string>
 
     <!-- Shutdown Progress Dialog. This is shown if the user chooses to power off the phone. -->
-    <string name="shutdown_progress">Shutting down\u2026</string>
+    <string name="shutdown_progress">Bye Bye Dude\u2026</string>
 
     <!-- Shutdown Confirmation Dialog.  When the user chooses to power off the phone, there will
          be a confirmation dialog.  This is the message. -->

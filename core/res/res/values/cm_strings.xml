@@ -24,7 +24,7 @@
     <string name="global_action_screenshot">Screenshot</string>
 
     <!-- label for item that restarts the phone in phone options dialog -->
-    <string name="global_action_reboot">Restart</string>
+    <string name="global_action_reboot">Reboot</string>
     <!-- label for current user in phone options dialog -->
     <string name="global_action_current_user">Current</string>
 
@@ -33,26 +33,26 @@
 
     <!-- Restart menu -->
     <!-- Button to restart the phone, within the Restart Options dialog -->
-    <string name="reboot_reboot">Restart</string>
+    <string name="reboot_reboot">Reboot Now</string>
     <!-- Button to restart the phone into recovery, within the Restart Options dialog -->
-    <string name="reboot_recovery">Recovery</string>
+    <string name="reboot_recovery">Recovery Mode</string>
     <!-- Button to restart the phone into bootloader, within the Restart Options dialog -->
-    <string name="reboot_bootloader">Bootloader</string>
+    <string name="reboot_bootloader">Bootloader Mode</string>
     <!-- Button to restart the phone into download, within the Restart Options dialog -->
-    <string name="reboot_download">Download</string>
+    <string name="reboot_download">Download Mode</string>
     <!-- Button to soft restart the device, within the Restart Options dialog -->
-    <string name="reboot_soft">Soft restart</string>
+    <string name="reboot_soft">Soft reboot</string>
 
     <!-- Title of dialog to confirm restarting. -->
-    <string name="reboot_title">Restart</string>
+    <string name="reboot_title">Reboot Now</string>
 
     <!-- Restart Confirmation Dialog.  When the user chooses to restart the device, there will
          be a confirmation dialog.  This is the message. -->
-    <string name="reboot_confirm" product="tablet">Your tablet will restart.</string>
-    <string name="reboot_confirm" product="default">Your phone will restart.</string>
+    <string name="reboot_confirm" product="tablet">Your tablet will reboot.</string>
+    <string name="reboot_confirm" product="default">Your phone will reboot.</string>
 
     <!-- Restart Progress Dialog. This is shown if the user chooses to restart the phone. -->
-    <string name="reboot_progress">Restarting\u2026</string>
+    <string name="reboot_progress">REBOOTING AIMROM\u2026</string>
 
     <!-- ADB over network notification -->
     <string name="adb_net_active_notification_title">ADB over network enabled</string>
