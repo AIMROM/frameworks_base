@@ -77,7 +77,7 @@ public class ImageTile extends QSTile<QSTile.State> {
 
     @Override
     public int getMetricsCategory() {
-        return MetricsEvent.OMNI_SETTINGS;
+	return MetricsEvent.AIM;
     }
 
     @Override

@@ -123,7 +123,6 @@ import android.util.EventLog;
 import android.util.Log;
 import android.util.Slog;
 import android.view.Display;
-import com.android.internal.app.ActivityTrigger;
 import android.util.BoostFramework;
 
 import com.android.internal.app.IVoiceInteractor;
