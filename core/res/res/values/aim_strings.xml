@@ -28,7 +28,4 @@
    <!-- Boost parameters which get passed to QPerformance -->
     <integer-array name="onbootboost_param_value"/>
 
-   <!-- Automatic brightness enhancements -->
-   <integer name="config_autoBrightnessBrighteningLightFastDebounce">500</integer>
-
 </resources>
