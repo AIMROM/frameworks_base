@@ -33,6 +33,15 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/effects/camera_click.ogg:system/media/audio/ui/camera_click.ogg \
 	$(LOCAL_PATH)/newwavelabs/BeatPlucker.ogg:system/media/audio/ringtones/BeatPlucker.ogg \
 	$(LOCAL_PATH)/newwavelabs/CaffeineSnake.ogg:system/media/audio/notifications/CaffeineSnake.ogg
+	$(LOCAL_PATH)material/alarms/Awaken.ogg:system/media/audio/alarms/Awaken.ogg \
+	$(LOCAL_PATH)material/alarms/Bounce.ogg:system/media/audio/alarms/Bounce.ogg \
+	$(LOCAL_PATH)material/alarms/Drip.ogg:system/media/audio/alarms/Drip.ogg \
+    $(LOCAL_PATH)material/alarms/Gallop.ogg:system/media/audio/alarms/Gallop.ogg \
+    $(LOCAL_PATH)material/alarms/Nudge.ogg:system/media/audio/alarms/Nudge.ogg \
+    $(LOCAL_PATH)material/alarms/Orbit.ogg:system/media/audio/alarms/Orbit.ogg \
+    $(LOCAL_PATH)material/alarms/Rise.ogg:system/media/audio/alarms/Rise.ogg \
+    $(LOCAL_PATH)material/alarms/Sway.ogg:system/media/audio/alarms/Sway.ogg \
+	$(LOCAL_PATH)material/alarms/Wag.ogg:system/media/audio/alarms/Wag.ogg \
 
 ifneq ($(MINIMAL_NEWWAVELABS),true)
 PRODUCT_COPY_FILES += \
