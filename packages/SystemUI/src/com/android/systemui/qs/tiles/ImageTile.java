@@ -88,7 +88,7 @@ public class ImageTile extends QSTile<QSTile.State> {
 
     private void makeNoise() {
         NotificationPlayer player = new NotificationPlayer("ImageTile");
-        Uri uri=Uri.parse("android.resource://"+mContext.getPackageName()+"/raw/pirate_hell");
+        Uri uri=Uri.parse("android.resource://"+mContext.getPackageName()+"/raw/pirate");
         player.play(mContext, uri, false, AudioManager.STREAM_NOTIFICATION);
     }
 }
