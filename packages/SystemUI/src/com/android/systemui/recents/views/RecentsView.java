@@ -349,6 +349,7 @@ Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().send(new ToggleRecentsEvent());
+                updateMemoryStatus();
             }
         });
     }
@@ -402,6 +403,7 @@ Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
         mClearRecents.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             EventBus.getDefault().send(new DismissAllTaskViewsEvent());
+            updateMemoryStatus();
             }
         });
         mMemText = (TextView) ((View)getParent()).findViewById(R.id.recents_memory_text);
