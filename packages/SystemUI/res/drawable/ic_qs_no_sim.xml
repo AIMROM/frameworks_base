@@ -17,7 +17,8 @@ Copyright (C) 2014 The Android Open Source Project
         android:width="32dp"
         android:height="32dp"
         android:viewportWidth="24.0"
-        android:viewportHeight="24.0">
+        android:viewportHeight="24.0"
+        android:tint="@color/qs_tile_tint_inactive">
 
     <path
         android:fillColor="#4DFFFFFF"
