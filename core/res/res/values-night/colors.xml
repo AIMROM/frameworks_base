@@ -40,4 +40,10 @@
  	<color name="user_icon_default_gray">#5F97F6</color>
  	<color name="user_icon_default_white">#5F97F6</color>
 
+
+    <!-- Quick Settings Tiles tint -->
+    <color name="qs_tile_tint_unavailable">#FF0800</color>
+    <color name="qs_tile_tint_inactive">#FF0800</color>
+    <color name="qs_tile_tint_active">#0000ff</color>
+
 </resources>
