@@ -25,8 +25,8 @@
     <color name="floating_action_button_icon_color">#FFFFFFFF</color>
 
 <!-- Quick Settings Tiles colors -->
-    <color name="qs_tile_tint_unavailable">#FF0800</color>
-    <color name="qs_tile_tint_inactive">#FF0800</color>
-    <color name="qs_tile_tint_active">#0000ff</color>
+    <color name="qs_tile_tint_unavailable">#a4a4a8</color>
+    <color name="qs_tile_tint_inactive">#636368</color>
+    <color name="qs_tile_tint_active">#5e97f6</color>
 
 </resources>
