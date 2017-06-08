@@ -78,8 +78,6 @@ import cyanogenmod.weather.util.WeatherUtils;
 
 import java.util.List;
 
-import cyanogenmod.providers.CMSettings;
-
 public class NotificationPanelView extends PanelView implements
         ExpandableView.OnHeightChangedListener,
         View.OnClickListener, NotificationStackScrollLayout.OnOverscrollTopChangedListener,
@@ -107,6 +105,8 @@ public class NotificationPanelView extends PanelView implements
             "cmsecure:" + CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED;
     private static final String LOCK_ENABLE_QS =
             Settings.Secure.LOCK_ENABLE_QS;
+    private static final String DOUBLE_TAP_SLEEP_ANYWHERE =
+            "cmsecure:" + CMSettings.Secure.DOUBLE_TAP_SLEEP_ANYWHERE;
 
     private static final Rect mDummyDirtyRect = new Rect(0, 0, 1, 1);
 
@@ -234,6 +234,7 @@ public class NotificationPanelView extends PanelView implements
     private NotificationGroupManager mGroupManager;
 
     private int mOneFingerQuickSettingsIntercept;
+    private boolean mDoubleTapToSleepAnywhere;
     private boolean mDoubleTapToSleepEnabled;
     private int mStatusBarHeaderHeight;
     private GestureDetector mDoubleTapGesture;
@@ -406,6 +407,7 @@ public class NotificationPanelView extends PanelView implements
                 DOUBLE_TAP_SLEEP_GESTURE,
                 LOCK_SCREEN_WEATHER_ENABLED,
                 LOCK_ENABLE_QS);
+                DOUBLE_TAP_SLEEP_ANYWHERE);
     }
 
     @Override
@@ -814,6 +816,9 @@ public class NotificationPanelView extends PanelView implements
         if (mDoubleTapToSleepEnabled
                 && mStatusBarState == StatusBarState.KEYGUARD
                 && event.getY() < mStatusBarHeaderHeight) {
+            mDoubleTapGesture.onTouchEvent(event);
+        } else if (mDoubleTapToSleepAnywhere
+                && mStatusBarState == StatusBarState.KEYGUARD) {
             mDoubleTapGesture.onTouchEvent(event);
         }
         initDownStates(event);
@@ -2486,6 +2491,8 @@ public class NotificationPanelView extends PanelView implements
             case LOCK_ENABLE_QS:
                 mStatusBarAllowedOnSecureKeyguard =
                         newValue == null || Integer.parseInt(newValue) == 1;
+            case DOUBLE_TAP_SLEEP_ANYWHERE:
+                mDoubleTapToSleepAnywhere = newValue == null || Integer.parseInt(newValue) == 1;
                 break;
             default:
                 break;
