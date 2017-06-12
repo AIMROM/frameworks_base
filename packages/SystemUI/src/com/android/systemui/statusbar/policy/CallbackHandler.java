@@ -126,7 +126,6 @@ public class CallbackHandler extends Handler implements EmergencyListener, Signa
             final int statusType, final int qsType,final boolean activityIn,
             final boolean activityOut, final String typeContentDescription,
             final String description, final boolean isWide, final int subId, boolean roaming) {
-
         post(new Runnable() {
             @Override
             public void run() {
