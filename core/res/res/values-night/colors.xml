@@ -25,20 +25,20 @@
     <color name="notification_action_color_filter">#9F9F9F</color>
 
     <!-- System - Accents -->
- 	<color name="accent_material_light">#5F97F6</color>
- 	<color name="accent_material_dark">#5F97F6</color>
+ 	<color name="accent_material_light">#cc0000</color>
+ 	<color name="accent_material_dark">#cc0000</color>
  
  	<!-- StatusBar Expanded - User Icons -->
- 	<color name="user_icon_1">#5F97F6</color>
- 	<color name="user_icon_2">#5F97F6</color>
- 	<color name="user_icon_3">#5F97F6</color>
- 	<color name="user_icon_4">#5F97F6</color>
- 	<color name="user_icon_5">#5F97F6</color>
- 	<color name="user_icon_6">#5F97F6</color>
- 	<color name="user_icon_7">#5F97F6</color>
- 	<color name="user_icon_8">#5F97F6</color>
- 	<color name="user_icon_default_gray">#5F97F6</color>
- 	<color name="user_icon_default_white">#5F97F6</color>
+ 	<color name="user_icon_1">#cc0000</color>
+ 	<color name="user_icon_2">#cc0000</color>
+ 	<color name="user_icon_3">#cc0000</color>
+ 	<color name="user_icon_4">#cc0000</color>
+ 	<color name="user_icon_5">#cc0000</color>
+ 	<color name="user_icon_6">#cc0000</color>
+ 	<color name="user_icon_7">#cc0000</color>
+ 	<color name="user_icon_8">#cc0000</color>
+ 	<color name="user_icon_default_gray">#cc0000</color>
+ 	<color name="user_icon_default_white">#cc0000</color>
 
 
     <!-- Quick Settings Tiles tint -->

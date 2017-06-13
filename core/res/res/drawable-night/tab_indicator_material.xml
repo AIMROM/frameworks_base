@@ -25,9 +25,9 @@
     </item>
     <item android:gravity="bottom">
         <shape android:shape="rectangle"
-               android:tint="#5F97F6">
+               android:tint="#cc0000">
             <size android:height="2dp" />
-            <solid android:color="#5F97F6" />
+            <solid android:color="#cc0000" />
         </shape>
     </item>
     <item android:bottom="2dp"
