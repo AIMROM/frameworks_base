@@ -99,7 +99,7 @@ public class UiModeManager {
     public static String ACTION_EXIT_DESK_MODE = "android.app.action.EXIT_DESK_MODE";
 
     /** @hide */
-    @IntDef({MODE_NIGHT_AUTO, MODE_NIGHT_NO, MODE_NIGHT_YES})
+    @IntDef({MODE_NIGHT_AUTO, MODE_NIGHT_NO, MODE_NIGHT_YES, MODE_NIGHT_AMIFY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface NightMode {}
 
@@ -120,6 +120,11 @@ public class UiModeManager {
      * always run in night mode.
      */
     public static final int MODE_NIGHT_YES = Configuration.UI_MODE_NIGHT_YES >> 4;
+
+    /** Constant for {@link #setNightMode(int)} and {@link #getNightMode()}:
+     * always run in night mode.
+     */
+    public static final int MODE_NIGHT_AMIFY = Configuration.UI_MODE_NIGHT_AMIFY >> 4;
 
     private IUiModeManager mService;
 

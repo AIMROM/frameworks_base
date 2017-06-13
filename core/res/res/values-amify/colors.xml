@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2017 AIMROM
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<!-- DayNight theme  -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Accents and Background -->
+    <color name="anand_dark">#000000</color>
+    <color name="anand_dark_accent">#ff00cef2</color>
+
+    <!-- Background floating -->
+    <color name="background_floating_material_dark">@color/anand_dark</color>
+    <color name="background_leanback_dark">@color/anand_dark</color>
+
+    <!-- Notification action button -->
+    <color name="notification_action_list">@color/anand_dark</color>
+    <color name="notification_mtrl_big_picture_bg">@color/anand_dark</color>
+    <color name="notification_default_color">@color/anand_dark_accent</color>
+    <color name="system_notification_accent_color">@color/anand_dark_accent</color>
+    <color name="notification_text_default_color">@android:color/anand_dark_accent</color>
+    <color name="sender_text_color">#FFFFFFFF</color>
+
+    <!-- System - Accents -->
+    <color name="accent_material_dark">@*android:color/anand_dark_accent</color>
+    <color name="app_permission_icon_tint">@*android:color/anand_dark_accent</color> 
+
+</resources>
