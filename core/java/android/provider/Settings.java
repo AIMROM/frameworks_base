@@ -7198,6 +7198,12 @@ public final class Settings {
         public static final String QQS_COUNT = "sysui_qqs_count";
 
         /**
+         * Whether to use one tap QS tile action to enable or disable mobile data, wifi, and bluetooth
+         * @hide
+         */
+        public static final String QS_EASY_TOGGLE = "qs_easy_toggle";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
