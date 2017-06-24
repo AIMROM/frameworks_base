@@ -2,7 +2,7 @@
 <resources>
     <style name="TextAppearance.NotificationGuts" parent="@*android:style/TextAppearance">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#ff27e4a0</item>
+        <item name="android:textColor">#ff00cef2</item>
         <item name="android:fontFamily">roboto-regular</item>
     </style>
     <style name="TextAppearance.NotificationGuts.Secondary" parent="@*com.android.systemui:style/TextAppearance.NotificationGuts">
