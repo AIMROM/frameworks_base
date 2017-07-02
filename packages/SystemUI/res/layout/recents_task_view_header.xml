@@ -64,8 +64,7 @@
         android:src="@drawable/recents_dismiss_light"
         android:background="?android:selectableItemBackground"
         android:alpha="0"
-        android:visibility="gone"
-        android:id="@+id/dismiss_task" />
+        android:visibility="gone" />
     <com.android.systemui.recents.views.FixedSizeImageView
         android:id="@+id/lock_to_app_fab"
         android:layout_width="48.0dip"
@@ -77,7 +76,7 @@
         android:visibility="gone"
         android:src="@drawable/ic_pin" />
     <com.android.systemui.recents.views.FixedSizeImageView
-        android:id="@+id/lock_task"
+        android:id="@+id/dismiss_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
