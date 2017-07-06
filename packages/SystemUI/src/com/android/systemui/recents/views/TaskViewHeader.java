@@ -615,6 +615,7 @@ public class TaskViewHeader extends FrameLayout
             mPinButton.setVisibility(View.GONE);
             mPinButton.setClickable(false);
         }
+
         mLockTaskButton.setVisibility(View.VISIBLE);
         mLockTaskButton.setClickable(true);
         if (mLockTaskButton.getVisibility() == VISIBLE) {
