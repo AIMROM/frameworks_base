@@ -61,7 +61,7 @@ import com.android.systemui.tuner.TunerService;
 
 public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener, EmergencyListener,
-        SignalCallback {
+        SignalCallback, View.OnLongClickListener {
 
     private static final String TAG = "QuickStatusBarHeader";
 
@@ -142,6 +142,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mSettingsButton = (SettingsButton) findViewById(R.id.settings_button);
         mSettingsContainer = findViewById(R.id.settings_button_container);
         mSettingsButton.setOnClickListener(this);
+        mSettingsButton.setOnLongClickListener(this);
 
         mAlarmStatusCollapsed = findViewById(R.id.alarm_status_collapsed);
         mAlarmStatusCollapsed.setOnClickListener(this);
@@ -369,7 +370,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private void startAimActivity() {
         Intent aimIntent = new Intent(Intent.ACTION_MAIN);
         aimIntent.setClassName("com.android.settings",
-            "com.android.settings.Settings$AimSettings");
+            "com.android.settings.Settings$freedomhubSettingsActivity");
         mActivityStarter.startActivity(aimIntent, true /* dismissShade */);
     }
 
@@ -461,4 +462,13 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     public void setWeatherController(WeatherController weatherController) {
         // not used
     }
-}
+
+@Override
+    public boolean onLongClick(View v) {
+	if (v == mSettingsButton){
+            startAimActivity();
+	}
+       return false;
+    }
+
+ }
