@@ -44,5 +44,10 @@
     <!-- On-The-Go -->
     <java-symbol type="string" name="global_action_onthego" />
     <java-symbol type="drawable" name="ic_lock_onthego" />
+   
+    <!-- Show battery fully charged notification -->
+    <java-symbol type="bool" name="config_showBatteryFullyChargedNotification" />
+    <java-symbol type="string" name="notify_battery_fully_charged_title" />
+    <java-symbol type="string" name="notify_battery_fully_charged_text" />
 
 </resources>

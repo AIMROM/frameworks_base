@@ -31,4 +31,7 @@
 <!-- On-The-Go -->
     <string name="global_action_onthego">On-The-Go Mode</string>
 
+<!-- Battery fully charged notification -->
+    <string name="notify_battery_fully_charged_title">Battery fully charged</string>
+    <string name="notify_battery_fully_charged_text">Disconnect your device from the charger to improve battery longevity Else Kabhoom!!!.</string>
 </resources>
