@@ -13,12 +13,6 @@
 -->
 <resources>
 
-<!-- LuckyPatcher carnt dialog -->
-  <java-symbol type="string" name="lucky_patcher_installed_title" />
-  <java-symbol type="string" name="lucky_patcher_installed_message" />
-  <java-symbol type="string" name="lucky_patcher_admit" />
-
-
     <!-- Shutdown/reboot screen -->
     <java-symbol type="layout" name="shutdown_layout" />
     <java-symbol type="color" name="shutdown_background" />
@@ -30,8 +24,6 @@
     <java-symbol type="id" name="shutdown_logo" />
     <java-symbol type="id" name="shutdown_message" />
     <java-symbol type="id" name="shutdown_progress" />
-
-    <!-- Extended Boosts for QPerformance -->
 
     <!-- cpu boost on boot -->
     <java-symbol type="bool" name="config_enableCpuBoostOnBoot" />

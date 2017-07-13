@@ -12,13 +12,6 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-<!-- LuckyPatcher carnt dialog -->
-    <string name="lucky_patcher_installed_title">LuckyPatcher found!!! you cant escape from us you Pirate Scum</string>
-    <string name="lucky_patcher_installed_message">I hereby willingly admit that I\'m a carnt, thief and a pirate. I love to steal money from the hard working developers and to brag about it.</string>
-    <string name="lucky_patcher_admit">I admit</string>
-
-   <!-- Extended Boosts for QPerformance -->
-
    <!-- Whether cpu boost is enabled right after boot -->
    <bool name="config_enableCpuBoostOnBoot">false</bool>
   
