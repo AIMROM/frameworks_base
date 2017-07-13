@@ -13,11 +13,6 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-   
-<!-- FUCK PIRATES GRRRRRR-->
-    <string name="pirate_label">Hi Pirate scum</string>
-    <string name="pirate_spec">pirate</string>
-
     <!-- On The Go -->
     <string name="onthego_notif_ticker">On-The-Go activated</string>
     <string name="onthego_notif_title">On-The-Go is active</string>
