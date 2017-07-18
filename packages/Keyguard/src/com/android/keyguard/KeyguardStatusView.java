@@ -20,6 +20,7 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.UserHandle;
@@ -340,7 +341,6 @@ public class KeyguardStatusView extends GridLayout {
         }
     }
 
- }
      private void refreshLockFont() {
         final Resources res = getContext().getResources();
         boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
@@ -422,3 +422,4 @@ public class KeyguardStatusView extends GridLayout {
             mClockView.setTypeface(Typeface.create("serif", Typeface.BOLD_ITALIC));
         }
     }
+}
