@@ -33,7 +33,7 @@
     <integer name="config_max_unlock_countdown_times">0</integer>
 
     <!-- config for showing AM/PM on lock screen in 12hour format -->
-    <bool name="config_showAmpm">true</bool>
+    <bool name="config_showAmpm">false</bool>
 
     <!-- Should we listen for fingerprints when the screen is off?  Devices
          with a rear-mounted sensor want this, but certain devices have
