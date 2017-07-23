@@ -71,7 +71,7 @@ import com.android.systemui.tuner.TunerService;
 
 public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener, EmergencyListener,
-        SignalCallback, View.OnLongClickListener, TunerService.Tunable, StatusBarHeaderMachine.IStatusBarHeaderMachineObserver {
+        SignalCallback, View.OnLongClickListener, StatusBarHeaderMachine.IStatusBarHeaderMachineObserver {
 
     private static final String TAG = "QuickStatusBarHeader";
 
