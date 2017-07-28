@@ -8003,7 +8003,15 @@ public final class Settings {
        public static final String HDMI_CONTROL_AUTO_WAKEUP_ENABLED =
                "hdmi_control_auto_wakeup_enabled";
 
-       /**
+        /**
+          * Force authorize Substratum (or equivalent) frontend calling packages by ThemeInterfacer
+          * The value is boolean (1 or 0).
+          * @hide
+          */
+
+         public static final String FORCE_AUTHORIZE_SUBSTRATUM_PACKAGES = "force_authorize_substratum_packages"; 
+
+      /**
         * Whether TV will also turn off other CEC devices when it goes to standby mode.
         * (0 = false, 1 = true)
         * @hide
