@@ -15,6 +15,7 @@
  */
 package com.android.systemui;
 
+import com.android.systemui.aim.UserContentObserver;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Handler;

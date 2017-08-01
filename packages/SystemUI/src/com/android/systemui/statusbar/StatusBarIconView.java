@@ -38,6 +38,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewDebug;
 import android.view.accessibility.AccessibilityEvent;
+import com.android.systemui.aim.UserContentObserver;
+import android.net.Uri;
+
 
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.systemui.R;
