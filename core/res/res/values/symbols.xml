@@ -2908,4 +2908,6 @@
   <java-symbol type="bool" name="config_enableCpuBoostForPanelViewFling" />
   <java-symbol type="array" name="panelview_flingboost_param_value" />
 
+  <java-symbol type="integer" name="config_sms_authorization_timeout_ms" />
+  <java-symbol type="bool" name="config_sms_authorization_enabled" />
 </resources>
