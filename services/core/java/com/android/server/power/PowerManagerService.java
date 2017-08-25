@@ -211,8 +211,8 @@ public final class PowerManagerService extends SystemService
     // Possible reasons for shutting down for use in data/misc/reboot/last_shutdown_reason
     private static final String REASON_SHUTDOWN = "shutdown";
     private static final String REASON_REBOOT = "reboot";
-    private static final String REASON_USERREQUESTED = "userrequested";
-    private static final String REASON_THERMAL_SHUTDOWN = "thermal-shutdown";
+    private static final String REASON_USERREQUESTED = "shutdown,userrequested";
+    private static final String REASON_THERMAL_SHUTDOWN = "shutdown,thermal";
 
     private static final String TRACE_SCREEN_ON = "Screen turning on";
 
@@ -229,8 +229,8 @@ public final class PowerManagerService extends SystemService
 
     private static final int BUTTON_ON_DURATION = 5 * 1000;
 
-    // File location for last reboot reason
-    private static final String LAST_REBOOT_LOCATION = "/data/misc/reboot/last_reboot_reason";
+    // Persistent property for last reboot reason
+    private static final String LAST_REBOOT_PROPERTY = "persist.sys.boot.reason";
 
     private static final float PROXIMITY_NEAR_THRESHOLD = 5.0f;
 
@@ -4497,7 +4497,7 @@ public final class PowerManagerService extends SystemService
 
             final long ident = Binder.clearCallingIdentity();
             try {
-                return getLastShutdownReasonInternal(new File(LAST_REBOOT_LOCATION));
+                return getLastShutdownReasonInternal(LAST_REBOOT_PROPERTY);
             } finally {
                 Binder.restoreCallingIdentity(ident);
             }
@@ -4731,13 +4731,9 @@ public final class PowerManagerService extends SystemService
     }
 
     @VisibleForTesting
-    int getLastShutdownReasonInternal(File lastRebootReason) {
-        String line = "";
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(lastRebootReason))){
-            line = bufferedReader.readLine();
-        } catch (IOException e) {
-            Slog.e(TAG, "Failed to read last_reboot_reason file", e);
-        }
+    // lastRebootReasonProperty argument to permit testing
+    int getLastShutdownReasonInternal(String lastRebootReasonProperty) {
+        String line = SystemProperties.get(lastRebootReasonProperty);
         if (line == null) {
             return PowerManager.SHUTDOWN_REASON_UNKNOWN;
         }
