@@ -127,6 +127,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
     private static final String GLOBAL_ACTION_KEY_VOICEASSIST = "voiceassist";
     private static final String GLOBAL_ACTION_KEY_ASSIST = "assist";
     private static final String GLOBAL_ACTION_KEY_RESTART = "restart";
+    private static final String GLOBAL_ACTION_KEY_RESTART_RECOVERY = "recovery";
     private static final String GLOBAL_ACTION_KEY_SCREENSHOT = "screenshot";
     private static final String GLOBAL_ACTION_KEY_TORCH = "torch";
     private static final String GLOBAL_ACTION_KEY_SCREENRECORD = "screenrecord";
@@ -141,12 +142,13 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
 
     private Action mSilentModeAction;
     private ToggleAction mAirplaneModeOn;
+    private ToggleAction.State mAirplaneState = ToggleAction.State.Off;
+    private ToggleRestartAdvancedAction mRestartAdvancedAction;
 
     private MyAdapter mAdapter;
 
     private boolean mKeyguardShowing = false;
     private boolean mDeviceProvisioned = false;
-    private ToggleAction.State mAirplaneState = ToggleAction.State.Off;
     private boolean mIsWaitingForEcmExit = false;
     private boolean mHasTelephony;
     private boolean mHasVibrator;
@@ -355,6 +357,27 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
         };
         onAirplaneModeChanged();
 
+        mRestartAdvancedAction = new ToggleRestartAdvancedAction(
+                com.android.systemui.R.drawable.ic_restart_advanced,
+                com.android.systemui.R.drawable.ic_restart_bootloader,
+                com.android.systemui.R.drawable.ic_restart_soft,
+                com.android.systemui.R.drawable.ic_restart_systemui,
+                com.android.systemui.R.string.global_action_restart_advanced,
+                com.android.systemui.R.string.global_action_restart_recovery,
+                com.android.systemui.R.string.global_action_restart_bootloader,
+                com.android.systemui.R.string.global_action_restart_soft,
+                com.android.systemui.R.string.global_action_restart_systemui,
+                mWindowManagerFuncs, mHandler) {
+
+            public boolean showDuringKeyguard() {
+                return true;
+            }
+
+            public boolean showBeforeProvisioning() {
+                return true;
+            }
+        };
+
         mItems = new ArrayList<Action>();
         String[] defaultActions = mContext.getResources().getStringArray(
                 R.array.config_globalActionsList);
@@ -411,7 +434,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
             } else if (GLOBAL_ACTION_KEY_ASSIST.equals(actionKey)) {
                 mItems.add(getAssistAction());
             } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
-
                 if (Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.POWERMENU_RESTART, 1) == 1) {
                     mItems.add(new RestartAction());
@@ -419,7 +441,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
             } else if (GLOBAL_ACTION_KEY_RESTART_RECOVERY.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.POWERMENU_RESTART_RECOVERY, 1) == 1) {
-                    mItems.add(new AdvancedRestartAction());
+                     mItems.add(mRestartAdvancedAction);
                 }
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
@@ -539,13 +561,23 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
 
         @Override
         public void onPress() {
-            AIMUtils.takeScreenshot(true);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AIMUtils.takeScreenshot(true);
+                }
+            }, 500);
         }
-
 
         @Override
         public boolean onLongPress() {
-            AIMUtils.takeScreenshot(false);
+            mHandler.sendEmptyMessage(MESSAGE_DISMISS);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AIMUtils.takeScreenshot(false);
+                }
+            }, 500);
             return true;
         }
 
@@ -596,13 +628,12 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
                 com.android.systemui.R.string.global_action_screenrecord) {
 
             public void onPress() {
-                mHandler.sendEmptyMessage(MESSAGE_DISMISS);
-                /* wait for the dialog box to close */
-                try {
-                     Thread.sleep(1000); //1s
-                } catch (InterruptedException ie) {}
-
-                takeScreenrecord();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        takeScreenrecord();
+                    }
+                }, 500);
             }
 
             public boolean showDuringKeyguard() {
@@ -943,7 +974,8 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
     /** {@inheritDoc} */
     public void onClick(DialogInterface dialog, int which) {
         Action item = mAdapter.getItem(which);
-        if (!(item instanceof SilentModeTriStateAction)) {
+        if (!(item instanceof SilentModeTriStateAction)
+                && !(item instanceof ToggleRestartAdvancedAction)) {
             dialog.dismiss();
         }
         item.onPress();
@@ -1018,7 +1050,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
             Action action = getItem(position);
             View view = action.create(mContext, convertView, parent, LayoutInflater.from(mContext));
             if (position == 11) {
-               HardwareUiLayout.get(parent).setDivisionView(view);
+                HardwareUiLayout.get(parent).setDivisionView(view);
             }
             return view;
         }
@@ -1265,6 +1297,176 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
         }
     }
 
+    /**
+     * A toggle action knows whether it is on or off, and displays an icon
+     * and status message accordingly.
+     */
+    private static abstract class ToggleRestartAdvancedAction implements Action, LongPressAction {
+
+        enum State {
+            Recovery,
+            Bootloader,
+            SoftReboot,
+            SystemUI;
+        }
+
+        protected State mState = State.Recovery;
+
+        protected int mRecoveryIconResid;
+        protected int mBootloaderIconResid;
+        protected int mSoftRebootIconResid;
+        protected int mSystemUIIconResid;
+        protected int mMessageResId;
+        protected int mRecoveryMessageResId;
+        protected int mBootloaderMessageResId;
+        protected int mSoftRebootMessageResId;
+        protected int mSystemUIMessageResId;
+        protected GlobalActionsManager mWmFuncs;
+        protected Handler mRefresh;
+
+        public ToggleRestartAdvancedAction(int recoveryIconResid,
+                int bootloaderIconResid,
+                int softRebootIconResid,
+                int systemuiIconResid,
+                int message,
+                int recoveryMessageResId,
+                int bootloaderMessageResId,
+                int softRebootMessageResId,
+                int systemuiMessageResId,
+                GlobalActionsManager funcs,
+                Handler handler) {
+            mRecoveryIconResid = recoveryIconResid;
+            mBootloaderIconResid = bootloaderIconResid;
+            mSoftRebootIconResid = softRebootIconResid;
+            mSystemUIIconResid = systemuiIconResid;
+            mMessageResId = message;
+            mRecoveryMessageResId = recoveryMessageResId;
+            mBootloaderMessageResId = bootloaderMessageResId;
+            mSoftRebootMessageResId = softRebootMessageResId;
+            mSystemUIMessageResId = systemuiMessageResId;
+            mWmFuncs = funcs;
+            mRefresh = handler;
+        }
+
+        @Override
+        public CharSequence getLabelForAccessibility(Context context) {
+            return context.getString(mMessageResId);
+        }
+
+        public View create(
+                Context context, View convertView, ViewGroup parent, LayoutInflater inflater) {
+            View v = inflater.inflate(com.android.systemui.R.layout.global_actions_item, parent,
+                    false);
+
+            TextView statusView = (TextView) v.findViewById(R.id.status);
+            final String status = getStatus();
+            if (!TextUtils.isEmpty(status)) {
+                statusView.setText(status);
+            } else {
+                statusView.setVisibility(View.GONE);
+            }
+
+            TextView messageView = (TextView) v.findViewById(R.id.message);
+            ImageView icon = (ImageView) v.findViewById(R.id.icon);
+            switch (mState) {
+            case Recovery:
+                 if (messageView != null) {
+                     messageView.setText(mRecoveryMessageResId);
+                 }
+                 if (icon != null) {
+                     icon.setImageDrawable(context.getDrawable(mRecoveryIconResid));
+                 }
+                 break;
+            case Bootloader:
+                 if (messageView != null) {
+                     messageView.setText(mBootloaderMessageResId);
+                 }
+                 if (icon != null) {
+                     icon.setImageDrawable(context.getDrawable(mBootloaderIconResid));
+                 }
+                 break;
+            case SoftReboot:
+                 if (messageView != null) {
+                     messageView.setText(mSoftRebootMessageResId);
+                 }
+                 if (icon != null) {
+                     icon.setImageDrawable(context.getDrawable(mSoftRebootIconResid));
+                 }
+                 break;
+            case SystemUI:
+                 if (messageView != null) {
+                     messageView.setText(mSystemUIMessageResId);
+                 }
+                 if (icon != null) {
+                     icon.setImageDrawable(context.getDrawable(mSystemUIIconResid));
+                 }
+                 break;
+            default:
+                 if (messageView != null) {
+                     messageView.setText(mRecoveryMessageResId);
+                 }
+                 if (icon != null) {
+                     icon.setImageDrawable(context.getDrawable(mRecoveryIconResid));
+                 }
+                 break;
+            }
+
+                 return v;
+        }
+
+        @Override
+        public final void onPress() {
+            switch (mState) {
+            case Recovery:
+                 mState = State.Bootloader;
+                 break;
+            case Bootloader:
+                 mState = State.SoftReboot;
+                 break;
+            case SoftReboot:
+                 mState = State.SystemUI;
+                 break;
+            case SystemUI:
+                 mState = State.Recovery;
+                 break;
+            default:
+                 mState = State.Recovery;
+                 break;
+            }
+
+            mRefresh.sendEmptyMessage(MESSAGE_REFRESH_ADVANCED_REBOOT);
+        }
+
+        @Override
+        public boolean onLongPress() {
+            mRefresh.sendEmptyMessage(MESSAGE_DISMISS);
+            switch (mState) {
+            case Recovery:
+                 mWmFuncs.advancedReboot(PowerManager.REBOOT_RECOVERY);
+                 break;
+            case Bootloader:
+                 mWmFuncs.advancedReboot(PowerManager.REBOOT_BOOTLOADER);
+                 break;
+            case SoftReboot:
+                 mWmFuncs.advancedReboot(PowerManager.REBOOT_SOFT);
+                 break;
+            case SystemUI:
+                 mWmFuncs.advancedReboot(PowerManager.REBOOT_SYSTEMUI);
+                 break;
+            }
+
+            return true;
+        }
+
+        public boolean isEnabled() {
+            return true;
+        }
+
+        public String getStatus() {
+            return null;
+        }
+    }
+
     private class SilentModeToggleAction extends ToggleAction {
         public SilentModeToggleAction() {
             super(R.drawable.ic_audio_vol_mute,
@@ -1400,6 +1602,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
     private static final int MESSAGE_DISMISS = 0;
     private static final int MESSAGE_REFRESH = 1;
     private static final int MESSAGE_SHOW = 2;
+    private static final int MESSAGE_REFRESH_ADVANCED_REBOOT = 3;
     private static final int DIALOG_DISMISS_DELAY = 300; // ms
 
     private Handler mHandler = new Handler() {
@@ -1417,6 +1620,10 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
                     break;
                 case MESSAGE_SHOW:
                     handleShow();
+                    break;
+                case MESSAGE_REFRESH_ADVANCED_REBOOT:
+                    mAdapter.notifyDataSetChanged();
+                    mDialog.refreshList();
                     break;
             }
         }
@@ -1506,6 +1713,12 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
                         mLongClickListener.onItemLongClick(null, v, pos, 0));
                 mListView.addView(v);
             }
+        }
+
+        public void refreshList() {
+            updateList();
+            // we need to recreate the HardwareBgDrawable
+            HardwareUiLayout.get(mListView).updateSettings();
         }
 
         @Override
