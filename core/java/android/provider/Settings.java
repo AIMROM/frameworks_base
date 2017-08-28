@@ -4012,6 +4012,14 @@ public final class Settings {
            */
           public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
 
+	 /**
+          * Whether to use the MTP by default after connecting to PC
+          * @hide
+          */
+          public static final String MTP_DIRTY_HACK = "mtp_dirty_hack";
+          /** @hide */
+          public static final String MTP_DIRTY_HACK_SAVE = "mtp_dirty_hack_save";
+
 
 	/**
 	 * Setting to determine whether or not to show the battery percentage in the status bar.
