@@ -6629,6 +6629,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOUBLE_TAP_SLEEP_GESTURE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -6679,6 +6682,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                     || uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.STATUS_BAR_BATTERY_STYLE))) {
                 updateBatterySettings();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.DOUBLE_TAP_SLEEP_GESTURE))) {
+                setStatusBarWindowViewOptions();
             }
         }
 
@@ -6723,7 +6729,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
 
-    private void mLockScreenMediaMetadata() {
+    private void setLockscreenMediaMetadata() {
         mLockscreenMediaMetadata = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.LOCKSCREEN_MEDIA_METADATA, 0, UserHandle.USER_CURRENT) == 1;
     }

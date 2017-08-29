@@ -4320,7 +4320,13 @@ public final class Settings {
            * @hide
            */
           public static final String QS_TILE_TITLE_VISIBILITY = "qs_tile_title_visibility";
- 
+
+        /**
+         *  Enable statusbar double tap gesture on to put device to sleep
+         * @hide
+         */
+        public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
+
         /**
 	  * Whether to launch default music player when headset plugged in
           * @hide
@@ -5146,8 +5152,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_DELAY);
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_INCALL_ONLY);
 	    PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
-<<<<<<< HEAD
-	    PRIVATE_SETTINGS.add(STATUS_BAR_QUICK_QS_PULLDOWN);
 	    PRIVATE_SETTINGS.add(QS_ROWS_PORTRAIT);
             PRIVATE_SETTINGS.add(QS_ROWS_LANDSCAPE);
             PRIVATE_SETTINGS.add(QS_COLUMNS_PORTRAIT);
@@ -5173,9 +5177,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_ENABLE);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_TIMEOUT);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_ON_TOUCH_ONLY);
-=======
-
->>>>>>> parent of 6c59858... Add Quick Settings Pulldown options
 	}
 
         /**
