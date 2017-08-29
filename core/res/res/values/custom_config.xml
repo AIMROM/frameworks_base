@@ -48,5 +48,9 @@
 <!-- Whether the device requires overlays to be in /system/overlay -->
      <bool name="config_hasSystemOverlayPath">false</bool>
  
+<!-- Button brightness -->
+     <integer name="config_buttonBrightnessSettingDefault">255</integer>
+     <bool name="config_deviceHasVariableButtonBrightness">false</bool>
+ 
 
 </resources>

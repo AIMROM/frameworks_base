@@ -48,5 +48,8 @@
 <!-- Whether the device requires overlays to be in /system/overlay -->
      <java-symbol type="bool" name="config_hasSystemOverlayPath" />
  
+<!-- Button brightness -->
+   <java-symbol type="integer" name="config_buttonBrightnessSettingDefault" />
+   <java-symbol type="bool" name="config_deviceHasVariableButtonBrightness" />
 
 </resources>
