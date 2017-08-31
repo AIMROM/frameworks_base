@@ -93,4 +93,9 @@ interface IStatusBarService
     void toggleFlashlight();
     void toggleNavigationEditor();
     void dispatchNavigationEditorResults(in Intent intent);
+
+    /**
+     * Aim
+     */
+    void toggleCameraFlash();
 }

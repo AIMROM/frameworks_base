@@ -132,4 +132,9 @@ oneway interface IStatusBar
 
     void showShutdownUi(boolean isReboot, boolean isRebootBootloader,
                 boolean isRebootRecovery, String reason);
+
+    /**
+     * Aim
+     */
+    void toggleCameraFlash();
 }
