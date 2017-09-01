@@ -35,4 +35,8 @@
     <string name="kb_left">Keyboard left cursor</string>
     <string name="kb_right">Keyboard right cursor</string>
 
+ <!-- Screenshot -->
+     <string name="screenshot_abort_title">No screenshot taken</string>
+     <string name="screenshot_abort_text">Operation aborted.</string>
+
 </resources>
