@@ -3894,7 +3894,13 @@ public final class Settings {
          public static final String DOUBLE_TAP_SLEEP_NAVBAR = "double_tap_sleep_navbar";
 
 	 /**
-         * Setting to determine whether or not to show the battery percentage in the status bar.
+          * Change volume up and down handlign based on rotation
+          * @hide
+          */
+         public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
+
+        /**
+	 * Setting to determine whether or not to show the battery percentage in the status bar.
          *    0 - Don't show percentage
          *    1 - Show percentage
          * @hide
@@ -4151,6 +4157,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_TYPE);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_NAVBAR);
+	    PRIVATE_SETTINGS.add(SWAP_VOLUME_BUTTONS);
 	}
 
         /**
