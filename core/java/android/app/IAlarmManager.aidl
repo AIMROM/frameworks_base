@@ -37,4 +37,8 @@ interface IAlarmManager {
     void remove(in PendingIntent operation, in IAlarmListener listener);
     long getNextWakeFromIdleTime();
     AlarmManager.AlarmClockInfo getNextAlarmClock(int userId);
+    // update the uids being synchronized by network socket request manager
+    void updateBlockedUids(int uid, boolean isBlocked);
+    // blocked alarms support
+    String getSeenAlarms();
 }
