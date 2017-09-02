@@ -4482,9 +4482,20 @@ public final class Settings {
            public static final String BLUETOOTH_ACCEPT_ALL_FILES = "bluetooth_accept_all_files";
  
         /**
-          * Settings to backup. This is here so that it's in the same place as the settings
+         * Enable blocking wakelock
+         * @hide
+         */
+        public static final String WAKELOCK_BLOCKING_ENABLED = "wakelock_blocking_enabled";
 
-	 * keys and easy to update.
+        /**
+         * List of wakelock blocks selected
+         * @hide
+         */
+        public static final String WAKELOCK_BLOCKING_LIST = "wakelock_blocking_list";
+
+        /**
+         * Settings to backup. This is here so that it's in the same place as the settings
+         * keys and easy to update.
          *
          * NOTE: Settings are backed up and restored in the order they appear
          *       in this array. If you have one setting depending on another,
