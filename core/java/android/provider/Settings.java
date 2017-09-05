@@ -10553,6 +10553,11 @@ public final class Settings {
         public static final String LOCATION_SETTINGS_LINK_TO_PERMISSIONS_ENABLED =
                 "location_settings_link_to_permissions_enabled";
 
+	/**
+          * @hide
+          */
+         public static final String SHOW_CPU_OVERLAY = "show_cpu_overlay";
+
         /**
          * Flag to enable use of RefactoredBackupManagerService.
          *
