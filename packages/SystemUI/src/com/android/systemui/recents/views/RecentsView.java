@@ -224,14 +224,8 @@ public class RecentsView extends FrameLayout {
         // Update the top level view's visibilities
         if (stack.getTaskCount() > 0) {
             hideEmptyView();
-            if (mFloatingButton != null) {
-                mFloatingButton.setVisibility(View.VISIBLE);
-            }
         } else {
             showEmptyView(R.string.recents_empty_message);
-            if (mFloatingButton != null) {
-                mFloatingButton.setVisibility(View.GONE);
-            }
         }
     }
 
@@ -332,6 +326,9 @@ Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
         if (RecentsDebugFlags.Static.EnableStackActionButton) {
             mStackActionButton.bringToFront();
         }
+        if (mFloatingButton != null) {
+            mFloatingButton.setVisibility(View.GONE);
+        }
         setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -349,6 +346,9 @@ Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
         mTaskStackView.bringToFront();
         if (RecentsDebugFlags.Static.EnableStackActionButton) {
             mStackActionButton.bringToFront();
+        }
+        if (mFloatingButton != null) {
+            mFloatingButton.setVisibility(View.VISIBLE);
         }
         setOnClickListener(null);
     }
@@ -381,7 +381,6 @@ Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
     protected void onAttachedToWindow() {
         EventBus.getDefault().register(this, RecentsActivity.EVENT_BUS_PRIORITY + 1);
         EventBus.getDefault().register(mTouchHandler, RecentsActivity.EVENT_BUS_PRIORITY + 2);
-        super.onAttachedToWindow();
         mSettingsObserver.observe();
         mClearRecents.setVisibility(View.VISIBLE);
         mClearRecents.setOnClickListener(new View.OnClickListener() {
@@ -389,6 +388,7 @@ Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
             EventBus.getDefault().send(new DismissAllTaskViewsEvent());
             }
         });
+        super.onAttachedToWindow();
     }
 
     @Override
