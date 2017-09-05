@@ -14,6 +14,8 @@
 
 package com.android.systemui.tuner;
 
+//import static com.android.systemui.statusbar.phone.NavigationBarInflaterView.KB_LEFT;
+//import static com.android.systemui.statusbar.phone.NavigationBarInflaterView.KB_RIGHT;
 import static com.android.systemui.statusbar.phone.NavigationBarInflaterView.KEY;
 import static com.android.systemui.statusbar.phone.NavigationBarInflaterView.KEY_CODE_END;
 import static com.android.systemui.statusbar.phone.NavigationBarInflaterView.KEY_CODE_START;
@@ -150,6 +152,16 @@ public class NavBarTuner extends TunerPreferenceFragment {
                 keycode.setSummary(code + "");
                 keycode.setVisible(true);
                 icon.setVisible(true);
+            /* just a reference to not forget, if we wanna play
+                with these in the future
+            } else if (button.startsWith(KB_LEFT)) {
+                type.setValue(button);
+                keycode.setVisible(false);
+                icon.setVisible(false);
+            } else if (button.startsWith(KB_RIGHT)) {
+                type.setValue(button);
+                keycode.setVisible(false);
+                icon.setVisible(false);*/
             } else {
                 type.setValue(button);
                 keycode.setVisible(false);
