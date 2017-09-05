@@ -31,8 +31,8 @@
         android:title="@string/left_nav_bar_button_type"
         android:persistent="false"
         android:summary="%s"
-        android:entries="@array/nav_bar_buttons"
-        android:entryValues="@array/nav_bar_button_values" />
+        android:entries="@array/nav_bar_buttons_custom"
+        android:entryValues="@array/nav_bar_button_values_custom" />
 
     <Preference
         android:key="keycode_left"
@@ -50,8 +50,8 @@
         android:title="@string/right_nav_bar_button_type"
         android:summary="%s"
         android:persistent="false"
-        android:entries="@array/nav_bar_buttons"
-        android:entryValues="@array/nav_bar_button_values" />
+        android:entries="@array/nav_bar_buttons_custom"
+        android:entryValues="@array/nav_bar_button_values_custom" />
 
     <Preference
         android:key="keycode_right"
