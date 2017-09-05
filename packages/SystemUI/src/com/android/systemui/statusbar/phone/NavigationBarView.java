@@ -221,6 +221,8 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
         mButtonDispatchers.put(R.id.ime_switcher, new ButtonDispatcher(R.id.ime_switcher));
         mButtonDispatchers.put(R.id.accessibility_button,
                 new ButtonDispatcher(R.id.accessibility_button));
+        mButtonDispatchers.put(R.id.kb_left, new ButtonDispatcher(R.id.kb_left));
+        mButtonDispatchers.put(R.id.kb_right, new ButtonDispatcher(R.id.kb_right));
     }
 
     public BarTransitions getBarTransitions() {
@@ -294,6 +296,14 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
 
     public ButtonDispatcher getAccessibilityButton() {
         return mButtonDispatchers.get(R.id.accessibility_button);
+    }
+
+    public ButtonDispatcher getKbLeftButton() {
+        return mButtonDispatchers.get(R.id.kb_left);
+    }
+
+    public ButtonDispatcher getKbRightButton() {
+        return mButtonDispatchers.get(R.id.kb_right);
     }
 
     public SparseArray<ButtonDispatcher> getButtonDispatchers() {
@@ -407,6 +417,8 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
                 : getBackIcon(mUseCarModeUi, mVertical);
 
         getBackButton().setImageDrawable(backIcon);
+        getKbLeftButton().setVisibility(backAlt ? View.VISIBLE : View.INVISIBLE);
+        getKbRightButton().setVisibility(backAlt ? View.VISIBLE : View.INVISIBLE);
 
         updateRecentsIcon();
 
