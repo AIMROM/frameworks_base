@@ -199,6 +199,9 @@
     <!-- to change themes - light or dark -->
     <uses-permission android:name="android.permission.CHANGE_OVERLAY_PACKAGES" />
 
+    <!-- To take Screenshots -->
+    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"
