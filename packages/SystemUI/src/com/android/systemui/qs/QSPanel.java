@@ -605,4 +605,10 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
         void setListening(boolean listening);
     }
+
+    public void updateSettings() {
+        if (mFooter != null) {
+            mFooter.updateSettings();
+        }
+    }
 }
