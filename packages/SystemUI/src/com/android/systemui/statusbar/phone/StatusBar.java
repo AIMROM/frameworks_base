@@ -5385,6 +5385,9 @@ public class StatusBar extends SystemUI implements DemoMode,
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                      Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN),
                      false, this, UserHandle.USER_ALL);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.QS_FOOTER_WARNINGS),
+                     false, this, UserHandle.USER_ALL);
 	}
 
         @Override
@@ -5401,7 +5404,10 @@ public class StatusBar extends SystemUI implements DemoMode,
              } else if (uri.equals(Settings.System.getUriFor(
                      Settings.System.LOCKSCREEN_MEDIA_METADATA))) {
                  setLockscreenMediaMetadata();
-
+	     } else if (uri.equals(Settings.System.getUriFor(
+                     Settings.System.QS_FOOTER_WARNINGS))) {
+                 setQsPanelOptions();
+	    
 	    }
         }
 
@@ -5412,7 +5418,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         public void update() {
             setDoubleTapNavbar();
             setStatusBarWindowViewOptions();
-        }
+            setQsPanelOptions();
+	}
     }
 
     private void setDoubleTapNavbar() {
@@ -5431,7 +5438,14 @@ public class StatusBar extends SystemUI implements DemoMode,
          mLockscreenMediaMetadata = Settings.System.getIntForUser(mContext.getContentResolver(),
                  Settings.System.LOCKSCREEN_MEDIA_METADATA, 0, UserHandle.USER_CURRENT) == 1;
      }
-    private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
+
+     private void setQsPanelOptions() {
+         if (mQSPanel != null) {
+             mQSPanel.updateSettings();
+         }
+     }
+
+     private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
 
         @Override
         public boolean onClickHandler(
