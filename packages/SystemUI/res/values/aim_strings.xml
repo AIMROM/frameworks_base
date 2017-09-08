@@ -43,7 +43,10 @@
      <string name="quick_settings_adb_network">ADB network</string>
      <string name="quick_settings_network_adb_enabled_label">Adb over Net</string>
      <string name="quick_settings_network_adb_disabled_label">Adb over Net</string>
- 
+
+<!-- tuner -->
+     <string name="statusbar_items_title">Statusbar items</string> 
+
 <!-- volte icon switch -->
     <string name="status_bar_volte">VOLTE</string>
 
