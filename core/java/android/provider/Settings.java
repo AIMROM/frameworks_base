@@ -4116,6 +4116,36 @@ public final class Settings {
          * @hide
          */
          public static final String TOAST_ICON = "toast_icon";
+	
+	/**
+          * How many rows to show in the qs panel when in portrait
+          * @hide
+          */
+         public static final String QS_ROWS_PORTRAIT = "qs_rows_portrait";
+ 
+         /**
+          * How many rows to show in the qs panel when in landscape
+          * @hide
+          */
+         public static final String QS_ROWS_LANDSCAPE = "qs_rows_landscape";
+ 
+         /**
+          * How many columns to show in the qs panel when in portrait
+          * @hide
+          */
+         public static final String QS_COLUMNS_PORTRAIT = "qs_columns_portrait";
+ 
+         /**
+          * How many columns to show in the qs panel when in landscape
+          * @hide
+          */
+         public static final String QS_COLUMNS_LANDSCAPE = "qs_columns_landscape";
+ 
+          /**
+          * Wheter to show heads up only for dialer and sms apps
+          * @hide
+          */
+         public static final String LESS_BORING_HEADS_UP = "less_boring_heads_up";
 
        /**
         * @hide
@@ -4335,7 +4365,11 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_INCALL_ONLY);
 	    PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
 	    PRIVATE_SETTINGS.add(STATUS_BAR_QUICK_QS_PULLDOWN);
-
+	    PRIVATE_SETTINGS.add(QS_ROWS_PORTRAIT);
+            PRIVATE_SETTINGS.add(QS_ROWS_LANDSCAPE);
+            PRIVATE_SETTINGS.add(QS_COLUMNS_PORTRAIT);
+            PRIVATE_SETTINGS.add(QS_COLUMNS_LANDSCAPE);
+            PRIVATE_SETTINGS.add(LESS_BORING_HEADS_UP);
 	}
 
         /**
