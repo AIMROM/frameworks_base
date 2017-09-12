@@ -4618,12 +4618,15 @@ message MetricsEvent {
     // Add new aosp constants above this line.
     // END OF AOSP CONSTANTS
 
+    // Quick setting tiles
+    QUICK_SETTINGS = 949;
+
     //AIM
-    AIM = 1000;
-    AMIFY = 1001;
-    FREEDOMHUB = 1002;
-    EXTENSIONS = 1003;
-    ABC = 1004;
+    AIM = 950;
+    AMIFY = 951;
+    FREEDOMHUB = 952;
+    EXTENSIONS = 953;
+    ABC = 954;
    // moar will be added 
   }
 }
