@@ -3978,8 +3978,11 @@ message MetricsEvent {
     // END OF AOSP CONSTANTS
     
    //Freedomhub
-     AIM = 1000;
-     AMIFY = 1001;
-     FREEDOMHUB = 1002;
+     AIM = 950;
+     AMIFY = 951;
+     FREEDOMHUB = 952;
+
+    // Quick setting tiles
+    QUICK_SETTINGS = 949;
   }
 }
