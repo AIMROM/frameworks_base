@@ -4190,9 +4190,17 @@ public final class Settings {
         */
          public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
  
-       /** 
+       /**
 	 * Settings to backup. This is here so that it's in the same place as the settings
-         * keys and easy to update.
+         * If all file types can be accepted over Bluetooth OBEX.
+          * @hide
+          */
+           public static final String BLUETOOTH_ACCEPT_ALL_FILES = "bluetooth_accept_all_files";
+ 
+        /**
+          * Settings to backup. This is here so that it's in the same place as the settings
+
+	 * keys and easy to update.
          *
          * NOTE: Settings are backed up and restored in the order they appear
          *       in this array. If you have one setting depending on another,
