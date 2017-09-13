@@ -4095,15 +4095,22 @@ public final class Settings {
          * @hide
          */
          public static final String TOAST_ICON = "toast_icon";
- 
+
        /**
         * Whether to show the battery info on the lockscreen while charging
         * @hide
         */
          public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
- 
-       /** 
+
+        /**
 	 * Settings to backup. This is here so that it's in the same place as the settings
+         * If all file types can be accepted over Bluetooth OBEX.
+         * @hide
+         */
+          public static final String BLUETOOTH_ACCEPT_ALL_FILES = "bluetooth_accept_all_files";
+
+        /**
+         * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
          * NOTE: Settings are backed up and restored in the order they appear
