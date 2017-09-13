@@ -3045,16 +3045,11 @@
    <java-symbol type="integer" name="animationboost_timeout_param" />
    <java-symbol type="array" name="animationboost_param_value" />
  
-<!-- cpu boost for pre-fling -->
+   <!-- cpu boost for pre-fling -->
    <java-symbol type="bool" name="config_enableCpuBoostForPreFling" />
    <java-symbol type="integer" name="preflingboost_timeout_param" />
    <java-symbol type="array" name="preflingboost_param_value" />
  
-  <!-- cpu boost for pre-fling -->
-   <java-symbol type="bool" name="config_enableCpuBoostForPreFling" />
-   <java-symbol type="integer" name="preflingboost_timeout_param" />
-   <java-symbol type="array" name="preflingboost_param_value" /> 
-
   <!-- cpu boost for overscroller fling -->
    <java-symbol type="bool" name="config_enableCpuBoostForOverScrollerFling" />
    <java-symbol type="integer" name="flingboost_timeout_param" />
@@ -3082,4 +3077,15 @@
    <java-symbol type="bool" name="config_enableCpuBoostForPanelViewFling" />
    <java-symbol type="array" name="panelview_flingboost_param_value" />
  
+<!-- cpu boost v2 for Applaunch --> 
+<java-symbol type="bool" name="config_enableLaunchBoostv2" /> 
+ <java-symbol type="integer" name="lboostv2_timeout_param" />
+ <java-symbol type="array" name="lboostv2_param_value" /> 
+<!-- freq aggr for Applaunch --> 
+ <java-symbol type="bool" name="config_enableFreqAggr" /> 
+ <java-symbol type="integer" name="freqaggr_timeout_param" /> 
+ <java-symbol type="array" name="freqaggr_init_param_value" /> 
+ <java-symbol type="array" name="freqaggr_param_value" />
+
+
 </resources>
