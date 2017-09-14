@@ -42,6 +42,7 @@ import static android.view.WindowManager.INPUT_CONSUMER_NAVIGATION;
 import static android.view.WindowManager.LayoutParams.FIRST_APPLICATION_WINDOW;
 import static android.view.WindowManager.LayoutParams.FIRST_SUB_WINDOW;
 import static android.view.WindowManager.LayoutParams.FIRST_SYSTEM_WINDOW;
+import com.android.internal.util.aim.DevUtils;
 import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
 import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN;
@@ -615,6 +616,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private boolean mHandleVolumeKeysInWM;
 
+    int mBackKillTimeout;
     int mPointerLocationMode = 0; // guarded by mLock
 
     // The last window we were told about in focusChanged.
@@ -1765,7 +1767,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private final ScreenshotRunnable mScreenshotRunnable = new ScreenshotRunnable();
-    
+
+    Runnable mBackLongPress = new Runnable() {
+         public void run() {
+             if (DevUtils.killForegroundApplication(mContext)) {
+                 performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+                 Toast.makeText(mContext, R.string.app_killed_message, Toast.LENGTH_SHORT).show();
+                 // Do nothing; just let it go.
+             }
+         }
+     };
+
     @Override
     public void showGlobalActions() {
         mHandler.removeMessages(MSG_DISPATCH_SHOW_GLOBAL_ACTIONS);
@@ -2099,6 +2111,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         mHandleVolumeKeysInWM = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_handleVolumeKeysInWindowManager);
+
+	mBackKillTimeout = mContext.getResources().getInteger(
+                 com.android.internal.R.integer.config_backKillTimeout);
 
         readConfigurationDependentBehaviors();
 
@@ -3610,6 +3625,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mPendingCapsLockToggle = false;
         }
 
+	if (keyCode == KeyEvent.KEYCODE_BACK && !down) {
+             mHandler.removeCallbacks(mBackLongPress);
+         }
+
         // First we always handle the home key here, so applications
         // can never break it, although if keyguard is on, we do let
         // it handle it, because that gives us the correct 5 second
@@ -3747,6 +3766,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mHandler.post(mScreenshotRunnable);
                 return -1;
             }
+	
+	} else if (keyCode == KeyEvent.KEYCODE_BACK) {
+             if (Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                     Settings.Secure.KILL_APP_LONGPRESS_BACK, 1, UserHandle.USER_CURRENT) == 1) {
+                 if (down && repeatCount == 0) {
+                     mHandler.postDelayed(mBackLongPress, mBackKillTimeout);
+                 }
+             }
+
         } else if (keyCode == KeyEvent.KEYCODE_SLASH && event.isMetaPressed()) {
             if (down && repeatCount == 0 && !isKeyguardLocked()) {
                 toggleKeyboardShortcutsMenu(event.getDeviceId());

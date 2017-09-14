@@ -7480,7 +7480,13 @@ public final class Settings {
         public static final String NOTIFICATION_BADGING = "notification_badging";
 
         /**
-          * Whether to enable navigation bar
+          * Whether to allow killing of the foreground app by long-pressing the Back button
+          * @hide
+          */
+         public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
+ 
+        /**
+	  * Whether to enable navigation bar
           * @hide
           */
          public static final String NAVIGATION_BAR_ENABLED = "navigation_bar_enabled";
