@@ -1,4 +1,4 @@
-package com.android.internal.util.aospextended;
+package com.android.internal.util.aim;
 
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
