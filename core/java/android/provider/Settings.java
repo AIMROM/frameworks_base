@@ -4296,6 +4296,13 @@ public final class Settings {
          public static final String POWERMENU_SETTINGS = "powermenu_settings"
 
 	/**
+          * Whether to enable status and navigation bar color in battery saver mode.
+          *
+          * @hide
+          */
+         public static final String BATTERY_SAVER_MODE_COLOR = "battery_save_mode_color";
+
+	/**
           * AOKP Custom System Animations
           * @hide
           */
