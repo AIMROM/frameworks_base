@@ -42,6 +42,7 @@
     <!-- vendor missing -->
     <java-symbol type="string" name="system_error_vendorprint" />
      <java-symbol type="array" name="config_blockPackagesSensorDrain" />
-
+   <!-- platlogo -->
+   <java-symbol type="drawable" name="platlogo_aim" />
 
 </resources>
