@@ -3976,5 +3976,10 @@ message MetricsEvent {
 
     // Add new aosp constants above this line.
     // END OF AOSP CONSTANTS
+    
+   //Freedomhub
+     AIM = 1000;
+     AMIFY = 1001;
+     FREEDOMHUB = 1002;
   }
 }
