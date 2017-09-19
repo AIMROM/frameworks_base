@@ -17,6 +17,7 @@
 ** limitations under the License.
 */
 -->
+<resources>
     <!-- SysUI Tuner: Labels for different types of navigation bar buttons [CHAR LIMIT=60] -->
     <string-array name="nav_bar_buttons_custom">
         <item>Keyboard left cursor</item>
