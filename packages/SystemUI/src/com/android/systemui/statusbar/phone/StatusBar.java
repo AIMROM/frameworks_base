@@ -95,6 +95,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
@@ -157,6 +158,11 @@ import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.NotificationVisibility;
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.internal.util.NotificationMessagingUtil;
+import com.android.internal.utils.du.ActionConstants;
+import com.android.internal.utils.du.DUActionUtils;
+import com.android.internal.utils.du.DUPackageMonitor;
+import com.android.internal.utils.du.DUPackageMonitor.PackageChangedListener;
+import com.android.internal.utils.du.DUPackageMonitor.PackageState;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardHostView.OnDismissAction;
 import com.android.keyguard.KeyguardUpdateMonitor;
@@ -190,6 +196,7 @@ import com.android.systemui.fragments.FragmentHostManager;
 import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.keyguard.ScreenLifecycle;
 import com.android.systemui.keyguard.WakefulnessLifecycle;
+import com.android.systemui.navigation.Navigator;
 import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.plugins.qs.QS;
 import com.android.systemui.plugins.statusbar.NotificationMenuRowPlugin.MenuItem;
@@ -243,6 +250,7 @@ import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.ConfigurationController.ConfigurationListener;
 import com.android.systemui.statusbar.policy.DarkIconDispatcher;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController;
+import com.android.systemui.statusbar.policy.FlashlightController;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController.DeviceProvisionedListener;
 import com.android.systemui.statusbar.policy.ExtensionController;
 import com.android.systemui.statusbar.policy.HeadsUpManager;
@@ -284,7 +292,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         ActivatableNotificationView.OnActivatedListener,
         ExpandableNotificationRow.ExpansionLogger, NotificationData.Environment,
         ExpandableNotificationRow.OnExpandClickListener, InflationCallback,
-        ColorExtractor.OnColorsChangedListener, ConfigurationListener {
+        ColorExtractor.OnColorsChangedListener, ConfigurationListener, PackageChangedListener {
     public static final boolean MULTIUSER_DEBUG = false;
 
     public static final boolean ENABLE_REMOTE_INPUT =
@@ -524,6 +532,8 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     DisplayMetrics mDisplayMetrics = new DisplayMetrics();
 
+    private DUPackageMonitor mPackageMonitor;
+
     // XXX: gesture research
     private final GestureRecorder mGestureRec = DEBUG_GESTURES
         ? new GestureRecorder("/sdcard/statusbar_gestures.dat")
@@ -622,6 +632,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                     clearCurrentMediaNotification();
                     updateMediaMetaData(true, true);
                 }
+                if (mNavigationBar != null) {
+                    setMediaPlaying();
+                }
             }
         }
 
@@ -634,8 +647,32 @@ public class StatusBar extends SystemUI implements DemoMode,
             if (mTickerEnabled == 2) {
                 tickTrackInfo();
             }
+            if (mNavigationBar != null) {
+                setMediaPlaying();
+            }
+        }
+
+        @Override
+        public void onSessionDestroyed() {
+            super.onSessionDestroyed();
+            if (mNavigationBar != null) {
+                setMediaPlaying();
+            }
         }
     };
+
+    public void setMediaPlaying() {
+        if (mNavigationBar != null) {
+            if (PlaybackState.STATE_PLAYING ==
+                    getMediaControllerPlaybackState(mMediaController)
+                    || PlaybackState.STATE_BUFFERING ==
+                    getMediaControllerPlaybackState(mMediaController)) {
+                mNavigationBar.setMediaPlaying(true);
+            } else {
+                mNavigationBar.setMediaPlaying(false);
+            }
+        }
+    }
 
     private void tickTrackInfo() {
         ArrayList<Entry> activeNotifications = mNotificationData.getActiveNotifications();
@@ -834,6 +871,8 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     private NavigationBarFragment mNavigationBar;
     private View mNavigationBarView;
+    private FlashlightController mFlashlightController;
+
     private boolean mLockscreenMediaMetadata;
 
     @Override
@@ -858,6 +897,11 @@ public class StatusBar extends SystemUI implements DemoMode,
         mForegroundServiceController = Dependency.get(ForegroundServiceController.class);
 
         mDisplay = mWindowManager.getDefaultDisplay();
+
+        mPackageMonitor = new DUPackageMonitor();
+        mPackageMonitor.register(mContext, mHandler);
+        mPackageMonitor.addListener(this);
+
         updateDisplaySize();
 
         Resources res = mContext.getResources();
@@ -906,6 +950,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                 true,
                 mLockscreenSettingsObserver,
                 UserHandle.USER_ALL);
+
+        mContext.getContentResolver().registerContentObserver(Settings.Secure.getUriFor(
+                Settings.Secure.NAVIGATION_BAR_VISIBLE), false, mNavbarObserver, UserHandle.USER_ALL);
 
         mBarService = IStatusBarService.Stub.asInterface(
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
@@ -1045,6 +1092,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         Dependency.get(ActivityStarterDelegate.class).setActivityStarterImpl(this);
 
         Dependency.get(ConfigurationController.class).addCallback(this);
+        mFlashlightController = Dependency.get(FlashlightController.class);
     }
 
     protected void createIconController() {
@@ -1120,14 +1168,13 @@ public class StatusBar extends SystemUI implements DemoMode,
             mNotificationPanelDebugText.setVisibility(View.VISIBLE);
         }
 
-        try {
-            boolean showNav = mWindowManagerService.hasNavigationBar();
-            if (DEBUG) Log.v(TAG, "hasNavigationBar=" + showNav);
-            if (showNav) {
-                createNavigationBar();
-            }
-        } catch (RemoteException ex) {
-            // no window manager? good luck with that
+        boolean showNav = Settings.Secure.getInt(mContext.getContentResolver(),
+                Settings.Secure.NAVIGATION_BAR_VISIBLE,
+                DUActionUtils.hasNavbarByDefault(mContext) ? 1 : 0) != 0;
+        if (DEBUG)
+            Log.v(TAG, "hasNavigationBar=" + showNav);
+        if (showNav) {
+            createNavigationBar();
         }
 
         // figure out which pixel-format to use for the status bar.
@@ -1321,8 +1368,24 @@ public class StatusBar extends SystemUI implements DemoMode,
             if (mLightBarController != null) {
                 mNavigationBar.setLightBarController(mLightBarController);
             }
+            if (!mNavigationBar.isUsingStockNav()) {
+                ((NavigationBarFrame)mNavigationBarView).disableDeadZone();
+                setMediaPlaying();
+            }
             mNavigationBar.setCurrentSysuiVisibility(mSystemUiVisibility);
         });
+    }
+
+    protected void removeNavigationBar() {
+        if (mNavigationBar != null && mNavigationBarView != null) {
+            FragmentHostManager fragmentHost = FragmentHostManager.get(mNavigationBarView);
+            if (mNavigationBarView.isAttachedToWindow()) {
+                mWindowManager.removeViewImmediate(mNavigationBarView);
+                mNavigationBarView = null;
+            }
+            fragmentHost.getFragmentManager().beginTransaction().remove(mNavigationBar).commit();
+            mNavigationBar = null;
+        }
     }
 
     /**
@@ -2425,6 +2488,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                 clearCurrentMediaNotification();
                 mMediaController = controller;
                 mMediaController.registerCallback(mMediaListener);
+                if (mNavigationBar != null) {
+                    setMediaPlaying();
+                }
                 mMediaMetadata = mMediaController.getMetadata();
                 if (DEBUG_MEDIA) {
                     Log.v(TAG, "DEBUG_MEDIA: insert listener, receive metadata: "
@@ -2476,6 +2542,9 @@ public class StatusBar extends SystemUI implements DemoMode,
                         + mMediaController.getPackageName());
             }
             mMediaController.unregisterCallback(mMediaListener);
+            if (mNavigationBar != null) {
+                setMediaPlaying();
+            }
         }
         mMediaController = null;
     }
@@ -2942,6 +3011,9 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         if (!isExpanded) {
             removeRemoteInputEntriesKeptUntilCollapsed();
+        }
+        if (mNavigationBar != null) {
+            mNavigationBar.setPanelExpanded(isExpanded);
         }
     }
 
@@ -3418,6 +3490,15 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         mLightBarController.onSystemUiVisibilityChanged(fullscreenStackVis, dockedStackVis,
                 mask, fullscreenStackBounds, dockedStackBounds, sbModeChanged, mStatusBarMode);
+    }
+
+    @Override
+    public void toggleFlashlight() {
+        if (mFlashlightController != null
+                && mFlashlightController.hasFlashlight()
+                && mFlashlightController.isAvailable()) {
+            mFlashlightController.setFlashlight(!mFlashlightController.isEnabled());
+        }
     }
 
     void touchAutoHide() {
@@ -4429,9 +4510,38 @@ public class StatusBar extends SystemUI implements DemoMode,
         if (mQSPanel != null && mQSPanel.getHost() != null) {
             mQSPanel.getHost().destroy();
         }
+
+        mPackageMonitor.removeListener(this);
+        mPackageMonitor.unregister();
+
         Dependency.get(ActivityStarterDelegate.class).setActivityStarterImpl(null);
         mDeviceProvisionedController.removeCallback(mUserSetupObserver);
         Dependency.get(ConfigurationController.class).removeCallback(this);
+    }
+
+    @Override
+    public void onPackageChanged(String pkg, PackageState state) {
+        if (state == PackageState.PACKAGE_REMOVED
+                || state == PackageState.PACKAGE_CHANGED) {
+            final Context ctx = mContext;
+            final Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!DUActionUtils.hasNavbarByDefault(ctx)) {
+                        DUActionUtils.resolveAndUpdateButtonActions(ctx,
+                                ActionConstants
+                                        .getDefaults(ActionConstants.HWKEYS));
+                    }
+                    DUActionUtils
+                            .resolveAndUpdateButtonActions(ctx, ActionConstants
+                                    .getDefaults(ActionConstants.SMARTBAR));
+                    DUActionUtils.resolveAndUpdateButtonActions(ctx,
+                            ActionConstants.getDefaults(ActionConstants.FLING));
+                }
+            });
+            thread.setPriority(Process.THREAD_PRIORITY_BACKGROUND);
+            thread.start();
+        }
     }
 
     private boolean mDemoModeAllowed;
@@ -5167,9 +5277,10 @@ public class StatusBar extends SystemUI implements DemoMode,
         return getMaxKeyguardNotifications(false /* recompute */);
     }
 
-    // TODO: Figure out way to remove these.
-    public NavigationBarView getNavigationBarView() {
-        return (mNavigationBar != null ? (NavigationBarView) mNavigationBar.getView() : null);
+    // TODO: Figure out way to remove this.
+    // We can't remove you yet but we can make you more abstract ;D
+    public Navigator getNavigationBarView() {
+        return mNavigationBar != null ? mNavigationBar.getNavigator() : null;
     }
 
     public View getNavigationBarWindow() {
@@ -6239,6 +6350,25 @@ public class StatusBar extends SystemUI implements DemoMode,
             mSlimRecents.rebuildRecentsScreen();
         }
     }
+
+    protected final ContentObserver mNavbarObserver = new ContentObserver(mHandler) {
+        @Override
+        public void onChange(boolean selfChange) {
+            boolean showing = Settings.Secure.getInt(mContext.getContentResolver(),
+                    Settings.Secure.NAVIGATION_BAR_VISIBLE,
+                    DUActionUtils.hasNavbarByDefault(mContext) ? 1 : 0) != 0;
+            if (!showing && mNavigationBar != null && mNavigationBarView != null) {
+                removeNavigationBar();
+            } else if (showing && mNavigationBar == null && mNavigationBarView == null) {
+                createNavigationBar();
+            }
+            if (!DUActionUtils.hasNavbarByDefault(mContext)) {
+                Intent intent = new Intent("com.cyanogenmod.action.UserChanged");
+                intent.setPackage("com.android.settings");
+                mContext.sendBroadcastAsUser(intent, new UserHandle(UserHandle.USER_CURRENT));
+            }
+        }
+    };
 
     private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
 
