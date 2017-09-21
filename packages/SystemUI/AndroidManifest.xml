@@ -206,7 +206,16 @@
 
     <!-- To take Screenshots -->
     <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
-
+ 
+<!-- DUI permissions -->
+     <uses-permission android:name="android.permission.NAVIGATION_EDITOR" />
+     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+     <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
+     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+ 
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"
@@ -336,7 +345,18 @@
                   android:exported="true">
         </activity>
 
-        <!-- Service used by secondary users to register themselves with the system user. -->
+        
+       <activity android:name=".tuner.NavBarActivity"
+                   android:enabled="true"
+                   android:icon="@drawable/tuner"
+                   android:theme="@style/AimTunerSettings"
+                   android:label="@string/systemui_tuner_navbar_title"
+                   android:parentActivityName="com.aim.freedomhub.Amify"
+                   android:process=":tuner"
+                   android:exported="true">
+         </activity>
+ 
+	<!-- Service used by secondary users to register themselves with the system user. -->
         <service android:name=".recents.RecentsSystemUserService"
             android:exported="false"
             android:permission="com.android.systemui.permission.SELF" />
