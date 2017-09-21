@@ -110,6 +110,8 @@
 
      <!-- Screenrecord Tile -->
      <string name="quick_settings_screenrecord">Screenrecord</string>
- 
+
+     <!-- DUI -->
+    <string name="systemui_tuner_navbar_title">Stock settings</string>
 
 </resources>

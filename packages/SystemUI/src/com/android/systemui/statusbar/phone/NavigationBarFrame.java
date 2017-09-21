@@ -33,7 +33,11 @@ public class NavigationBarFrame extends FrameLayout {
     private boolean mIsDoubleTapEnabled;
 
     private DeadZone mDeadZone = null;
+
     private GestureDetector mNavDoubleTapToSleep;
+
+    private boolean mEnabled = false;
+
 
     public NavigationBarFrame(@NonNull Context context) {
         super(context);
@@ -58,12 +62,17 @@ public class NavigationBarFrame extends FrameLayout {
 
     public void setDeadZone(@NonNull DeadZone deadZone) {
         mDeadZone = deadZone;
+        mEnabled = true;
+    }
+
+    public void disableDeadZone() {
+        mEnabled = false;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == ACTION_OUTSIDE) {
-            if (mDeadZone != null) {
+            if (mDeadZone != null && mEnabled) {
                 return mDeadZone.onTouchEvent(event);
             }
         }
