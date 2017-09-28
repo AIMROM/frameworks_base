@@ -179,6 +179,7 @@ import com.android.systemui.EventLogTags;
 import com.android.systemui.ForegroundServiceController;
 import com.android.systemui.Interpolators;
 import com.android.systemui.Prefs;
+import com.android.systemui.qs.QuickStatusBarHeader;
 import com.android.systemui.R;
 import com.android.systemui.RecentsComponent;
 import com.android.systemui.SwipeHelper;
@@ -481,6 +482,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     // settings
     private QSPanel mQSPanel;
     private int mBatterySaverWarningColor;
+    private QuickStatusBarHeader mQuickStatusBarHeader;
 
     // top bar
     protected KeyguardStatusBarView mKeyguardStatusBar;
@@ -1315,6 +1317,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                     mQSPanel = ((QSFragment) qs).getQsPanel();
                     mQSPanel.setBrightnessMirror(mBrightnessMirrorController);
                     mKeyguardStatusBar.setQSPanel(mQSPanel);
+                    mQuickStatusBarHeader = ((QSFragment) qs).getQuickStatusBarHeader();
                 }
             });
         }
@@ -5316,6 +5319,9 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public void onClosingFinished() {
         runPostCollapseRunnables();
+        if (mQuickStatusBarHeader != null) {
+            mQuickStatusBarHeader.onClosingFinished();
+        }
         if (!isPanelFullyCollapsed()) {
             // if we set it not to be focusable when collapsing, we have to undo it when we aborted
             // the closing
@@ -6334,6 +6340,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.FORCE_AMBIENT_FOR_MEDIA),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_QUICKBAR_SCROLL_ENABLED),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -6389,6 +6398,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             updateRecentsMode();
             updateTheme();
             setForceAmbient();
+            setQuickStatusBarHeader();
         }
     }
 
@@ -6412,6 +6422,12 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void setQsPanelOptions() {
         if (mQSPanel != null) {
             mQSPanel.updateSettings();
+        }
+    }
+
+    private void setQuickStatusBarHeader() {
+        if (mQuickStatusBarHeader != null) {
+            mQuickStatusBarHeader.updateSettings();
         }
     }
 
