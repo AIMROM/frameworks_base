@@ -4216,6 +4216,10 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_OFF_FOD),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADS_UP_STOPLIST_VALUES), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADS_UP_BLACKLIST_VALUES), false, this);
         }
 
          @Override
@@ -4240,6 +4244,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             handleCutout(null);
             updateKeyguardStatusSettings();
             updateAODDimView();
+            setHeadsUpStoplist();
+            setHeadsUpBlacklist();
         }
     }
 
@@ -4282,6 +4288,16 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void updateAODDimView() {
         mAODDimView.setEnabled(Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.SCREEN_OFF_FOD, 0, UserHandle.USER_CURRENT) != 0);
+    }
+
+    private void setHeadsUpStoplist() {
+        if (mPresenter != null)
+            mPresenter.setHeadsUpStoplist();
+    }
+
+    private void setHeadsUpBlacklist() {
+        if (mPresenter != null)
+            mPresenter.setHeadsUpBlacklist();
     }
 
     public int getWakefulnessState() {
