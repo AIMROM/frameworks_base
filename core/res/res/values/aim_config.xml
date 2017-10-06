@@ -1,5 +1,5 @@
 <!--
-     Copyright (C) 2017 The LineageOS Project
+     Copyright (C) 2017 The AIMR ROM Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,9 +14,6 @@
      limitations under the License.
 -->
 <resources>
-    <!-- Older rotation sensors are not setting event.timestamp correctly. Setting to
-         true will use SystemClock.elapsedRealtimeNanos() to set timestamp. -->
-    <bool name="config_useSystemClockforRotationSensor">false</bool>
 
     <!-- The list of components which should be automatically disabled. -->
     <string-array name="config_disabledComponents" translatable="false">
