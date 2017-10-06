@@ -4018,8 +4018,14 @@ public final class Settings {
           */
          public static final String STATUS_BAR_SHOW_TICKER = "status_bar_show_ticker";
 
-	/**
-          * Whether to use the MTP by default after connecting to PC
+        /**
+          * Whether to use icon pack for Recents
+          * @hide
+          */
+         public static final String RECENTS_ICON_PACK = "recents_icon_pack";
+
+	 /**
+	  * Whether to use the MTP by default after connecting to PC
           * @hide
           */
           public static final String MTP_DIRTY_HACK = "mtp_dirty_hack";
