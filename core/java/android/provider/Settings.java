@@ -4185,7 +4185,12 @@ public final class Settings {
           public static final String TOAST_ICON = "toast_icon";
 
        /**
-        * Whether to show the battery info on the lockscreen while charging
+         * @hide
+         */
+          public static final String STATUS_BAR_LOGO = "status_bar_logo";
+
+      /**
+	* Whether to show the battery info on the lockscreen while charging
         * @hide
         */
          public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
@@ -4378,6 +4383,7 @@ public final class Settings {
 	    PRIVATE_SETTINGS.add(SWAP_VOLUME_BUTTONS);
 	    PRIVATE_SETTINGS.add(VOLUME_KEYS_CONTROL_MEDIA_STREAM);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_LOCKSCREEN);
+	    PRIVATE_SETTINGS.add(STATUS_BAR_LOGO);
 	}
 
         /**
