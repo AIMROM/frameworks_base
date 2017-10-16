@@ -4012,7 +4012,13 @@ public final class Settings {
            */
           public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
 
-	 /**
+	/**
+          * Whether to show the notification ticker on the status bar
+          * @hide
+          */
+         public static final String STATUS_BAR_SHOW_TICKER = "status_bar_show_ticker";
+
+	/**
           * Whether to use the MTP by default after connecting to PC
           * @hide
           */
