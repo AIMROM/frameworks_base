@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright 2017 AIMROM
+<!-- Copyright (C) 2006 The Android Open Source Project
+        Copyright (C) 2017 The ABC rom
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,21 +14,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+
 <resources>
-
-    <!-- Pure Tuner Theme-->
-    <style name="AimTunerSettings" parent="@android:style/Theme.Material.Settings">
-        <item name="preferenceTheme">@style/TunerPreferenceTheme</item>
+    <!-- Slim recent app screen animation -->
+    <style name="Animation.SlimRecentScreen">
+        <item name="android:windowEnterAnimation">@anim/recent_enter</item>
+        <item name="android:windowExitAnimation">@anim/recent_exit</item>
     </style>
-
-    <!-- Status bar notification ticker -->
-    <style name="TextAppearance.StatusBar.PhoneTicker"
-        parent="@*android:style/TextAppearance.StatusBar.Ticker">
-        <!-- Note: must be dp to fit in status bar -->
-        <item name="android:textSize">14dp</item>
-    </style>
-
-    <!-- <style name="ContainerActivityTheme"
-        parent="@android:style/Theme.Translucent.NoTitleBar">
-    </style>-->
 </resources>
