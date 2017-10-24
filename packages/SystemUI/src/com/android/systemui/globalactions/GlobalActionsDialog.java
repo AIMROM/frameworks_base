@@ -445,23 +445,13 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
         @Override
         public void onPress() {
             // shutdown by making sure radio and power are handled accordingly.
-            mWindowManagerFuncs.shutdown();
+            mWindowManagerFuncs.shutdown(false /* confirm */);
         }
     }
 
-    private final class RestartAction extends SinglePressAction implements LongPressAction {
+    private final class RestartAction extends SinglePressAction {
         private RestartAction() {
-            super(R.drawable.ic_restart, R.string.global_action_restart);
-        }
-
-        @Override
-        public boolean onLongPress() {
-            UserManager um = (UserManager) mContext.getSystemService(Context.USER_SERVICE);
-            if (!um.hasUserRestriction(UserManager.DISALLOW_SAFE_BOOT)) {
-                mWindowManagerFuncs.reboot(true);
-                return true;
-            }
-            return false;
+            super(R.drawable.ic_restart, R.string.global_action_reboot);
         }
 
         @Override
@@ -476,7 +466,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
 
         @Override
         public void onPress() {
-            mWindowManagerFuncs.reboot(false);
+            mWindowManagerFuncs.reboot(true /* confirm */);
         }
     }
 
@@ -714,6 +704,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
         refreshSilentMode();
         mAirplaneModeOn.updateState(mAirplaneState);
         mAdapter.notifyDataSetChanged();
+        mDialog.setTitle(R.string.global_actions);
         if (mShowSilentToggle) {
             IntentFilter filter = new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
             mContext.registerReceiver(mRingerModeReceiver, filter);
