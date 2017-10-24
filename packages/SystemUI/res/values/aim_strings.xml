@@ -76,8 +76,12 @@
 <!-- Screenshot QS tile -->
     <string name="quick_settings_screenshot_label">Screenshot</string>
     <string name="quick_settings_region_screenshot_label">Partial screenshot</string>
-
+     
 <!-- Screenshot Delete Toast -->
     <string name="delete_screenshot_toast">Screenshot Deleted</string>
+
+<!-- reboot -->
+<string name="global_action_restart_soft">Soft Reboot</string>
+<string name="global_action_restart_systemui">Restart SystemUI</string>
 
 </resources>
