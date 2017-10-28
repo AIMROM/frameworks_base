@@ -126,7 +126,6 @@ public class RecentsView extends FrameLayout {
     private TaskStackView mTaskStackView;
     private TextView mStackActionButton;
     private TextView mEmptyView;
-    private SettingsObserver mSettingsObserver;
     private boolean showClearAllRecents;
     public int mClearStyle;
      private ImageButton button;
@@ -564,17 +563,9 @@ Drawable drawable = getResources().getDrawable(R.drawable.no_recents_aim, null);
  	if (mClearStyleSwitch) {
  	    mMemBar.getProgressDrawable().setColorFilter(mbarcolor, Mode.MULTIPLY); 
  	    mMemText.setTextColor(mtextcolor);
- 	    if (mClock !=null) {
- 	    mClock.setTextColor(mClockcolor);
- 	    }
-         if(mDate !=null) {
- 	    mDate.setTextColor(mDatecolor);
- 	    }
     } else {
  	    mMemBar.getProgressDrawable().setColorFilter(null);
  	    mMemText.setTextColor(mDefaultcolor);
- 	    mClock.setTextColor(mDefaultcolor);
- 	    mDate.setTextColor(mDefaultcolor);
          }
      }
  
