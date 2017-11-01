@@ -156,6 +156,11 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
     private AimSettingsObserver mAimSettingsObserver = new AimSettingsObserver(mHandler);
 
+    // Statusbar Weather Image
+    private View mWeatherImageView;
+    private View mWeatherTextView;
+    private int mShowWeather;
+
     private int mTickerEnabled;
     private TickerObserver mTickerObserver;
     private ContentResolver mContentResolver;
@@ -195,6 +200,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             getContext().getContentResolver().registerContentObserver(
                     Settings.System.getUriFor(Settings.System.STATUS_BAR_SHOW_TICKER), false, this,
                     UserHandle.USER_ALL);
+            mContentResolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -230,6 +238,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mSignalClusterView);
         mAimLogo = mStatusBar.findViewById(R.id.status_bar_logo);
         mCustomCarrierLabel = mStatusBar.findViewById(R.id.statusbar_carrier_text);
+        mWeatherTextView = mStatusBar.findViewById(R.id.weather_temp);
+        mWeatherImageView = mStatusBar.findViewById(R.id.weather_image);
         updateSettings(false);
         // Default to showing until we know otherwise.
         showSystemIconArea(false);
@@ -496,6 +506,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                 mContentResolver, Settings.System.STATUS_BAR_CARRIER, 1,
                 UserHandle.USER_CURRENT);
         setCarrierLabel(animate);
+
+        mShowWeather = Settings.System.getIntForUser(
+                getContext().getContentResolver(), Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP, 0,
+                UserHandle.USER_CURRENT);
 
         ((Clock)mClock).updateSettings();
         ((Clock)mCenterClock).updateSettings();

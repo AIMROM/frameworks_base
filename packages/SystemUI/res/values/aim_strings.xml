@@ -124,6 +124,17 @@
      <string name="battery_level_good_sound" translatable="false">/system/media/audio/ui/GoodBattery.ogg</string>
      <string name="notification_channel_charge_alert">Optimal battery charge level</string>
 
+    <!-- LTE QS Tile -->
+    <string name="qs_lte_label">LTE</string>
+    <string name="lte_on">LTE ON </string>
+    <string name="lte_off">LTE OFF</string>
+
+    <!-- QS Brightness control padding -->
+    <dimen name="qs_brightness_footer_padding">12dp</dimen>
+    <dimen name="qs_footer_padding_top">0dp</dimen>
+    <dimen name="qs_page_indicator_margin_bottom">12dp</dimen>
+    <dimen name="qs_paged_tile_layout_padding_bottom">4dp</dimen>
+
     <!-- Battery saver tile -->
     <string name="battery_saver_qs_tile_fully_charged">Fully Charged</string>
 
@@ -148,5 +159,8 @@
     <string name="omnijaws_current_text">Now</string>
     <string name="omnijaws_package_not_available">OmniJaws not available</string>
     <string name="omnijaws_service_last_update">Last update:</string>
+
+    <!-- Weather string format in expanded statusbar header -->
+    <string name="status_bar_weather_format"><xliff:g id="temp">%1$s</xliff:g></string>
 
 </resources>
