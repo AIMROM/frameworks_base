@@ -48,7 +48,7 @@
      <string name="statusbar_items_title">Statusbar items</string> 
 
 <!-- volte icon switch -->
-    <string name="status_bar_volte">VOLTE</string>
+    <string name="status_bar_volte">VoLTE</string>
 
 <!-- Compass QS Tile -->
      <string name="quick_settings_compass_label">Compass</string>
