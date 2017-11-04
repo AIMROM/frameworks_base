@@ -47,7 +47,7 @@ public class BrightnessMirrorController {
     private final View mNotificationPanel;
     private final int[] mInt2Cache = new int[2];
     private View mBrightnessMirror;
-    private final ImageView mIcon;
+    private ImageView mIcon;
     private Context mContext;
 
     public BrightnessMirrorController(Context context, StatusBarWindowView statusBarWindow) {
@@ -55,12 +55,11 @@ public class BrightnessMirrorController {
         mStatusBarWindow = statusBarWindow;
         mScrimBehind = (ScrimView) statusBarWindow.findViewById(R.id.scrim_behind);
         mBrightnessMirror = statusBarWindow.findViewById(R.id.brightness_mirror);
+        setPadding();
         mNotificationPanel = statusBarWindow.findViewById(R.id.notification_panel);
         mStackScroller = (NotificationStackScrollLayout) statusBarWindow.findViewById(
                 R.id.notification_stack_scroller);
-        mIcon = (ImageView) statusBarWindow.findViewById(R.id.brightness_icon);
-        // enable the brightness icon
-        mIcon.setVisibility(View.VISIBLE);
+        mIcon = (ImageView) mBrightnessMirror.findViewById(R.id.brightness_icon);
     }
 
     public void showMirror() {
@@ -133,18 +132,33 @@ public class BrightnessMirrorController {
         mStatusBarWindow.removeView(mBrightnessMirror);
         mBrightnessMirror = LayoutInflater.from(mBrightnessMirror.getContext()).inflate(
                 R.layout.brightness_mirror, mStatusBarWindow, false);
+        setPadding();
         mStatusBarWindow.addView(mBrightnessMirror, index);
     }
 
+    private void setPadding(){
+        mBrightnessMirror.setPadding(mBrightnessMirror.getPaddingLeft(),
+                    mBrightnessMirror.getPaddingTop(), mBrightnessMirror.getPaddingRight(),
+                    mContext.getResources().getDimensionPixelSize(R.dimen.qs_brightness_footer_padding));
+    }
+
     private void updateIcon() {
-        if (mIcon != null) {
-            boolean automatic = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
-                    UserHandle.USER_CURRENT) != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
-            mIcon.setImageResource(automatic ?
-                    com.android.systemui.R.drawable.ic_qs_brightness_auto_on :
-                    com.android.systemui.R.drawable.ic_qs_brightness_auto_off);
+        if (mIcon == null) {
+            return;
         }
+        // enable the brightness icon
+        boolean brightnessIconEnabled = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.QS_SHOW_BRIGHTNESS_ICON,
+                0, UserHandle.USER_CURRENT) == 1;
+        mIcon = (ImageView) mBrightnessMirror.findViewById(R.id.brightness_icon);
+        mIcon.setVisibility(brightnessIconEnabled? View.VISIBLE : View.GONE);
+
+        boolean automatic = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS_MODE,
+                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
+                UserHandle.USER_CURRENT) != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
+        mIcon.setImageResource(automatic ?
+                com.android.systemui.R.drawable.ic_qs_brightness_auto_on_new :
+                com.android.systemui.R.drawable.ic_qs_brightness_auto_off_new);
     }
 }
