@@ -23,6 +23,7 @@ import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.UserHandle;
+import android.net.Uri;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -318,6 +319,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 		Drawable logo = null;
 
 		if (mStatusBar == null) return;
+
+		if (getContext() == null) {
+		return;
+	}
 
         mShowLogo = Settings.System.getIntForUser(
                 getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO, 0,
