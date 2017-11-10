@@ -29,6 +29,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 
 import com.android.systemui.Dependency;
 import com.android.systemui.Interpolators;
@@ -63,8 +69,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private SignalClusterView mSignalClusterView;
 
     // AIMROM additions start
-    private View mAimLogo;
+    private ImageView mAimLogo;
+	private int mCustomLogos;
     private boolean mShowLogo;
+	private int mLogoColor;
     private final Handler mHandler = new Handler();
 
     private class AimSettingsObserver extends ContentObserver {
@@ -76,11 +84,21 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_LOGO),
                     false, this, UserHandle.USER_ALL);
+		 getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.STATUS_BAR_CUSTOM_LOGOS),
+                     false, this, UserHandle.USER_ALL);
+		getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.STATUS_BAR_LOGO_COLOR),
+                     false, this, UserHandle.USER_ALL);
         }
 
         @Override
-        public void onChange(boolean selfChange) {
-            updateSettings(true);
+        public void onChange(boolean selfChange, Uri uri) {
+            if ((uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_LOGO))) ||
+                (uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_CUSTOM_LOGOS))) ||
+                (uri.equals(Settings.System.getUriFor(Settings.System.STATUS_BAR_LOGO_COLOR)))){
+                updateSettings(true);
+            }
         }
     }
     private AimSettingsObserver mAimSettingsObserver = new AimSettingsObserver(mHandler);
@@ -297,9 +315,55 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
 
     public void updateSettings(boolean animate) {
+		Drawable logo = null;
+
+		if (mStatusBar == null) return;
+
         mShowLogo = Settings.System.getIntForUser(
                 getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO, 0,
                 UserHandle.USER_CURRENT) == 1;
+		mLogoColor = Settings.System.getIntForUser(
+                 getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO_COLOR, 0xff009688,
+                 UserHandle.USER_CURRENT);
+		mCustomLogos = Settings.System.getIntForUser(
+                 getContext().getContentResolver(), Settings.System.STATUS_BAR_CUSTOM_LOGOS, 0,
+                 UserHandle.USER_CURRENT);
+ 
+         switch(mCustomLogos) {
+                 // Wolf thin
+             case 1:
+                 logo = getContext().getDrawable(R.drawable.status_bar_wolf_thin_logo);
+                 break;
+                 // Wolf round
+             case 2:
+                 logo = getContext().getDrawable(R.drawable.status_bar_wolf_logo);
+                 break;
+                 // Wolf amify
+             case 3:
+                 logo = getContext().getDrawable(R.drawable.status_bar_wolf_amify_logo);
+                 break;
+				// Half droid
+             case 4:
+                 logo = getContext().getDrawable(R.drawable.status_bar_halfdroid_logo);
+                 break;    
+				// Default
+             default:
+                 logo = getContext().getDrawable(R.drawable.status_bar_logo);
+                 break;
+         }
+ 
+         if (mAimLogo != null) {
+             if (logo == null) {
+                 // Something wrong. Do not show anything
+                 mAimLogo.setImageDrawable(logo);
+                 return;
+             }
+ 
+             mAimLogo.setImageDrawable(logo);
+			 mAimLogo.setColorFilter(mLogoColor, PorterDuff.Mode.MULTIPLY);
+         }
+ 
+
         if (mNotificationIconAreaInner != null) {
             if (mShowLogo) {
                 if (mNotificationIconAreaInner.getVisibility() == View.VISIBLE) {

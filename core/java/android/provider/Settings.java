@@ -4191,12 +4191,24 @@ public final class Settings {
          public static final String STATUS_BAR_LOGO = "status_bar_logo";
 
        /**
-  	 * Whether to show media art on lockscreen
+  	 * Statusbar Custom logos
+         * @hide
+         */
+         public static final String STATUS_BAR_CUSTOM_LOGOS = "status_bar_custom_logos";
+ 
+        /**
+	  * Statusbar logo Color
+          * @hide
+          */
+         public static final String STATUS_BAR_LOGO_COLOR = "status_bar_logo_color";
+ 
+         /**
+	 * Whether to show media art on lockscreen
          * @hide
          */
         public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
  
-         /**
+       /**
 	* Whether to show the battery info on the lockscreen while charging
         * @hide
         */
