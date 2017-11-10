@@ -110,6 +110,12 @@
       <string name="permlab_toggleNavigationEditor">control navigation editor</string>
       <!-- [CHAR LIMIT=NONE] Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
       <string name="permdesc_toggleNavigationEditor">Allows an application to control the navigation bar editor.</string> 
+<!-- alert o battery -->
+<string name="alert_on_charged_level">You can disconnect the charger ( ">"<xliff:g id="percentage">%s</xliff:g> )</string>
+     <string name="battery_level_good_title">Optimal battery level</string>
+     <string name="battery_level_good_sound" translatable="false">/system/media/audio/ui/GoodBattery.ogg</string>
+     <string name="notification_channel_charge_alert">Optimal battery charge level</string>
+
 
 </resources>
 
