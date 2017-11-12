@@ -4337,7 +4337,14 @@ public final class Settings {
            * @hide
            */
           public static final String STATUS_BAR_LOGO_COLOR = "status_bar_logo_color";
-  
+
+	/**
+ 	  * Whether to display VoLTE icon when VoLTE present
+           * @hide
+           */
+          public static final String STATUS_BAR_VOLTE = "status_bar_volte";
+
+
        /**
   	 * Whether to show media art on lockscreen
           * @hide
