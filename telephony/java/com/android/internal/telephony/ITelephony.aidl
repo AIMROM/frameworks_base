@@ -1063,8 +1063,8 @@ interface ITelephony {
     /**
      * Get IMS Registration Status using subId
      */
-    boolean isImsRegisteredForSubscriber(int subId);
-
+     boolean isImsRegisteredForSubscriber(int subId);
+ 
     /**
      * Returns the Status of Wi-Fi Calling
      */
