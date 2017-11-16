@@ -222,6 +222,7 @@ import android.view.WindowManagerInternal;
 import android.view.WindowManagerInternal.AppTransitionListener;
 import android.view.WindowManagerPolicy;
 import android.view.WindowManagerPolicyControl;
+import android.widget.Toast;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.animation.Animation;
@@ -1096,7 +1097,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 	    resolver.registerContentObserver(Settings.Secure.getUriFor(
                      Settings.Secure.NAVIGATION_BAR_ENABLED), false, this,
                      UserHandle.USER_ALL);
-                    Settings.System.ENABLE_HW_KEYS), false, this,
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+		 Settings.System.ENABLE_HW_KEYS), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2012,13 +2014,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 toggleSplitScreen();
                 break;
             case KEY_ACTION_SCREENSHOT:
-                NitrogenUtils.takeScreenshot(true);
+                CustomUtils.takeScreenshot(true);
                 break;
             case KEY_ACTION_PARTIAL_SCREENSHOT:
-                NitrogenUtils.takeScreenshot(false);
+                CustomUtils.takeScreenshot(false);
                 break;
             case KEY_ACTION_PIP:
-                NitrogenUtils.sendKeycode(171);
+                CustomUtils.sendKeycode(171);
                 break;
             default:
                 break;
