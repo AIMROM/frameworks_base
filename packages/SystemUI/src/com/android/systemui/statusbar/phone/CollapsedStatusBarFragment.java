@@ -335,24 +335,36 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                  UserHandle.USER_CURRENT);
  
          switch(mCustomLogos) {
-                 // Wolf thin
+                	 // Wolf thin
              case 1:
                  logo = getContext().getDrawable(R.drawable.status_bar_wolf_thin_logo);
                  break;
-                 // Wolf round
+                	 // Wolf round
              case 2:
                  logo = getContext().getDrawable(R.drawable.status_bar_wolf_logo);
                  break;
-                 // Wolf amify
+                 	// Wolf amify
              case 3:
                  logo = getContext().getDrawable(R.drawable.status_bar_wolf_amify_logo);
                  break;
-				// Half droid
+			 // Half droid
              case 4:
                  logo = getContext().getDrawable(R.drawable.status_bar_halfdroid_logo);
-                 break;    
-				// Default
-             default:
+                 break;
+	     		 // wolf cursed
+  	     case 5:
+                  logo = getContext().getDrawable(R.drawable.status_bar_linewolf_logo);
+                  break;
+		         // wolf Thick
+	     case 6:
+                  logo = getContext().getDrawable(R.drawable.status_bar_wolf_thick_round);
+                  break;
+			// wolf warrier
+	     case 7:
+                  logo = getContext().getDrawable(R.drawable.status_bar_wolfwarrier_logo);
+                  break;
+			// Default
+	     default:
                  logo = getContext().getDrawable(R.drawable.status_bar_logo);
                  break;
          }
