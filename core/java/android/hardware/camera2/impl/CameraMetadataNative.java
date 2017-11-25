@@ -59,6 +59,7 @@ import android.location.LocationManager;
 import android.os.Parcelable;
 import android.os.Parcel;
 import android.os.ServiceSpecificException;
+import android.os.SystemProperties;
 import android.util.Log;
 import android.util.Size;
 
@@ -374,6 +375,11 @@ public class CameraMetadataNative implements Parcelable {
      */
     public <T> T get(Key<T> key) {
         Preconditions.checkNotNull(key, "key must not be null");
+        
+        if (SystemProperties.getInt("camera.force_disable_video_stabilization", 0) == 1 && key.getName().equals("android.control.availableVideoStabilizationModes")){
+            int[] videoStabilizationModes = {0};
+            return (T) videoStabilizationModes;
+        }
 
         // Check if key has been overridden to use a wrapper class on the java side.
         GetCommand g = sGetCommandMap.get(key);
