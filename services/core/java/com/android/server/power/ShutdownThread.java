@@ -20,7 +20,7 @@ package com.android.server.power;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.IActivityManager;
-import com.android.internal.util.aim.ShutdownDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.IBluetoothManager;
 import android.media.AudioAttributes;
@@ -112,7 +112,7 @@ public final class ShutdownThread extends Thread {
     private Handler mHandler;
 
     private static AlertDialog sConfirmDialog;
-    private ShutdownDialog mShutdownDialog = null;
+    private ProgressDialog mProgressDialog;
 
     private ShutdownThread() {
     }
@@ -122,7 +122,7 @@ public final class ShutdownThread extends Thread {
      * state etc.  Must be called from a Looper thread in which its UI
      * is shown.
      *
-     * @param context Context used to display the shutdown dialog This must be a context
+     * @param context Context used to display the shutdown progress dialog. This must be a context
      *                suitable for displaying UI (aka Themable).
      * @param reason code to pass to android_reboot() (e.g. "userrequested"), or null.
      * @param confirm true if user confirmation is needed before shutting down.
@@ -286,13 +286,11 @@ public final class ShutdownThread extends Thread {
         }
 
         // Throw up a system dialog to indicate the device is rebooting / shutting down.
-        ShutdownDialog sd = null;
-        int mAction = 2;
+        ProgressDialog pd = new ProgressDialog(context);
 
         // Path 1: Reboot to recovery for update
         //   Condition: mReason startswith REBOOT_RECOVERY_UPDATE
-        //   mAction = 0
-	//
+        //
         //  Path 1a: uncrypt needed
         //   Condition: if /cache/recovery/uncrypt_file exists but
         //              /cache/recovery/block.map doesn't.
@@ -307,38 +305,57 @@ public final class ShutdownThread extends Thread {
         // Path 2: Reboot to recovery for factory reset
         //   Condition: mReason == REBOOT_RECOVERY
         //   UI: spinning circle only (no progress bar)
-        //   mAction = 1
-	//
+        //
         // Path 3: Regular reboot / shutdown
         //   Condition: Otherwise
         //   UI: spinning circle only (no progress bar)
-	//   mAction = 2 (reboot)
-        //   mAction = 3 (shutdown)
 
-	 // mReason could be "recovery-update" or "recovery-update,quiescent".
+        // mReason could be "recovery-update" or "recovery-update,quiescent".
         if (mReason != null && mReason.startsWith(PowerManager.REBOOT_RECOVERY_UPDATE)) {
             // We need the progress bar if uncrypt will be invoked during the
             // reboot, which might be time-consuming.
             mRebootHasProgressBar = RecoverySystem.UNCRYPT_PACKAGE_FILE.exists()
                     && !(RecoverySystem.BLOCK_MAP_FILE.exists());
+            pd.setTitle(context.getText(com.android.internal.R.string.reboot_to_update_title));
             if (mRebootHasProgressBar) {
-                sd = ShutdownDialog.create(context, 0);
+                pd.setMax(100);
+                pd.setProgress(0);
+                pd.setIndeterminate(false);
+                pd.setProgressNumberFormat(null);
+                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setMessage(context.getText(
+                            com.android.internal.R.string.reboot_to_update_prepare));
             } else {
-                sd = ShutdownDialog.create(context, 1);
+                pd.setIndeterminate(true);
+                pd.setMessage(context.getText(
+                            com.android.internal.R.string.reboot_to_update_reboot));
             }
         } else if (mReason != null && mReason.equals(PowerManager.REBOOT_RECOVERY)) {
-            sd = ShutdownDialog.create(context, 0);
-         } else if (mReboot) {
-             sd = ShutdownDialog.create(context, 2);
+            // Factory reset path. Set the dialog message accordingly.
+            pd.setTitle(context.getText(com.android.internal.R.string.reboot_to_recovery_title));
+            pd.setMessage(context.getText(
+                        com.android.internal.R.string.reboot_to_recovery_message));
+            pd.setIndeterminate(true);
         } else if (mReason != null && mReason.equals(PowerManager.REBOOT_BOOTLOADER)) {
-            sd = ShutdownDialog.create(context, 0);
+            pd.setTitle(context.getText(com.android.internal.R.string.reboot_to_bootloader_title));
+            pd.setMessage(context.getText(
+                        com.android.internal.R.string.reboot_to_bootloader_message));
+            pd.setIndeterminate(true);
         } else if (mReboot) {
-            sd = ShutdownDialog.create(context, 3);
+            pd.setTitle(context.getText(com.android.internal.R.string.reboot_title));
+            pd.setMessage(context.getText(com.android.internal.R.string.reboot_message));
+            pd.setIndeterminate(true);
         } else {
-            sd = ShutdownDialog.create(context, 3);
+            pd.setTitle(context.getText(com.android.internal.R.string.power_off));
+            pd.setMessage(context.getText(com.android.internal.R.string.shutdown_progress));
+            pd.setIndeterminate(true);
         }
+        pd.setCancelable(false);
+        pd.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
 
-        sInstance.mShutdownDialog = sd;
+        pd.show();
+
+        sInstance.mProgressDialog = pd;
         sInstance.mContext = context;
         sInstance.mPowerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
 
@@ -532,10 +549,10 @@ public final class ShutdownThread extends Thread {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (mShutdownDialog != null) {
-                    //mShutdownDialog.setProgress(progress);
+                if (mProgressDialog != null) {
+                    mProgressDialog.setProgress(progress);
                     if (message != null) {
-                        mShutdownDialog.setMessage(message);
+                        mProgressDialog.setMessage(message);
                     }
                 }
             }
