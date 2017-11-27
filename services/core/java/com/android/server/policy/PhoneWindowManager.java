@@ -8949,6 +8949,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     /*
      * TODO: provide implementation later in bringup
      */
+    /*
     @Override
     public void sendCustomAction(Intent intent) {
         String action = intent.getAction();
@@ -8969,9 +8970,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mContext.enforceCallingOrSelfPermission(Manifest.permission.ACCESS_SURFACE_FLINGER, TAG + "sendCustomAction permission denied");
                 mHandler.removeCallbacks(mScreenrecordRunnable);
                 mHandler.post(mScreenrecordRunnable);
-            }*/
+            }
         }
-    }
+    } */
 
     @Override
     public void sendCustomAction(Intent intent) {

@@ -514,7 +514,6 @@ public class NavigationBarFragment extends Fragment implements Callbacks, Naviga
         }
 
         ButtonDispatcher accessibilityButton = mNavigationBarView.getAccessibilityButton();
-        setDoubleTapToSleep();
         if (accessibilityButton != null) {
             accessibilityButton.setOnClickListener(this::onAccessibilityClick);
             accessibilityButton.setOnLongClickListener(this::onAccessibilityLongClick);
