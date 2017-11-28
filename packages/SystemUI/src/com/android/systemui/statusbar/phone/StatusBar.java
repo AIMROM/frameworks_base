@@ -789,7 +789,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     };
 
-    private FlashlightController mFlashlightController;
     private NotificationMessagingUtil mMessagingUtil;
     private KeyguardUserSwitcher mKeyguardUserSwitcher;
     private UserSwitcherController mUserSwitcherController;

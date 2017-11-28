@@ -691,11 +691,6 @@ public class CommandQueue extends IStatusBar.Stub {
                         mCallbacks.get(i).handleShowGlobalActionsMenu();
                     }
                     break;
-                case MSG_TOGGLE_CAMERA_FLASH:
-                    for (int i = 0; i < mCallbacks.size(); i++) {
-                        mCallbacks.get(i).toggleCameraFlash();
-                    }
-                    break;
                 case MSG_RESTART_UI:
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).restartUI();
@@ -704,21 +699,6 @@ public class CommandQueue extends IStatusBar.Stub {
                 case MSG_TOGGLE_NAVIGATION_BAR:
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).toggleNavigationBar(msg.arg1 != 0);
-                    }
-                    break;
-                case MSG_SCREEN_PINNING_STATE_CHANGED:
-                    for (int i = 0; i < mCallbacks.size(); i++) {
-                        mCallbacks.get(i).screenPinningStateChanged(msg.arg1 != 0);
-                    }
-                    break;
-                case MSG_LEFT_IN_LANDSCAPE_STATE_CHANGED:
-                    for (int i = 0; i < mCallbacks.size(); i++) {
-                        mCallbacks.get(i).leftInLandscapeChanged(msg.arg1 != 0);
-                    }
-                    break;
-                case MSG_TOGGLE_FLASHLIGHT:
-                    for (int i = 0; i < mCallbacks.size(); i++) {
-                        mCallbacks.get(i).toggleFlashlight();
                     }
                     break;
                 case MSG_TOGGLE_NAVIGATION_EDITOR:
