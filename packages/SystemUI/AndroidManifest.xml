@@ -340,7 +340,7 @@
         <activity android:name=".tuner.NavBarActivity"
                   android:enabled="true"
                   android:icon="@drawable/tuner"
-                  android:theme="@style/CustomTunerSettings"
+                  android:theme="@style/AimTunerSettings"
                   android:label="@string/systemui_tuner_navbar_title"
                   android:parentActivityName="com.aim.freedomhub.Amify"
                   android:process=":tuner"
