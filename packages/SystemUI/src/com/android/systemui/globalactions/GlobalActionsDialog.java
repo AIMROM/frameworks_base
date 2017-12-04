@@ -123,6 +123,8 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
     private final GlobalActionsManager mWindowManagerFuncs;
     private final AudioManager mAudioManager;
     private final IDreamManager mDreamManager;
+  
+    private ExtendedGlobalActionsDialog mExtendedGlobalActions;
 
     private ArrayList<Action> mItems;
     private ActionsDialog mDialog;
@@ -426,7 +428,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
         public boolean onLongPress() {
             UserManager um = (UserManager) mContext.getSystemService(Context.USER_SERVICE);
             if (!um.hasUserRestriction(UserManager.DISALLOW_SAFE_BOOT)) {
-                mWindowManagerFuncs.reboot(true);
+                mWindowManagerFuncs.rebootSafeMode(true);
                 return true;
             }
             return false;
@@ -445,7 +447,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
         @Override
         public void onPress() {
             // shutdown by making sure radio and power are handled accordingly.
-            mWindowManagerFuncs.shutdown();
+            mWindowManagerFuncs.shutdown(false /* confirm */);
         }
     }
 
@@ -456,12 +458,11 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
 
         @Override
         public boolean onLongPress() {
-            UserManager um = (UserManager) mContext.getSystemService(Context.USER_SERVICE);
-            if (!um.hasUserRestriction(UserManager.DISALLOW_SAFE_BOOT)) {
-                mWindowManagerFuncs.reboot(true);
-                return true;
+            if (mExtendedGlobalActions == null) {
+                mExtendedGlobalActions = new ExtendedGlobalActionsDialog(mContext, mWindowManagerFuncs);
             }
-            return false;
+            mExtendedGlobalActions.showDialog(mKeyguardShowing, mDeviceProvisioned);
+            return true;
         }
 
         @Override
@@ -476,7 +477,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
 
         @Override
         public void onPress() {
-            mWindowManagerFuncs.reboot(false);
+            mWindowManagerFuncs.reboot(false /* confirm */);
         }
     }
 
