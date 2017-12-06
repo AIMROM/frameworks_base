@@ -381,14 +381,6 @@ public class PowerNotificationWarnings implements PowerUI.WarningsUI {
         }
     }*/
 
-    @Override
-    public void notifyBatteryPlugged() {
-        if (DEBUG) {
-            Slog.d(TAG, "notifyBatteryPlugged");
-        }
-        playBatteryPluggedSound();
-    }
-
     private void playBatteryPluggedSound() {
         final ContentResolver cr = mContext.getContentResolver();
         if (Settings.Global.getInt(cr, Settings.Global.CHARGING_SOUNDS_ENABLED, 1) == 0) {
