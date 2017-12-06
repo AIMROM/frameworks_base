@@ -167,5 +167,7 @@
 
 <!-- System fonts -->
      <java-symbol type="array" name="config_fontPackages" />
+   
+     <java-symbol type="array" name="config_vendorPlatformSignatures" />
 
 </resources>
