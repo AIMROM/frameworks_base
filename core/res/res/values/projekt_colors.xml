@@ -20,7 +20,7 @@
     <color name="notification_text_default_color">@android:color/notification_default_color</color>
     
     <!-- Notification sender text color -->
-    <color name="sender_text_color">@android:color/black</color> 
+    <color name="sender_text_color">@android:color/black</color>
 
     <!-- Toast text and bg colors -->
     <color name="toast_bg_color">#E6EEEEEE</color>
@@ -36,5 +36,4 @@
 
     <!-- App permission tint -->
     <color name="app_permission_icon_tint">@android:color/black</color>
-
 </resources>
