@@ -3983,6 +3983,18 @@ public final class Settings {
           * @hide
           */
 
+        /**
+         * Use latest screen-on brightness value for Ambient Display
+         * @hide
+         */
+        public static final String AMBIENT_DOZE_AUTO_BRIGHTNESS = "ambient_doze_auto_brightness";
+
+        /**
+         * Use latest screen-on brightness value for Ambient Display
+         * @hide
+         */
+        public static final String LAST_DOZE_AUTO_BRIGHTNESS = "last_doze_auto_brightness";
+
 	 /**
           * Change volume up and down handlign based on rotation
           * @hide
