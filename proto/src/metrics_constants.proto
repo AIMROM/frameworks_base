@@ -4620,5 +4620,10 @@ message MetricsEvent {
 
     //AIM
     AIM = 1000;
+    AMIFY = 1001;
+    FREEDOMHUB = 1002;
+    EXTENSIONS = 1003;
+    ABC = 1004;
+   // moar will be added 
   }
 }
