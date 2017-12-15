@@ -287,6 +287,7 @@ class ExtendedGlobalActionsDialog implements DialogInterface.OnDismissListener, 
     /** {@inheritDoc} */
     public void onClick(DialogInterface dialog, int which) {
         Action item = mExtendedAdapter.getItem(which);
+        dialog.dismiss();
         item.onPress();
     }
 
