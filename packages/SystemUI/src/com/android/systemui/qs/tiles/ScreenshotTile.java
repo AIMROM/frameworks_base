@@ -48,9 +48,6 @@ public class ScreenshotTile extends QSTileImpl<BooleanState> {
     }
 
     @Override
-    public void handleSetListening(boolean listening) {}
-
-    @Override
     public void handleClick() {
         mRegion = !mRegion;
         refreshState();
@@ -59,11 +56,6 @@ public class ScreenshotTile extends QSTileImpl<BooleanState> {
     @Override
     public void handleLongClick() {
         mHost.collapsePanels();
-
-        //finish collapsing the panel
-        try {
-             Thread.sleep(1000); //1s
-        } catch (InterruptedException ie) {}
         AIMUtils.takeScreenshot(mRegion ? false : true);
     }
 
@@ -90,5 +82,10 @@ public class ScreenshotTile extends QSTileImpl<BooleanState> {
             state.contentDescription =  mContext.getString(
                     R.string.quick_settings_screenshot_label);
         }
+    }
+
+    @Override
+    public void handleSetListening(boolean listening) {
+        // Do nothing
     }
 }
