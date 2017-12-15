@@ -237,7 +237,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
              animateShow(mAimLogoRight, animate);
          }
       }
-   }
 
     public void hideNotificationIconArea(boolean animate) {
         animateHide(mNotificationIconAreaInner, animate, true);
