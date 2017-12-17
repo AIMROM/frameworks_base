@@ -4021,7 +4021,6 @@ public final class Settings {
           * Double tap on navbar to sleep
           * @hide
           */
-         public static final String DOUBLE_TAP_SLEEP_NAVBAR = "double_tap_sleep_navbar";
 
 	 /**
           * Change volume up and down handlign based on rotation
@@ -4671,7 +4670,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_STATE);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_TYPE);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD);
-            PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_NAVBAR);
 	    PRIVATE_SETTINGS.add(SWAP_VOLUME_BUTTONS);
 	    PRIVATE_SETTINGS.add(VOLUME_KEYS_CONTROL_MEDIA_STREAM);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_LOCKSCREEN);

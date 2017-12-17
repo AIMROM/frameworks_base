@@ -402,7 +402,6 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         accessibilityButton.setOnLongClickListener(this::onAccessibilityLongClick);
         updateAccessibilityServicesState(mAccessibilityManager);
 
-        setDoubleTapToSleep();
     }
 
     private boolean onHomeTouch(View v, MotionEvent event) {
@@ -698,9 +697,4 @@ public class NavigationBarFragment extends Fragment implements Callbacks {
         return navigationBarView;
     }
 
-    public void setDoubleTapToSleep() {
-        if (mNavigationBarView != null) {
-            mNavigationBarView.setDoubleTapToSleep();
-        }
-    }
 }

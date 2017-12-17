@@ -6099,9 +6099,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -6145,10 +6142,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         public void onChange(boolean selfChange, Uri uri) {
 		super.onChange(selfChange, uri);
 		update();
-            if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR))) {
-                setDoubleTapNavbar();
-            } else if (uri.equals(Settings.System.getUriFor(
+             if (uri.equals(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN))) {
                 setLockscreenDoubleTapToSleep();
              } else if (uri.equals(Settings.System.getUriFor(
@@ -6190,7 +6184,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
 
         public void update() {
-            setDoubleTapNavbar();
             setLockscreenDoubleTapToSleep();
             setStatusBarWindowViewOptions();
             setLockscreenMediaMetadata();
@@ -6206,12 +6199,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         mTickerEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_SHOW_TICKER, 1,
                 UserHandle.USER_CURRENT);
-    }
-
-    private void setDoubleTapNavbar() {
-        if (mNavigationBar != null) {
-            mNavigationBar.setDoubleTapToSleep();
-        }
     }
 
     private void setLockscreenDoubleTapToSleep() {
