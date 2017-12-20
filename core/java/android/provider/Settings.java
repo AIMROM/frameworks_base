@@ -4491,7 +4491,16 @@ public final class Settings {
            */
           public static final String TOAST_ANIMATION = "toast_animation";
  
- 	/**
+ 	 /**
+          * 0 - wallpaper based
+          * 1 - force light
+          * 2 - force dark
+          * @hide
+          */
+         public static final String SYSTEM_THEME_STYLE = "system_theme_style";
+ 
+
+	/**
 	 * Settings to backup. This is here so that it's in the same place as the settings
          * If all file types can be accepted over Bluetooth OBEX.
          * @hide
@@ -4689,6 +4698,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_COLUMNS_PORTRAIT);
             PRIVATE_SETTINGS.add(QS_COLUMNS_LANDSCAPE);
             PRIVATE_SETTINGS.add(LESS_BORING_HEADS_UP);
+	    PRIVATE_SETTINGS.add(SYSTEM_THEME_STYLE);
 
 	}
 
