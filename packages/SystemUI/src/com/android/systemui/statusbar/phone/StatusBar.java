@@ -4247,8 +4247,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         updateRowStates();
         mScreenPinningRequest.onConfigurationChanged();
 
-        refreshTicker();
-
         if (mSlimRecents != null) {
             mSlimRecents.onConfigurationChanged(newConfig);
         }
