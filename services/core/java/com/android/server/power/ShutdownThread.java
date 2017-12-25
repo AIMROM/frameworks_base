@@ -17,7 +17,6 @@
 
 package com.android.server.power;
 
-import android.app.ActivityManagerNative;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.IActivityManager;
@@ -64,7 +63,6 @@ import com.android.internal.util.aim.Helpers;
 import com.android.server.pm.PackageManagerService;
 import com.android.server.statusbar.StatusBarManagerInternal;
 
-import android.view.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -190,63 +188,18 @@ public final class ShutdownThread extends Thread {
             if (sConfirmDialog != null) {
                 sConfirmDialog.dismiss();
             }
-            if (mReboot && !mRebootSafeMode){
-                sConfirmDialog = new AlertDialog.Builder(context)
-                        .setTitle(com.android.internal.R.string.reboot_system)
-                        .setSingleChoiceItems(com.android.internal.R.array.shutdown_reboot_options,
-                                0, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which < 0)
-                                    return;
-
-                                String actions[] = context.getResources().getStringArray(
-                                        com.android.internal.R.array.shutdown_reboot_actions);
-
-                                if (actions != null && which < actions.length) {
-                                    mReason = actions[which];
-                                }
-                            }
-                        })
-                        .setPositiveButton(com.android.internal.R.string.yes,
-                                new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                mReboot = true;
-                                beginShutdownSequence(context);
-                            }
-                        })
-                        .setNegativeButton(com.android.internal.R.string.no,
-                                new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                mReboot = false;
-                                dialog.cancel();
-                            }
-                        })
-                        .create();
-                        sConfirmDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                            public boolean onKey (DialogInterface dialog, int keyCode,
-                                    KeyEvent event) {
-                                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                    mReboot = false;
-                                    dialog.cancel();
-                                }
-                                return true;
-                            }
-                        });
-            } else {
-                sConfirmDialog = new AlertDialog.Builder(context)
-                        .setTitle(mRebootSafeMode
-                                ? com.android.internal.R.string.reboot_safemode_title
-                                : com.android.internal.R.string.power_off)
-                        .setMessage(resourceId)
-                        .setPositiveButton(com.android.internal.R.string.yes,
-                                new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                beginShutdownSequence(context);
-                            }
-                        })
-                        .setNegativeButton(com.android.internal.R.string.no, null)
-                        .create();
-            }
+            sConfirmDialog = new AlertDialog.Builder(context)
+                    .setTitle(mRebootSafeMode
+                            ? com.android.internal.R.string.reboot_safemode_title
+                            : com.android.internal.R.string.power_off)
+                    .setMessage(resourceId)
+                    .setPositiveButton(com.android.internal.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            beginShutdownSequence(context);
+                        }
+                    })
+                    .setNegativeButton(com.android.internal.R.string.no, null)
+                    .create();
             closer.dialog = sConfirmDialog;
             sConfirmDialog.setOnDismissListener(closer);
             sConfirmDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
@@ -366,7 +319,6 @@ public final class ShutdownThread extends Thread {
                             com.android.internal.R.string.reboot_to_update_reboot));
             }
         } else if (mReason != null && mReason.equals(PowerManager.REBOOT_RECOVERY)) {
-
             if (RescueParty.isAttemptingFactoryReset()) {
                 // We're not actually doing a factory reset yet; we're rebooting
                 // to ask the user if they'd like to reset, so give them a less
@@ -376,15 +328,12 @@ public final class ShutdownThread extends Thread {
                 pd.setIndeterminate(true);
             } else {
                 // Factory reset path. Set the dialog message accordingly.
-                pd.setTitle(context.getText(com.android.internal.R.string.reboot_to_recovery_title));
+                pd.setTitle(context.getText(com.android.internal.R.string.reboot_to_reset_title));
                 pd.setMessage(context.getText(
-                	com.android.internal.R.string.reboot_recovery_progress));
-             pd.setIndeterminate(true);
-         } else if (mReboot) {
-             pd.setTitle(context.getText(com.android.internal.R.string.reboot_system));
-             pd.setMessage(context.getText(com.android.internal.R.string.reboot_progress));
+                	    com.android.internal.R.string.reboot_to_reset_message));
                 pd.setIndeterminate(true);
-           } else {
+            }
+        } else {
             if (showSysuiReboot()) {
                 return null;
             }

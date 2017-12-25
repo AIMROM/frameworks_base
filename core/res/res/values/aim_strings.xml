@@ -16,7 +16,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Power menu -->
+    <!-- Power menu
     <string name="reboot_system" product="tablet">Reboot tablet</string>
     <string name="reboot_system" product="default">Reboot phone</string>
     <string name="reboot_reboot">Reboot</string>
@@ -28,7 +28,7 @@
     <string name="reboot_to_bootloader_title">Bootloader</string>
     <string name="reboot_to_bootloader_message">Rebooting to bootloader\u2026</string>
     <string name="reboot_progress">Rebooting\u2026</string>
-    <string name="global_action_reboot">Reboot</string>
+    <string name="global_action_reboot">Reboot</string>  -->
 
 <!-- Vendor mismatched fingerprint warning [CHAR LIMIT=NONE] -->
      <string name="system_error_vendorprint">Your vendor image does not match the system. Please flash the <xliff:g id="string">%s</xliff:g> vendor image for your device</string>
