@@ -4319,7 +4319,7 @@ public final class Settings {
           *
           * @hide
           */
-         public static final String POWERMENU_SETTINGS = "powermenu_settings"
+         public static final String POWERMENU_SETTINGS = "powermenu_settings";
 
 	/**
           * Whether to enable status and navigation bar color in battery saver mode.
