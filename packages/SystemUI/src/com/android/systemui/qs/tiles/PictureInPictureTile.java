@@ -18,9 +18,11 @@ package com.android.systemui.qs.tiles;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.service.quicksettings.Tile;
+import android.widget.Toast;
 
 import com.android.internal.util.aospextended.AEXUtils;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
@@ -47,7 +49,8 @@ public class PictureInPictureTile extends QSTileImpl<BooleanState> {
     }
 
     @Override
-    public void setListening(boolean listening) {}
+    public void handleSetListening(boolean listening) {
+    }
 
     @Override
     public void handleClick() {

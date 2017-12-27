@@ -35,9 +35,11 @@
      <string name="screenshot_abort_text">Operation aborted.</string>
 
 <!-- ADB network tile -->
-     <string name="quick_settings_adb_network">ADB network</string>
-     <string name="quick_settings_network_adb_enabled_label">Adb over Net</string>
-     <string name="quick_settings_network_adb_disabled_label">Adb over Net</string>
+     <!-- ADB over network QS tile -->
+     <string name="quick_settings_network_adb_enabled_label">Enabled</string>
+     <string name="quick_settings_network_adb_disabled_label">Disabled</string>
+     <string name="quick_settings_network_adb_label">ADB over network</string>
+     <string name="quick_settings_network_adb_toast">USB debugging is not enabled</string>
 
 <!-- tuner -->
      <string name="statusbar_items_title">Statusbar items</string> 

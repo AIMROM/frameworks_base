@@ -66,7 +66,7 @@ public class ScreenrecordTile extends QSTileImpl<BooleanState> {
         mHost.collapsePanels();
         /* wait for the panel to close */
         try {
-             Thread.sleep(2000);
+             Thread.sleep(1000);
         } catch (InterruptedException ie) {
              // Do nothing
         }
@@ -153,5 +153,10 @@ public class ScreenrecordTile extends QSTileImpl<BooleanState> {
     @Override
     public int getMetricsCategory() {
         return MetricsEvent.AIM;
+    }
+
+    @Override
+    public void handleSetListening(boolean listening) {
+        // Do nothing
     }
 }
