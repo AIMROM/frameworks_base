@@ -69,6 +69,10 @@ public class LteTile extends QSTileImpl<BooleanState> {
     }
 
     @Override
+    public void handleSetListening(boolean listening) {
+    }
+
+    @Override
     protected void handleClick() {
         toggleLteState();
         refreshState();
@@ -109,11 +113,4 @@ public class LteTile extends QSTileImpl<BooleanState> {
         return Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.PREFERRED_NETWORK_MODE + subId, -1);
     }
-
-    @Override
-    public void setListening(boolean listening) {
-
-    }
 }
-
-
