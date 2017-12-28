@@ -83,12 +83,12 @@ public class CommandQueue extends IStatusBar.Stub {
     private static final int MSG_TOGGLE_PANEL                  = 35 << MSG_SHIFT;
     private static final int MSG_SHOW_SHUTDOWN_UI              = 36 << MSG_SHIFT;
     private static final int MSG_SET_TOP_APP_HIDES_STATUS_BAR  = 37 << MSG_SHIFT;
-    private static final int MSG_SCREEN_PINNING_STATE_CHANGED  = 35 << MSG_SHIFT;
-    private static final int MSG_LEFT_IN_LANDSCAPE_STATE_CHANGED  = 36 << MSG_SHIFT;
-    private static final int MSG_TOGGLE_FLASHLIGHT             = 37 << MSG_SHIFT;
-    private static final int MSG_TOGGLE_NAVIGATION_EDITOR      = 38 << MSG_SHIFT;
-    private static final int MSG_DISPATCH_NAVIGATION_EDITOR_RESULTS = 39 << MSG_SHIFT;
-    private static final int MSG_TOGGLE_CAMERA_FLASH           = 40 << MSG_SHIFT;
+    private static final int MSG_TOGGLE_CAMERA_FLASH           = 38 << MSG_SHIFT;
+    private static final int MSG_SCREEN_PINNING_STATE_CHANGED  = 39 << MSG_SHIFT;
+    private static final int MSG_LEFT_IN_LANDSCAPE_STATE_CHANGED  = 40 << MSG_SHIFT;
+    private static final int MSG_TOGGLE_FLASHLIGHT             = 41 << MSG_SHIFT;
+    private static final int MSG_TOGGLE_NAVIGATION_EDITOR      = 42 << MSG_SHIFT;
+    private static final int MSG_DISPATCH_NAVIGATION_EDITOR_RESULTS = 43 << MSG_SHIFT;
 
     public static final int FLAG_EXCLUDE_NONE = 0;
     public static final int FLAG_EXCLUDE_SEARCH_PANEL = 1 << 0;
@@ -151,12 +151,13 @@ public class CommandQueue extends IStatusBar.Stub {
         default void handleShowGlobalActionsMenu() { }
         default void handleShowShutdownUi(boolean isReboot, boolean isRebootRecovery,
                 boolean isRebootBootloader, String reason) { }
+
+        default void toggleCameraFlash() { }
         default void screenPinningStateChanged(boolean enabled) {}
         default void leftInLandscapeChanged(boolean isLeft) {}
         default void toggleFlashlight() {}
         default void toggleNavigationEditor() {}
         default void dispatchNavigationEditorResults(Intent intent) {}
-        default void toggleCameraFlash() { }
     }
 
     @VisibleForTesting
@@ -520,6 +521,7 @@ public class CommandQueue extends IStatusBar.Stub {
         }
     }
 
+
     private final class H extends Handler {
         private H(Looper l) {
             super(l);
@@ -714,6 +716,13 @@ public class CommandQueue extends IStatusBar.Stub {
                 case MSG_SET_TOP_APP_HIDES_STATUS_BAR:
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).setTopAppHidesStatusBar(msg.arg1 != 0);
+                    }
+                    break;
+                case MSG_TOGGLE_CAMERA_FLASH:
+                    for (int i = 0; i < mCallbacks.size(); i++) {
+                        mCallbacks.get(i).toggleCameraFlash();
+                    }
+                    break;
                 case MSG_SCREEN_PINNING_STATE_CHANGED:
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).screenPinningStateChanged(msg.arg1 != 0);
@@ -738,11 +747,6 @@ public class CommandQueue extends IStatusBar.Stub {
                     Intent intent = (Intent) msg.obj;
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).dispatchNavigationEditorResults(intent);
-                    }
-                    break;
-                case MSG_TOGGLE_CAMERA_FLASH:
-                    for (int i = 0; i < mCallbacks.size(); i++) {
-                        mCallbacks.get(i).toggleCameraFlash();
                     }
                     break;
             }

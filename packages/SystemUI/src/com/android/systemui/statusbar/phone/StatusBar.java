@@ -818,7 +818,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     };
 
-    private FlashlightController mFlashlightController;
     private NotificationMessagingUtil mMessagingUtil;
     private KeyguardUserSwitcher mKeyguardUserSwitcher;
     private UserSwitcherController mUserSwitcherController;
@@ -6263,6 +6262,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.USE_SLIM_RECENTS),
                   false, this, UserHandle.USER_ALL);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_SAVER_MODE_COLOR),
                     false, this, UserHandle.USER_ALL);
         }
@@ -6280,7 +6280,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 	     } else if (uri.equals(Settings.System.getUriFor(
                      Settings.System.QS_FOOTER_WARNINGS))) {
                  setQsPanelOptions();
-		 setStatusBarWindowViewOptions();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_ROWS_PORTRAIT)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.QS_ROWS_LANDSCAPE)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.QS_COLUMNS_PORTRAIT)) ||
