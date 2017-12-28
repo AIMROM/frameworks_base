@@ -6313,7 +6313,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         public void update() {
             setLockscreenDoubleTapToSleep();
-            setStatusBarWindowViewOptions();
             setLockscreenMediaMetadata();
 	    setQsPanelOptions();
             setQsRowsColumns();
