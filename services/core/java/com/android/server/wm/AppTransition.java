@@ -66,6 +66,7 @@ import android.os.IRemoteCallback;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.os.SystemProperties;
+import android.os.UserHandle;
 import android.util.ArraySet;
 import android.util.Slog;
 import android.util.SparseArray;
@@ -2236,8 +2237,7 @@ public class AppTransition implements Dump {
         for (int i = 0; i < 11; i++) {
             mActivityAnimations[i] = Settings.System.getInt(resolver, Settings.System.ACTIVITY_ANIMATION_CONTROLS[i], 0);
         }
-
-        int temp = Settings.System.getInt(resolver, Settings.System.ANIMATION_CONTROLS_DURATION, 0);
-        mAnimationDuration = temp;
+        mAnimationDuration = Settings.System.getIntForUser(resolver, Settings.System.ANIMATION_CONTROLS_DURATION,
+                    0, UserHandle.USER_CURRENT);
     }
 }
