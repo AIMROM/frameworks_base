@@ -5045,6 +5045,15 @@ public final class Settings {
         public static final String FOOTER_TEXT_STRING = "footer_text_string";
 
         /**
+         * Defines the screen-off animation to display
+         * @hide
+         */
+        public static final String SCREEN_OFF_ANIMATION = "screen_off_animation";
+
+        /** @hide */
+        private static final Validator SCREEN_OFF_ANIMATION_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5112,6 +5121,7 @@ public final class Settings {
             LOCKSCREEN_MEDIA_BLUR,
             QSFOOTER_SHOW_SETTINGS,
             QS_EDIT_TOGGLE,
+            SCREEN_OFF_ANIMATION,
         };
 
         /**
@@ -5234,6 +5244,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_BLUR);
             PRIVATE_SETTINGS.add(QSFOOTER_SHOW_SETTINGS);
             PRIVATE_SETTINGS.add(QS_EDIT_TOGGLE);
+            PRIVATE_SETTINGS.add(SCREEN_OFF_ANIMATION);
         }
 
         /**
@@ -5332,6 +5343,7 @@ public final class Settings {
             VALIDATORS.put(LOCKSCREEN_MEDIA_BLUR, LOCKSCREEN_MEDIA_BLUR_VALIDATOR);
             VALIDATORS.put(QSFOOTER_SHOW_SETTINGS, QSFOOTER_SHOW_SETTINGS_VALIDATOR);
             VALIDATORS.put(QS_EDIT_TOGGLE, QS_EDIT_TOGGLE_VALIDATOR);
+            VALIDATORS.put(SCREEN_OFF_ANIMATION, SCREEN_OFF_ANIMATION_VALIDATOR);
         }
 
         /**
