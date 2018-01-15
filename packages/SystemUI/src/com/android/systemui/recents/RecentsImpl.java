@@ -400,11 +400,11 @@ public class RecentsImpl implements ActivityOptions.OnAnimationFinishedListener 
             return;
         }
 
-        // Skip this toggle if we are already waiting to trigger recents via alt-tab
-        if (mFastAltTabTrigger.isDozing()) {
+        if (mUseSlimRecents) {
             return;
         }
-        if (mUseSlimRecents) {
+        // Skip this toggle if we are already waiting to trigger recents via alt-tab
+        if (mFastAltTabTrigger.isDozing()) {
             return;
         }
 
