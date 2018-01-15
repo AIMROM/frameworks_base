@@ -6127,7 +6127,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     protected RecentsComponent mRecents;
 
-    protected RecentController mSlimRecents;
+    private RecentController mSlimRecents;
 
     protected int mZenMode;
 
@@ -6379,6 +6379,15 @@ public class StatusBar extends SystemUI implements DemoMode,
             mSlimRecents.rebuildRecentsScreen();
         }
     }
+
+    private static void sendCloseSystemWindows(Context context, String reason) {
+         if (ActivityManagerNative.isSystemReady()) {
+             try {
+                 ActivityManagerNative.getDefault().closeSystemDialogs(reason);
+             } catch (RemoteException e) {
+             }
+         }
+     }
 
     protected final ContentObserver mNavbarObserver = new ContentObserver(mHandler) {
         @Override
