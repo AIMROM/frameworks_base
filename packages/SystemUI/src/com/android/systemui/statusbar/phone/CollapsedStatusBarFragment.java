@@ -239,8 +239,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mLeftClock = mStatusBar.findViewById(R.id.left_clock);
         mCenterClock = mStatusBar.findViewById(R.id.center_clock);
         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mSignalClusterView);
-        mAimLogo = mStatusBar.findViewById(R.id.status_bar_logo);
-        mCustomCarrierLabel = mStatusBar.findViewById(R.id.statusbar_carrier_text);
+        mAimLogo = (ImageView) mStatusBar.findViewById(R.id.status_bar_logo);
+        Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mAimLogo);
+	mCustomCarrierLabel = mStatusBar.findViewById(R.id.statusbar_carrier_text);
         mWeatherTextView = mStatusBar.findViewById(R.id.weather_temp);
         mWeatherImageView = mStatusBar.findViewById(R.id.weather_image);
         updateSettings(false);
@@ -276,7 +277,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         super.onDestroyView();
         Dependency.get(DarkIconDispatcher.class).removeDarkReceiver(mSignalClusterView);
         Dependency.get(StatusBarIconController.class).removeIconGroup(mDarkIconManager);
-        if (mNetworkController.hasEmergencyCryptKeeperText()) {
+        Dependency.get(DarkIconDispatcher.class).removeDarkReceiver(mAimLogo);
+	 if (mNetworkController.hasEmergencyCryptKeeperText()) {
             mNetworkController.removeCallback(mSignalCallback);
         }
         mTickerObserver.unobserve();
