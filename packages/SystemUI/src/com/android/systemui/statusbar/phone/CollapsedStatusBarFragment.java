@@ -112,9 +112,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                      Settings.System.STATUS_BAR_LOGO_COLOR),
                      false, this, UserHandle.USER_ALL);
             mContentResolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_LOGO_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            mContentResolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CARRIER),
                     false, this, UserHandle.USER_ALL);
             mContentResolver.registerContentObserver(Settings.System.getUriFor(
@@ -486,7 +483,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 	}
 
         mShowLogo = Settings.System.getIntForUser(
-                getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO, 0,
+                mContentResolver, Settings.System.STATUS_BAR_LOGO, 0,
                 UserHandle.USER_CURRENT) == 1;
 	mLogoColor = Settings.System.getIntForUser(
                 getContext().getContentResolver(), Settings.System.STATUS_BAR_LOGO_COLOR, 0xff009688,
@@ -496,7 +493,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                 UserHandle.USER_CURRENT);
 
         mShowCarrierLabel = Settings.System.getIntForUser(
-                getContext().getContentResolver(), Settings.System.STATUS_BAR_CARRIER, 1,
+                mContentResolver, Settings.System.STATUS_BAR_CARRIER, 1,
                 UserHandle.USER_CURRENT);
         setCarrierLabel(animate);
 
