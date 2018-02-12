@@ -493,8 +493,6 @@ public class StatusBar extends SystemUI implements DemoMode,
     boolean mLeaveOpenOnKeyguardHide;
     KeyguardIndicationController mKeyguardIndicationController;
 
-    private QuickStatusBarHeader mQuickStatusBarHeader;
-
     // Keyguard is going away soon.
     private boolean mKeyguardGoingAway;
     // Keyguard is actually fading away now.
