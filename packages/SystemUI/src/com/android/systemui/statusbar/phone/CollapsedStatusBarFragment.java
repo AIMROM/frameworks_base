@@ -518,6 +518,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         ((Clock)mCenterClock).updateSettings();
         ((Clock)mLeftClock).updateSettings();
 
+        mStatusBarComponent.updateBatterySettings();
+
          switch(mCustomLogos) {
                 	 // Wolf thin
              case 1:
