@@ -852,6 +852,13 @@
         android:description="@string/permdesc_accessImsCallService"
         android:protectionLevel="signature|privileged" />
 
+    <!-- Allows an application to access the font manager
+          @hide -->
+     <permission android:name="android.permission.ACCESS_FONT_MANAGER"
+         android:label="@string/permlab_accessFontManager"
+         android:description="@string/permdesc_accessFontManager"
+         android:protectionLevel="signatureOrSystem" />
+ 
     <!-- Allows an application to read the user's call log.
          <p class="note"><strong>Note:</strong> If your app uses the
          {@link #READ_CONTACTS} permission and <em>both</em> your <a
