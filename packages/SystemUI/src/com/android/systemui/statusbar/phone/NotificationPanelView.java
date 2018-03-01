@@ -246,6 +246,7 @@ public class NotificationPanelView extends PanelView implements
 
     private GestureDetector mDoubleTapToSleepGesture;
     private boolean mIsLockscreenDoubleTapEnabled;
+    private boolean mDoubleTapToSleepEnabled;
 
     private int mStatusBarHeaderHeight;
 
