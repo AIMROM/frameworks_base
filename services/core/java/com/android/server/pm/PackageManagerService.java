@@ -9245,6 +9245,8 @@ public class PackageManagerService extends IPackageManager.Stub
             PackageParser.collectCertificates(pkg, policyFlags);
         } catch (PackageParserException e) {
             throw PackageManagerException.from(e);
+        } catch (NullPointerException e) {
+            throw new PackageManagerException(e.getMessage());
         } finally {
             Trace.traceEnd(TRACE_TAG_PACKAGE_MANAGER);
         }
