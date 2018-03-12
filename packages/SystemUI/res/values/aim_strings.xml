@@ -181,4 +181,6 @@
 
     <string name="accessibility_quick_settings_running_services">Open Running Services screen.</string>
 
+    <string name="qs_show_mini">Mini mode</string>
+    <string name="qs_header">Header</string>
 </resources>
