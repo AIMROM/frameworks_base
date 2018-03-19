@@ -4929,10 +4929,13 @@ public final class Settings {
         public static final String NOTIFICATION_GUTS_KILL_APP_BUTTON =
                 "notification_guts_kill_app_button";
         /**
-        * Whether to show battery percent on ambient bottom
+        * Whether to show info battery percent on ambient bottom
+        * 0 disabled_print_services
+        * 1 battery percentage
+        * 2 weather temp + condition
         * @hide
         */
-        public static final String AMBIENT_BATTERY_PERCENT = "ambient_battery_percent";
+        public static final String AMBIENT_BOTTOM_DISPLAY = "ambient_bottom_display";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings

@@ -170,4 +170,7 @@
     <string name="dlg_cancel">@android:string/cancel</string>
     <string name="kill">Kill App</string>
 
+    <!-- The contents of the Ambient Weather bottom view -->
+    <string name="ambient_weather_info">%1$s &amp; %2$s</string>
+
 </resources>
