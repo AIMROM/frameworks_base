@@ -4012,8 +4012,16 @@ public final class Settings {
           */
          public static final String VOLUME_KEYS_CONTROL_MEDIA_STREAM =
                  "volume_keys_control_media_stream";
+
+        /** some devices have a extra hw button e.g. n3 on the back on the
+         * fingerprint sensor. allow mapping button to key
+         *
+         * @hide
+         */
+        public static final String BUTTON_EXTRA_KEY_MAPPING = "button_extra_mapping";
+
         /**
-	 * Double tap on lockscreen to sleep
+	  * Double tap on lockscreen to sleep
           * @hide
           */
          public static final String DOUBLE_TAP_SLEEP_LOCKSCREEN =
