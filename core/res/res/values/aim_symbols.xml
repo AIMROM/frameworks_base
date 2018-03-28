@@ -146,11 +146,16 @@
    <java-symbol type="string" name="reboot_title" />
    <java-symbol type="string" name="reboot_message" />
  
-    <!-- Button brightness -->
+    <!-- Button brightness
     <java-symbol type="integer" name="config_buttonBrightnessSettingDefault" />
-    <java-symbol type="bool" name="config_deviceHasVariableButtonBrightness" />
+    <java-symbol type="bool" name="config_deviceHasVariableButtonBrightness" /> -->
 
     <!-- Hardware key binding -->
     <java-symbol type="integer" name="config_deviceHardwareKeys" />
 
+    <!-- Button brightness -->
+   <java-symbol type="bool" name="config_button_brightness_support" />
+   <java-symbol type="integer" name="config_button_brightness_default" />
+ 
+   <java-symbol type="bool" name="config_canForceDozeNotifications" />
 </resources>
