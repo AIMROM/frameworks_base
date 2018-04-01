@@ -105,8 +105,8 @@ public class AnimationUtils {
     public static Animation loadAnimation(Context context, @AnimRes int id)
             throws NotFoundException {
 
-        int defStyle =  Settings.System.getIntForUser(context.getContentResolver(),
-                            Settings.System.SYSTEM_DEFAULT_ANIMATION, 0, UserHandle.USER_CURRENT);
+        int defStyle =  Settings.Global.getInt(context.getContentResolver(),
+                            Settings.Global.SYSTEM_DEFAULT_ANIMATION, 0);
 
         if (defStyle == 0)
             return loadAnimationFromXml(context, id);

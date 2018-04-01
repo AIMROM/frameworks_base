@@ -4944,12 +4944,6 @@ public final class Settings {
         public static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
 
         /**
-         * Default animation
-         * @hide
-         */
-        public static final String SYSTEM_DEFAULT_ANIMATION = "system_default_animation";
-
-        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -11748,6 +11742,12 @@ public final class Settings {
          */
         public static final String STORAGE_SETTINGS_CLOBBER_THRESHOLD =
                 "storage_settings_clobber_threshold";
+
+        /**
+         * Default animation
+         * @hide
+         */
+        public static final String SYSTEM_DEFAULT_ANIMATION = "system_default_animation";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
