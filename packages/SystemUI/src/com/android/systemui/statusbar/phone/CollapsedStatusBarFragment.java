@@ -550,7 +550,46 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 	     case 7:
                   logo = getContext().getDrawable(R.drawable.status_bar_wolfwarrier_logo);
                   break;
-			// Default
+             case 8:
+                  logo = getContext().getDrawable(R.drawable.ic_android_logo);
+                  break;
+             case 9:
+                  logo = getContext().getDrawable(R.drawable.ic_apple_logo);
+                  break;
+             case 10:
+                  logo = getContext().getDrawable(R.drawable.ic_ios_logo);
+                  break;
+             case 11:
+                  logo = getContext().getDrawable(R.drawable.ic_emoticon);
+                  break;
+             case 12:
+                  logo = getContext().getDrawable(R.drawable.ic_emoticon_cool);
+                  break;
+             case 13:
+                  logo = getContext().getDrawable(R.drawable.ic_emoticon_dead);
+                  break;
+             case 14:
+                  logo = getContext().getDrawable(R.drawable.ic_emoticon_devil);
+                  break;
+             case 15:
+                  logo = getContext().getDrawable(R.drawable.ic_emoticon_happy);
+                  break;
+             case 16:
+                  logo = getContext().getDrawable(R.drawable.ic_blackberry);
+                  break;
+             case 17:
+                  logo = getContext().getDrawable(R.drawable.ic_cake);
+                  break;
+             case 18:
+                  logo = getContext().getDrawable(R.drawable.ic_biohazard);
+                  break;
+             case 19:
+                  logo = getContext().getDrawable(R.drawable.ic_linux);
+                  break;
+             case 20:
+                  logo = getContext().getDrawable(R.drawable.ic_yin_yang);
+                  break;
+				// Default
 	     default:
                  logo = getContext().getDrawable(R.drawable.status_bar_logo);
                  break;
