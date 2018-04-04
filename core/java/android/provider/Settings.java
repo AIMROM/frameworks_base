@@ -4019,12 +4019,6 @@ public final class Settings {
          public static final String DOUBLE_TAP_SLEEP_LOCKSCREEN =
                  "double_tap_sleep_lockscreen";
 
-         /**
- 	  * Whether to allow one finger quick settings expansion on the right side of the statusbar.
-           * @hide
-           */
-          public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
-
         /**
          * Whether to show the battery bar
          * @hide
@@ -5146,6 +5140,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_DELAY);
             PRIVATE_SETTINGS.add(PROXIMITY_AUTO_SPEAKER_INCALL_ONLY);
 	    PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
+<<<<<<< HEAD
 	    PRIVATE_SETTINGS.add(STATUS_BAR_QUICK_QS_PULLDOWN);
 	    PRIVATE_SETTINGS.add(QS_ROWS_PORTRAIT);
             PRIVATE_SETTINGS.add(QS_ROWS_LANDSCAPE);
@@ -5172,6 +5167,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_ENABLE);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_TIMEOUT);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_ON_TOUCH_ONLY);
+=======
+
+>>>>>>> parent of 6c59858... Add Quick Settings Pulldown options
 	}
 
         /**
