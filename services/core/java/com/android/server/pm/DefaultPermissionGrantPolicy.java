@@ -992,6 +992,13 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(imsServicePackage, LOCATION_PERMISSIONS, userId);
                 grantRuntimePermissionsLPw(imsServicePackage, CAMERA_PERMISSIONS, userId);
             }
+	 
+	 // nexuslauncher
+             PackageParser.Package googlenexuslauncherPackage = getSystemPackageLPr(
+                     "com.google.android.apps.nexuslauncher");
+             if (googlenexuslauncherPackage != null && doesPackageSupportRuntimePermissions(googlenexuslauncherPackage)) {
+                 grantRuntimePermissionsLPw(googlenexuslauncherPackage, STORAGE_PERMISSIONS, true, userId);
+             }
         }
     }
 
