@@ -875,6 +875,13 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(googlecalendarPackage, CONTACTS_PERMISSIONS, true, userId);
                 grantRuntimePermissionsLPw(googlecalendarPackage, PHONE_PERMISSIONS, userId);
             }
+
+            // nexuslauncher
+            PackageParser.Package googlenexuslauncherPackage = getSystemPackageLPr(
+                    "com.google.android.apps.nexuslauncher");
+            if (googlenexuslauncherPackage != null && doesPackageSupportRuntimePermissions(googlenexuslauncherPackage)) {
+                grantRuntimePermissionsLPw(googlenexuslauncherPackage, STORAGE_PERMISSIONS, true, userId);
+            }
         }
     }
 
