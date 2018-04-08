@@ -175,5 +175,14 @@
 
     <string name="qs_show_mini">Mini mode</string>
     <string name="qs_header">Header</string>
+
+    <!-- Indication on the keyguard that is shown when the device is charging with a turbo power charger. Should match keyguard_plugged_in_turbo_power_charging [CHAR LIMIT=40]
+    <string name="keyguard_indication_turbo_power_time">TurboPower connected (<xliff:g id="charging_time_left">%s</xliff:g> until full)</string>
+    <string name="keyguard_plugged_in_turbo_power_charging">TurboPower connected</string> -->
+
+<!-- Smart pixels QS tile -->
+     <string name="quick_settings_smart_pixels">Smart pixels</string>
+     <string name="quick_settings_smart_pixels_on_power_save">Auto-enabled smart pixels</string>
+
 </resources>
 
