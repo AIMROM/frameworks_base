@@ -45,4 +45,8 @@
     <java-symbol type="string" name="global_restart_bootloader" />
     <java-symbol type="string" name="global_restart_bootloader_message" />
   
+<!-- Whether the device requires overlays to be in /system/overlay -->
+     <java-symbol type="bool" name="config_hasSystemOverlayPath" />
+ 
+
 </resources>

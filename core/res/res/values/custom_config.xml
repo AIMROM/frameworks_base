@@ -45,4 +45,8 @@
         <item>bootloader</item>
     </string-array>
   
+<!-- Whether the device requires overlays to be in /system/overlay -->
+     <bool name="config_hasSystemOverlayPath">false</bool>
+ 
+
 </resources>
