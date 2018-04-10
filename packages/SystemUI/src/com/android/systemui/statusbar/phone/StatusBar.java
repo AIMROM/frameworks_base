@@ -527,8 +527,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     boolean mExpandedVisible;
 
-    ActivityManager mAm;
-    boolean mLessBoringHeadsUp;
 
     private int mStatusBarHeaderHeight;
 
@@ -1007,8 +1005,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
 
         mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-
-        mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
 
         mDeviceProvisionedController = Dependency.get(DeviceProvisionedController.class);
         mDeviceProvisionedController.addCallback(mDeviceProvisionedListener);
@@ -6381,7 +6377,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         @Override
         public void onDoubleTap(float screenX, float screenY) {
-            if (screenX > 0 && screenY > 0 && mAmbientIndicationContainer != null 
+            if (screenX > 0 && screenY > 0 && mAmbientIndicationContainer != null
                 && mAmbientIndicationContainer.getVisibility() == View.VISIBLE) {
                 mAmbientIndicationContainer.getLocationOnScreen(mTmpInt2);
                 float viewX = screenX - mTmpInt2[0];
@@ -6608,9 +6604,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.QS_COLUMNS_LANDSCAPE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LESS_BORING_HEADS_UP),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_TILE_TITLE_VISIBILITY),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -6680,9 +6673,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                     uri.equals(Settings.System.getUriFor(Settings.System.QS_TILE_TITLE_VISIBILITY))) {
                 setQsRowsColumns();
             } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.LESS_BORING_HEADS_UP))) {
-                setUseLessBoringHeadsUp();
-            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENTS_ICON_PACK))) {
                 updateRecentsIconPack();
             } else if (uri.equals(Settings.System.getUriFor(
@@ -6716,7 +6706,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             setLockscreenMediaMetadata();
 	    setQsPanelOptions();
             setQsRowsColumns();
-            setUseLessBoringHeadsUp();
             updateTickerAnimation();
             updateRecentsMode();
             updateTheme();
@@ -6775,11 +6764,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
 
-    private void setUseLessBoringHeadsUp() {
-        mLessBoringHeadsUp = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.LESS_BORING_HEADS_UP, 1,
-                UserHandle.USER_CURRENT) == 1;
-    }
 
     private void updateRecentsIconPack() {
         boolean slimRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
@@ -8509,14 +8493,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
     protected boolean shouldPeek(Entry entry, StatusBarNotification sbn) {
-        boolean isImportantHeadsUp = false;
-        String notificationPackageName = sbn.getPackageName().toLowerCase();
-        isImportantHeadsUp = notificationPackageName.contains("dialer") ||
-                notificationPackageName.contains("messaging");
-
-        if (!mUseHeadsUp || isDeviceInVrMode() || (!isDozing() && mLessBoringHeadsUp &&
-                !isImportantHeadsUp)) {
-            if (DEBUG) Log.d(TAG, "No peeking: no huns or vr mode or less boring headsup enabled");
+      if (!mUseHeadsUp || isDeviceInVrMode()) {
+          if (DEBUG) Log.d(TAG, "No peeking: no huns or vr mode");
             return false;
         }
 
