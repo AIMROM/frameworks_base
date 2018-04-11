@@ -38,7 +38,7 @@ import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.RecentsConfiguration;
 import com.android.systemui.recents.RecentsDebugFlags;
 import com.android.systemui.recents.events.activity.PackagesChangedEvent;
-import com.android.systemui.slimrecent.icons.IconsHandler;
+import com.android.systemui.recents.misc.IconPackHelper;
 import com.android.systemui.recents.misc.SystemServicesProxy;
 
 import java.io.PrintWriter;
@@ -109,13 +109,10 @@ class BackgroundTaskLoader implements Runnable {
 
     private final OnIdleChangedListener mOnIdleChangedListener;
 
-    private IconsHandler mIconsHandler;
-
     /** Constructor, creates a new loading thread that loads task resources in the background */
-    public BackgroundTaskLoader(IconsHandler ih, TaskResourceLoadQueue loadQueue,
+    public BackgroundTaskLoader(TaskResourceLoadQueue loadQueue,
             TaskKeyLruCache<Drawable> iconCache, BitmapDrawable defaultIcon,
             OnIdleChangedListener onIdleChangedListener) {
-        mIconsHandler = ih;
         mLoadQueue = loadQueue;
         mIconCache = iconCache;
         mDefaultIcon = defaultIcon;
@@ -212,8 +209,11 @@ class BackgroundTaskLoader implements Runnable {
             if (cachedIcon == null) {
                 ActivityInfo info = ssp.getActivityInfo(
                         t.key.getComponent(), t.key.userId);
-                if (info != null) {
-                    cachedIcon = mIconsHandler.getIconFromHandler(mContext, info);
+                if (info != null && IconPackHelper.getInstance(mContext).isIconPackLoaded()) {
+                    int iconId = IconPackHelper.getInstance(mContext).getResourceIdForActivityIcon(info);
+                    if (iconId != 0) {
+                        cachedIcon = IconPackHelper.getInstance(mContext).getIconPackResources().getDrawable(iconId);
+                    }
                 }
 
                 if (cachedIcon == null) {
@@ -287,8 +287,6 @@ public class RecentsTaskLoader {
     int mDefaultTaskViewBackgroundColor;
     BitmapDrawable mDefaultIcon;
 
-    private IconsHandler mIconsHandler;
-
     private TaskKeyLruCache.EvictionCallback mClearActivityInfoOnEviction =
             new TaskKeyLruCache.EvictionCallback() {
         @Override
@@ -299,8 +297,7 @@ public class RecentsTaskLoader {
         }
     };
 
-    public RecentsTaskLoader(Context context, IconsHandler ih) {
-        mIconsHandler = ih;
+    public RecentsTaskLoader(Context context) {
         Resources res = context.getResources();
         mDefaultTaskBarBackgroundColor =
                 context.getColor(R.color.recents_task_bar_default_background_color);
@@ -326,12 +323,8 @@ public class RecentsTaskLoader {
         mContentDescriptionCache = new TaskKeyLruCache<>(numRecentTasks,
                 mClearActivityInfoOnEviction);
         mActivityInfoCache = new LruCache(numRecentTasks);
-        mLoader = new BackgroundTaskLoader(mIconsHandler, mLoadQueue, mIconCache, mDefaultIcon,
+        mLoader = new BackgroundTaskLoader(mLoadQueue, mIconCache, mDefaultIcon,
                 mHighResThumbnailLoader::setTaskLoadQueueIdle);
-    }
-
-    public IconsHandler getIconsHandler() {
-        return mIconsHandler;
     }
 
     /** Returns the size of the app icon cache. */
@@ -461,14 +454,6 @@ public class RecentsTaskLoader {
         }
     }
 
-    public void evictAllCaches() {
-        mIconCache.evictAll();
-        mActivityInfoCache.evictAll();
-        mActivityLabelCache.evictAll();
-        mContentDescriptionCache.evictAll();
-        mThumbnailCache.evictAll();
-    }
-
     public void resetIconCache() {
         mIconCache.evictAll();
     }
@@ -550,9 +535,10 @@ public class RecentsTaskLoader {
             ActivityInfo activityInfo = getAndUpdateActivityInfo(taskKey);
 
             // Return and cache the icon package icon for this app, if available
-            if (activityInfo != null) {
-                icon = mIconsHandler.getIconFromHandler(context, activityInfo);
-                if (icon != null) {
+            if (activityInfo != null && IconPackHelper.getInstance(context).isIconPackLoaded()) {
+                int iconId = IconPackHelper.getInstance(context).getResourceIdForActivityIcon(activityInfo);
+                if (iconId != 0) {
+                    icon = IconPackHelper.getInstance(context).getIconPackResources().getDrawable(iconId);
                     mIconCache.put(taskKey, icon);
                     return icon;
                 }
