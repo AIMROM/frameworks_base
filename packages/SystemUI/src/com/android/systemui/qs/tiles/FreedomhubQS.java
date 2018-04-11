@@ -18,11 +18,32 @@ import com.android.systemui.SysUIToast;
 import android.service.quicksettings.Tile;
 import com.android.systemui.qs.tileimpl.QSTileView;
 
+import java.util.Random;
+
 public class FreedomhubQS extends QSTileImpl<BooleanState> {
     private boolean mListening;
 
 //    private static final Intent FREEDOMHUB = new Intent().setComponent(new ComponentName(
 //            "com.android.settings", "com.android.settings.Settings$freedomhubSettingsActivity"));
+
+// Random Strings
+   public final static java.lang.String[] insults = {
+             "Hahaha, n00b!",
+             "What are you doing??",
+             "n00b alert!",
+             "What is this...? Amateur hour!?",
+             "This is not Windows",
+             "Please step away from the device!",
+             "error code: 1D10T",
+             "Go outside",
+             "¯\\_(ツ)_/¯",
+             "Pro tip: Stop doing this!",
+             "Y u no speak computer???",
+             "Why are you so stupid?!",
+             "Perhaps this Android thing is not for you...",
+             "Don't you have anything better to do?!",
+             "This is why nobody likes you...",
+             "Are you even trying?!",};
 
     public FreedomhubQS(QSHost host) {
         super(host);
@@ -54,9 +75,10 @@ public class FreedomhubQS extends QSTileImpl<BooleanState> {
     public void handleLongClick() {
         // Collapse the panels, so the user can see the toast.
         mHost.collapsePanels();
-        SysUIToast.makeText(mContext, mContext.getString(
-                R.string.quick_freedom_toast),
-                Toast.LENGTH_LONG).show();
+        Random randomInsult = new Random();
+        final int toasts = randomInsult.nextInt(insults.length);
+        SysUIToast.makeText(mContext, insults[toasts],
+                      Toast.LENGTH_LONG).show();
     }
 
     @Override
