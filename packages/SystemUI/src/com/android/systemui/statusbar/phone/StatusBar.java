@@ -38,10 +38,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.app.ActivityManager;
-import android.app.ActivityManagerNative;
 import android.app.ActivityManager.StackId;
 import android.app.ActivityOptions;
-import android.app.IActivityManager;
 import android.app.INotificationManager;
 import android.app.KeyguardManager;
 import android.app.Notification;
@@ -219,10 +217,8 @@ import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.recents.events.EventBus;
 import com.android.systemui.recents.events.activity.AppTransitionFinishedEvent;
 import com.android.systemui.recents.events.activity.UndockingTaskEvent;
-import com.android.systemui.slimrecent.icons.IconsHandler;
+import com.android.systemui.recents.misc.IconPackHelper;
 import com.android.systemui.recents.misc.SystemServicesProxy;
-import com.android.systemui.settings.BrightnessController;
-import com.android.systemui.slimrecent.RecentController;
 import com.android.systemui.stackdivider.Divider;
 import com.android.systemui.stackdivider.WindowManagerProxy;
 import com.android.systemui.statusbar.ActivatableNotificationView;
@@ -720,9 +716,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 // pulse colors already set by titckTrackInfo
                 mNavigationBar.setMediaPlaying(true);
             }
-            if (mSlimRecents != null) {
-                mSlimRecents.setMediaPlaying(true, currentPkg);
-            }
         } else {
             if (isAmbientContainerAvailable()) {
                 ((AmbientIndicationContainer)mAmbientIndicationContainer).hideIndication();
@@ -733,9 +726,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             }
             if (mTicker != null) {
                 mTicker.resetShownMediaMetadata();
-            }
-            if (mSlimRecents != null) {
-                mSlimRecents.setMediaPlaying(false, "");
             }
         }
     }
@@ -752,9 +742,6 @@ public class StatusBar extends SystemUI implements DemoMode,
                 }
                 if (isAmbientContainerAvailable()) {
                     ((AmbientIndicationContainer)mAmbientIndicationContainer).setIndication(mMediaMetadata);
-                }
-                if (mSlimRecents != null) {
-                    mSlimRecents.setMediaInfo(mMediaMetadata);
                 }
                 // NotificationInflater calls async MediaNotificationProcessoron to create notification
                 // colors and when finished will trigger AsyncInflationFinished for all registered callbacks
@@ -1873,19 +1860,8 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
         int dockSide = WindowManagerProxy.getInstance().getDockSide();
         if (dockSide == WindowManager.DOCKED_INVALID) {
-            boolean isInLockTaskMode = false;
-            try {
-                IActivityManager activityManager = ActivityManagerNative.getDefault();
-                if (activityManager.isInLockTaskMode()) {
-                    isInLockTaskMode = true;
-                }
-            } catch (RemoteException e) {}
-            if (mSlimRecents != null && !isInLockTaskMode) {
-                mSlimRecents.startMultiWindow();
-            } else {
-                return mRecents.dockTopTask(NavigationBarGestureHelper.DRAG_MODE_NONE,
-                        ActivityManager.DOCKED_STACK_CREATE_MODE_TOP_OR_LEFT, null, metricsDockAction);
-            }
+            return mRecents.dockTopTask(NavigationBarGestureHelper.DRAG_MODE_NONE,
+                    ActivityManager.DOCKED_STACK_CREATE_MODE_TOP_OR_LEFT, null, metricsDockAction);
         } else {
             Divider divider = getComponent(Divider.class);
             if (divider != null && divider.isMinimized() && !divider.isHomeStackResizable()) {
@@ -2000,14 +1976,11 @@ public class StatusBar extends SystemUI implements DemoMode,
         entry.row.setLowPriorityStateUpdated(false);
 
         if (mEntryToRefresh == entry) {
-            final Notification n = entry.notification.getNotification();
-            final int[] colors = {n.backgroundColor, n.foregroundColor,
-                    n.primaryTextColor, n.secondaryTextColor};
             if (mNavigationBar != null) {
+                Notification n = entry.notification.getNotification();
+                int[] colors = {n.backgroundColor, n.foregroundColor,
+                        n.primaryTextColor, n.secondaryTextColor};
                 mNavigationBar.setPulseColors(n.isColorizedMedia(), colors);
-            }
-            if (mSlimRecents != null) {
-                mSlimRecents.setMediaColors(n.isColorizedMedia(), colors);
             }
         }
     }
@@ -4516,10 +4489,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         updateRowStates();
         mScreenPinningRequest.onConfigurationChanged();
-
-        if (mSlimRecents != null) {
-            mSlimRecents.onConfigurationChanged(newConfig);
-        }
     }
 
     public void userSwitched(int newUserId) {
@@ -4883,9 +4852,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             thread.start();
 
             // ask SlimRecents controller to refresh the cache
-            if (mSlimRecents != null) {
-                mSlimRecents.refreshCachedPackage(pkg, state == PackageState.PACKAGE_REMOVED);
-            }
         }
     }
 
@@ -6500,8 +6466,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     protected RecentsComponent mRecents;
 
-    private RecentController mSlimRecents;
-
     protected int mZenMode;
 
     // which notification is currently being longpress-examined by the user
@@ -6609,9 +6573,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RECENTS_ICON_PACK),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                  Settings.System.USE_SLIM_RECENTS),
-                  false, this, UserHandle.USER_ALL);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_SAVER_MODE_COLOR),
                     false, this, UserHandle.USER_ALL);
@@ -6648,6 +6609,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE),
                     false, this, UserHandle.USER_ALL);
+
+            update();
         }
 
         @Override
@@ -6675,9 +6638,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENTS_ICON_PACK))) {
                 updateRecentsIconPack();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.USE_SLIM_RECENTS))) {
-                updateRecentsMode();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.FORCE_AMBIENT_FOR_MEDIA))) {
                 setForceAmbient();
@@ -6707,7 +6667,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 	    setQsPanelOptions();
             setQsRowsColumns();
             updateTickerAnimation();
-            updateRecentsMode();
+            updateRecentsIconPack();
             updateTheme();
             setForceAmbient();
             setQuickStatusBarHeader();
@@ -6766,48 +6726,11 @@ public class StatusBar extends SystemUI implements DemoMode,
 
 
     private void updateRecentsIconPack() {
-        boolean slimRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.USE_SLIM_RECENTS, 0, mCurrentUserId) == 1;
-        if (!slimRecents) {
-            String currentIconPack = Settings.System.getStringForUser(mContext.getContentResolver(),
-                Settings.System.RECENTS_ICON_PACK, mCurrentUserId);
-            mRecents.resetIconCache();
-            mRecents.getIconsHandler().updatePrefs(currentIconPack);
-        }
+        String currentIconPack = Settings.System.getStringForUser(mContext.getContentResolver(),
+            Settings.System.RECENTS_ICON_PACK, mCurrentUserId);
+        IconPackHelper.getInstance(mContext).updatePrefs(currentIconPack);
+        mRecents.resetIconCache();
     }
-
-    private void updateRecentsMode() {
-        boolean slimRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.USE_SLIM_RECENTS, 0, mCurrentUserId) == 1;
-        if (slimRecents) {
-            mRecents.evictAllCaches();
-            mSlimRecents = new RecentController(mContext);
-            rebuildRecentsScreen();
-            mSlimRecents.addSbCallbacks();
-        } else {
-            if (mSlimRecents != null) {
-                mSlimRecents.evictAllCaches();
-                mSlimRecents.removeSbCallbacks();
-                mSlimRecents = null;
-            }
-        }
-        updateRecentsIconPack();
-    }
-
-    private void rebuildRecentsScreen() {
-        if (mSlimRecents != null) {
-            mSlimRecents.rebuildRecentsScreen();
-        }
-    }
-
-    private static void sendCloseSystemWindows(Context context, String reason) {
-         if (ActivityManagerNative.isSystemReady()) {
-             try {
-                 ActivityManagerNative.getDefault().closeSystemDialogs(reason);
-             } catch (RemoteException e) {
-             }
-         }
-     }
 
     private void setForceAmbient() {
         mAmbientMediaPlaying = Settings.System.getIntForUser(mContext.getContentResolver(),
