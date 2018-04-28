@@ -53,13 +53,19 @@ public class HeadsUpTile extends QSTileImpl<BooleanState> {
 
     @Override
     public void handleClick() {
-        setEnabled(!mState.value);
-        refreshState();
+	setEnabled(!mState.value);
+	refreshState();
     }
 
     @Override
     public Intent getLongClickIntent() {
         return null;
+    }
+
+
+    @Override
+    protected void handleLongClick() {
+        handleClick();
     }
 
     @Override
