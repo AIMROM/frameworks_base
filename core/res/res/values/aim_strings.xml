@@ -63,4 +63,6 @@
      <string name="action_null">Blank</string>
 
 
+	<!-- Blacklist aps from sharing -->
+	<string name="app_blacklist">Blacklist app</string>
 </resources>
