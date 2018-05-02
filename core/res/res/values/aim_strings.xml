@@ -70,4 +70,6 @@
      <string name="reboot_title">Reboot</string>
      <string name="reboot_message">Rebooting system</string>
 
+	<!-- Blacklist aps from sharing -->
+	<string name="app_blacklist">Blacklist app</string>
 </resources>
