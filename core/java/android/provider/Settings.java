@@ -4908,6 +4908,12 @@ public final class Settings {
         public static final String QS_SHOW_MINI = "qs_show_mini";
 
         /**
+         * Apps to hide in the ChooserActivity
+         * @hide
+         */
+        public static final String CHOOSER_ACTIVITY_BLACKLIST = "chooser_activity_blacklist";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
