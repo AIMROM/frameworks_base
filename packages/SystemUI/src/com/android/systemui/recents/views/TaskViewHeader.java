@@ -30,7 +30,6 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.CountDownTimer;
@@ -258,8 +257,8 @@ public class TaskViewHeader extends FrameLayout
         // Initialize the icon and description views
         mIconView = findViewById(R.id.icon);
         mIconView.setOnLongClickListener(this);
-        mTitleView = (TextView) findViewById(R.id.title);
-        mDismissButton = (ImageView) findViewById(R.id.dismiss_task);
+        mTitleView = findViewById(R.id.title);
+        mDismissButton = findViewById(R.id.dismiss_task);
         mLockTaskButton = (ImageView) findViewById(R.id.lock_task);
         if (ssp.hasFreeformWorkspaceSupport()) {
             mMoveTaskButton = findViewById(R.id.move_task);
@@ -480,11 +479,9 @@ public class TaskViewHeader extends FrameLayout
     }
 
     private void updateLockTaskDrawable() {
-        if (mTask != null) {
-            mLockTaskButton.setImageDrawable(mTask.useLightOnPrimaryColor ?
-                    (Recents.sLockedTasks.contains(mTask) ? mLightLockedDrawable : mLightUnlockedDrawable) :
-                    (Recents.sLockedTasks.contains(mTask) ? mDarkLockedDrawable : mDarkUnlockedDrawable));
-        }
+        mLockTaskButton.setImageDrawable(mTask.useLightOnPrimaryColor ?
+                (Recents.sLockedTasks.contains(mTask) ? mLightLockedDrawable : mLightUnlockedDrawable) :
+                (Recents.sLockedTasks.contains(mTask) ? mDarkLockedDrawable : mDarkUnlockedDrawable));
     }
 
     /**
