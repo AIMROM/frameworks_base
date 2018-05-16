@@ -4165,6 +4165,12 @@ public final class Settings {
          public static final String QS_PANEL_BG_COLOR = "qs_panel_bg_color";
 
 	 /**
+          * Whether to change the color of the qs panel based on wallpaper
+          * @hide
+          */
+         public static final String QS_PANEL_BG_USE_WALL = "qs_panel_bg_use_wall";
+
+	 /**
 	  * Whether to use the MTP by default after connecting to PC
           * @hide
           */
