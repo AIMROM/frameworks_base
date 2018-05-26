@@ -4591,6 +4591,12 @@ public final class Settings {
         public static final String FORCE_AMBIENT_FOR_MEDIA = "force_ambient_for_media";
 
         /**
+         * Whether to change the color of settings icons
+         * @hide
+         */
+        public static final String SETTINGS_ICON_TINT = "settings_icon_tint";
+
+        /**
          * Status bar carrier label
          * 0: Hide
          * 1: Display on keyguard status bar

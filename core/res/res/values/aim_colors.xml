@@ -19,4 +19,7 @@
     <color name="material_pixel_blue_light">#ff3a3a3a</color><!-- Pixel Secondary Color-->
     <color name="material_pixel_blue_bright">#ff4285f4</color><!-- Pixel Accent Color-->
 
+<!-- Color for icons/drawables in settings -->
+     <color name="settings_icon_color">#ffffffff</color>
+
  </resources>
