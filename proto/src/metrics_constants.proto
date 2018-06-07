@@ -4619,15 +4619,15 @@ message MetricsEvent {
     // END OF AOSP CONSTANTS
 
     // Quick setting tiles
-    QUICK_SETTINGS = 949;
+    QUICK_SETTINGS = 9990;
 
     //AIM
-    AIM = 950;
-    AMIFY = 951;
-    FREEDOMHUB = 952;
-    EXTENSIONS = 953;
-    ABC = 954;
-    OMNI_QS_WEATHER = 1151;
-    OMNI_QS_WEATHER_DETAILS = 1152;
+    AIM = 9991;
+    AMIFY = 9992;
+    FREEDOMHUB = 9993;
+    EXTENSIONS = 9994;
+    ABC = 9995;
+    OMNI_QS_WEATHER = 9996;
+    OMNI_QS_WEATHER_DETAILS = 9997;
   }
 }
