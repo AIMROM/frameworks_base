@@ -5371,17 +5371,20 @@ public class StatusBar extends SystemUI implements DemoMode,
             useDarkTheme = userThemeSetting == 2;
             useBlackTheme = userThemeSetting == 3;
         }
-        if (isUsingDarkTheme() != useDarkTheme) {
+
+       if (isUsingDarkTheme() != useDarkTheme) {
             try {
                 mOverlayManager.setEnabled("com.android.system.theme.dark",
                         useDarkTheme, mCurrentUserId);
-                mOverlayManager.setEnabled("com.android.gboard.theme.dark",
                 mOverlayManager.setEnabled("com.android.settings.theme.dark",
+                        useDarkTheme, mCurrentUserId);
+                mOverlayManager.setEnabled("com.android.gboard.theme.dark",
                         useDarkTheme, mCurrentUserId);
             } catch (RemoteException e) {
                 Log.w(TAG, "Can't change dark theme(s)", e);
             }
         }
+
         if (isUsingBlackTheme() != useBlackTheme) {
             try {
                 mOverlayManager.setEnabled("com.android.system.theme.black",
@@ -5395,6 +5398,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                 Log.w(TAG, "Can't change black theme(s)", e);
             }
         }
+
 
         // Lock wallpaper defines the color of the majority of the views, hence we'll use it
         // to set our default theme.
@@ -6761,9 +6765,10 @@ public class StatusBar extends SystemUI implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE))) {
                 setStatusBarWindowViewOptions();
-	   } else if (uri.equals(Settings.System.getUriFor(Settings.System.SETTINGS_ICON_TINT))) ||
-		      uri.equals(Settings.Secure.getUriFor(Settings.Secure.SYSUI_ROUNDED_FWVALS))) {
-                 updateTheme();
+	   } else if (uri.equals(Settings.System.getUriFor(Settings.System.SYSTEM_THEME_STYLE)) ||
+                        uri.equals(Settings.System.getUriFor(Settings.System.SETTINGS_ICON_TINT)) ||
+                        uri.equals(Settings.Secure.getUriFor(Settings.Secure.SYSUI_ROUNDED_FWVALS))) {
+                updateTheme();
             }
         }
 
