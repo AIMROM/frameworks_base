@@ -329,31 +329,6 @@ public final class AudioFormat implements Parcelable {
         }
     }
 
-    /** Audio data format: AMRNB
-     * @hide
-     * */
-    public static final int ENCODING_AMRNB = 100;
-    /** Audio data format: AMRWB
-     * @hide
-     * */
-    public static final int ENCODING_AMRWB = 101;
-    /** Audio data format: EVRC
-     * @hide
-     * */
-    public static final int ENCODING_EVRC = 102;
-    /** Audio data format: EVRCB
-     * @hide
-     * */
-    public static final int ENCODING_EVRCB = 103;
-    /** Audio data format: EVRCWB
-     * @hide
-     * */
-    public static final int ENCODING_EVRCWB = 104;
-    /** Audio data format: EVRCNW
-     * @hide
-     * */
-    public static final int ENCODING_EVRCNW = 105;
-
     /** Invalid audio channel configuration */
     /** @deprecated Use {@link #CHANNEL_INVALID} instead.  */
     @Deprecated    public static final int CHANNEL_CONFIGURATION_INVALID   = 0;

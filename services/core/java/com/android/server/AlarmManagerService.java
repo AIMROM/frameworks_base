@@ -175,6 +175,7 @@ class AlarmManagerService extends SystemService {
      * At boot we use SYSTEM_UI_SELF_PERMISSION to look up the definer's uid.
      */
     int mSystemUiUid;
+
     private Set<String> mSeenAlarms = new HashSet<String>();
     private Set<String> mBlockedAlarms = new HashSet<String>();
     private int mAlarmsBlockingEnabled;

@@ -1514,19 +1514,7 @@ public final class PowerManager {
                     + Integer.toHexString(System.identityHashCode(this))
                     + " held=" + mHeld + ", refCount=" + mInternalCount + "}";
             }
-    /**
-      *  powerHint used by some Nvidia devices
-      *  Ignores any bytes of data beyond the first
-      *  @hide
-      */
-     public void powerHint(int hintId, int[] data) {
-         try {
-             mService.powerHint(hintId, data.length > 0 ? data[0] : 0);
-         } catch (RemoteException dummy) {}
-
-	}
-
-      }
+        }
 
         /**
          * Wraps a Runnable such that this method immediately acquires the wake lock and then
@@ -1556,7 +1544,19 @@ public final class PowerManager {
                 }
             };
         }
-    }
+
+	/**
+      *  powerHint used by some Nvidia devices
+      *  Ignores any bytes of data beyond the first
+      *  @hide
+      */
+     public void powerHint(int hintId, int[] data) {
+         try {
+             mService.powerHint(hintId, data.length > 0 ? data[0] : 0);
+         } catch (RemoteException dummy) {}
+     }
+
+  }
 
     /**
      * @hide
