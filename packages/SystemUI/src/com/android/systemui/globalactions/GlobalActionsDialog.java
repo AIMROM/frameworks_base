@@ -418,11 +418,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener, DialogIn
                         Settings.System.POWERMENU_RESTART, 1) == 1) {
                     mItems.add(new RestartAction());
                 }
-            } else if (GLOBAL_ACTION_KEY_RESTART_RECOVERY.equals(actionKey)) {
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.POWERMENU_RESTART_RECOVERY, 1) == 1) {
-                    mItems.add(new AdvancedRestartAction());
-                }
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 if (Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.POWERMENU_SCREENSHOT, 0) == 1) {
