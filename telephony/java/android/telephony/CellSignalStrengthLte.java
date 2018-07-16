@@ -21,6 +21,7 @@ import android.annotation.UnsupportedAppUsage;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.content.res.Resources;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -194,7 +195,9 @@ public final class CellSignalStrengthLte extends CellSignalStrength implements P
             while (rsrpIconLevel > 0 && rsrp < thresholds[rsrpIconLevel - 1]) rsrpIconLevel--;
         }
 
-        if (rsrpOnly) {
+        boolean rssnrIgnored = Resources.getSystem().getBoolean(
+                com.android.internal.R.bool.config_ignoreRssnrSignalLevel);
+        if (rssnrIgnored || rsrpOnly) {
             if (DBG) log("updateLevel() - rsrp = " + rsrpIconLevel);
             if (rsrpIconLevel != -1) {
                 mLevel = rsrpIconLevel;
