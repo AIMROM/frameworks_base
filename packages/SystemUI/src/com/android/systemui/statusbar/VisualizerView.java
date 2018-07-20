@@ -63,6 +63,7 @@ public class VisualizerView extends View
     private boolean mDisplaying = false; // the state we're animating to
     private boolean mDozing = false;
     private boolean mOccluded = false;
+    private boolean mAmbientVisualizerEnabled = false;
 
     private int mColor;
     private int dColor;
@@ -299,6 +300,11 @@ public class VisualizerView extends View
                 Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 0) == 1;
     }
 
+    private void setAmbientVisualizerEnabled() {
+        mAmbientVisualizerEnabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.AMBIENT_VISUALIZER_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
+    }
+
     private void setLavaLampEnabled() {
         mLavaLampEnabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED , 0, UserHandle.USER_CURRENT) == 1;
@@ -463,7 +469,24 @@ public class VisualizerView extends View
 
     private void checkStateChanged() {
         boolean isVisible = getVisibility() == View.VISIBLE;
-        if (isVisible && mPlaying && !mDozing && !mPowerSaveMode
+        if (isVisible && mVisible && mPlaying && mDozing && !mPowerSaveMode
+                && mVisualizerEnabled && mAmbientVisualizerEnabled && !mOccluded) {
+            if (!mDisplaying) {
+                mDisplaying = true;
+                AsyncTask.execute(mLinkVisualizer);
+                animate()
+                        .alpha(0.40f)
+                        .withEndAction(null)
+                        .setDuration(800);
+                if (mLavaLampEnabled) mLavaLamp.start();
+            } else {
+                mPaint.setColor(mColor);
+                animate()
+                        .alpha(0.40f)
+                        .withEndAction(null)
+                        .setDuration(800);
+            }
+        } else if (isVisible && mVisible && mPlaying && !mDozing && !mPowerSaveMode
                 && mVisualizerEnabled && !mOccluded) {
             if (!mDisplaying) {
                 mDisplaying = true;
@@ -473,12 +496,18 @@ public class VisualizerView extends View
                         .withEndAction(null)
                         .setDuration(800);
                 if (mLavaLampEnabled) mLavaLamp.start();
+            } else {
+                mPaint.setColor(mColor);
+                animate()
+                        .alpha(1f)
+                        .withEndAction(null)
+                        .setDuration(800);
             }
         } else {
             if (mDisplaying) {
                 mDisplaying = false;
                 mLavaLamp.stop();
-                if (isVisible) {
+                if (mVisible && !mAmbientVisualizerEnabled) {
                     animate()
                             .alpha(0f)
                             .withEndAction(mAsyncUnlinkVisualizer)
@@ -503,6 +532,9 @@ public class VisualizerView extends View
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.AMBIENT_VISUALIZER_ENABLED),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED),
@@ -539,6 +571,9 @@ public class VisualizerView extends View
                     Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED))) {
                 setVisualizerEnabled();
             } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.AMBIENT_VISUALIZER_ENABLED))) {
+                setAmbientVisualizerEnabled();
+            } else if (uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED))) {
                 setLavaLampEnabled();
             } else if (uri.equals(Settings.Secure.getUriFor(
@@ -564,6 +599,7 @@ public class VisualizerView extends View
 
         protected void update() {
             setVisualizerEnabled();
+            setAmbientVisualizerEnabled();
             setLavaLampEnabled();
             setLavaLampSpeed();
             setAutoColorEnabled();
