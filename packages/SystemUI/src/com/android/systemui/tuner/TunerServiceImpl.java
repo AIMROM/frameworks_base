@@ -73,7 +73,7 @@ public class TunerServiceImpl extends TunerService {
     private static final String[] RESET_BLACKLIST = new String[] {
             BatteryMeterView.STATUS_BAR_BATTERY_STYLE,
             Clock.CLOCK_STYLE,
-            ClockController.CLOCK_POSITION,
+            ClockController.STATUS_BAR_CLOCK,
             NavigationBarView.NAVIGATION_BAR_MENU_ARROW_KEYS,
             NotificationPanelView.DOUBLE_TAP_SLEEP_GESTURE,
             NotificationPanelView.STATUS_BAR_QUICK_QS_PULLDOWN,
