@@ -5277,7 +5277,6 @@ public final class Settings {
         /** @hide */
         private static final Validator SLIM_RECENT_ENTER_EXIT_ANIMATION_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
-
         /**
          * Accent Color
          * @hide
@@ -5286,6 +5285,9 @@ public final class Settings {
 
         /** @hide */
         private static final Validator ACCENT_COLOR_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+       /** @hide */
+        public static final String OMNI_NAVIGATION_BAR_RECENTS = "navigation_bar_recents";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings

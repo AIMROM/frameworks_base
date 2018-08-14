@@ -17,6 +17,7 @@
 package com.android.internal.util.aim;
 
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -175,6 +176,7 @@ public class Utils {
     // Omni Switch Constants
 
     /**
+     * @hide
      * Package name of the omnniswitch app
      */
     public static final String APP_PACKAGE_NAME = "org.omnirom.omniswitch";
@@ -190,16 +192,12 @@ public class Utils {
     private static final String ACTION_PRELOAD_TASKS = APP_PACKAGE_NAME + ".ACTION_PRELOAD_TASKS";
 
     /**
-     * Intent broadcast action for restoring the home stack
-     */
-    private static final String ACTION_RESTORE_HOME_STACK = APP_PACKAGE_NAME + ".ACTION_RESTORE_HOME_STACK";
-
-    /**
      * Intent broadcast action for hide the omniswitch overlay
      */
     private static final String ACTION_HIDE_OVERLAY = APP_PACKAGE_NAME + ".ACTION_HIDE_OVERLAY";
 
     /**
+     * @hide
      * Intent for launching the omniswitch settings actvity
      */
     public static Intent INTENT_LAUNCH_APP = new Intent(Intent.ACTION_MAIN)
@@ -226,6 +224,19 @@ public class Utils {
     /**
      * @hide
      */
+    public static boolean isOmniSwitchRunning(Context context) {
+        final ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (service.service.getClassName().equals(APP_PACKAGE_NAME + ".SwitchService")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @hide
+     */
     public static void toggleOmniSwitchRecents(Context context, UserHandle user) {
         final Intent intent = new Intent(Utils.ACTION_TOGGLE_OVERLAY2);
         intent.setPackage(APP_PACKAGE_NAME);
@@ -244,16 +255,7 @@ public class Utils {
     /**
      * @hide
      */
-    public static void restoreHomeStack(Context context, UserHandle user) {
-        final Intent intent = new Intent(Utils.ACTION_RESTORE_HOME_STACK);
-        intent.setPackage(APP_PACKAGE_NAME);
-        context.sendBroadcastAsUser(intent, user);
-    }
-
-    /**
-     * @hide
-     */
-    public static void preloadOmniSwitchRecents(Context context, UserHandle user) {
+     public static void preloadOmniSwitchRecents(Context context, UserHandle user) {
         final Intent intent = new Intent(Utils.ACTION_PRELOAD_TASKS);
         intent.setPackage(APP_PACKAGE_NAME);
         context.sendBroadcastAsUser(intent, user);

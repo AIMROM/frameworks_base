@@ -775,6 +775,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mTorchEnabled;
     private int mTorchTimeout;
     private PendingIntent mTorchOffPendingIntent;
+    private boolean mOmniSwitchRecents;
 
     private boolean mLongSwipeDown;
     private static final int LONG_SWIPE_FLAGS = KeyEvent.FLAG_LONG_PRESS
@@ -1014,6 +1015,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREENSHOT_TYPE), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.OMNI_NAVIGATION_BAR_RECENTS), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2648,9 +2652,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             com.android.internal.R.integer.config_veryLongPressOnPowerBehavior));
             mVolButtonScreenshotType = Settings.System.getIntForUser(resolver,
                     Settings.System.SCREENSHOT_TYPE, 0, UserHandle.USER_CURRENT);
-
             mKillAppLongpressBack = LineageSettings.Secure.getInt(resolver,
                     LineageSettings.Secure.KILL_APP_LONGPRESS_BACK, 0) == 1;
+            mOmniSwitchRecents = Settings.System.getIntForUser(resolver,
+                    Settings.System.OMNI_NAVIGATION_BAR_RECENTS, 0,
+                    UserHandle.USER_CURRENT) == 1;
         }
         if (updateRotation) {
             updateRotation(true);
