@@ -20,6 +20,9 @@
     <bool name="config_statusBarBurnInProtection">false</bool>
     <integer name="config_shift_interval">60</integer>
 
-    <!-- CPUInfoService temperature sysfs path -->
-    <string name="config_cpuinfoSysTemp" translatable="false"></string>
- </resources>
+    <!-- The CPU temperature sensor path, defaults to empty -->
+    <string name="config_cpuTempSensor" translatable="false">/sys/class/thermal/thermal_zone0/temp</string>
+
+    <!-- The CPU temperature divider, if needed -->
+    <integer name="config_cpuTempDivider" translatable="false">1</integer>
+</resources>
