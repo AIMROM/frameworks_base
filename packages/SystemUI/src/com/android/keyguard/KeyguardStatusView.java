@@ -113,6 +113,8 @@ public class KeyguardStatusView extends GridLayout implements
                 refreshLockDateFont();
                 mClockView.refreshclocksize();
                 mKeyguardSlice.refreshdatesize();
+                refreshOwnerInfoSize();
+                refreshOwnerInfoFont();
             }
         }
 
@@ -136,6 +138,8 @@ public class KeyguardStatusView extends GridLayout implements
             mClockView.refreshclocksize();
             mKeyguardSlice.refreshdatesize();
             updateDateStyles();
+            refreshOwnerInfoSize();
+            refreshOwnerInfoFont();
         }
 
         @Override
@@ -222,6 +226,8 @@ public class KeyguardStatusView extends GridLayout implements
         refreshLockDateFont();
         mClockView.refreshclocksize();
         updateDateStyles();
+        refreshOwnerInfoSize();
+        refreshOwnerInfoFont();
         mKeyguardSlice.refreshdatesize();
         mKeyguardSlice.setContentChangeListener(this::onSliceContentChanged);
         onSliceContentChanged();
@@ -269,7 +275,7 @@ public class KeyguardStatusView extends GridLayout implements
         }
         if (mOwnerInfo != null) {
             mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    getResources().getDimensionPixelSize(R.dimen.widget_label_font_size));
+                    getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_18));
         }
         loadBottomMargin();
     }
@@ -319,6 +325,16 @@ public class KeyguardStatusView extends GridLayout implements
     private int getLockDateFont() {
         return Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.LOCK_DATE_FONTS, 0);
+    }
+
+    private int getOwnerInfoFont() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.LOCK_OWNERINFO_FONTS, 0);
+    }
+
+    private int getOwnerInfoSize() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.LOCKOWNER_FONT_SIZE, 18);
     }
 
     private void refreshFormat() {
@@ -465,6 +481,338 @@ public class KeyguardStatusView extends GridLayout implements
         }
         if (lockDateFont == 17) {
             mKeyguardSlice.setViewsTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+        }
+    }
+
+    public void refreshOwnerInfoSize() {
+        final Resources res = getContext().getResources();
+        boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
+        int ownerInfoSize = isPrimary ? getOwnerInfoSize() : 18;
+
+        switch (ownerInfoSize) {
+            case 10:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_10));
+                break;
+            case 11:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_11));
+                break;
+            case 12:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_12));
+                break;
+            case 13:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_13));
+                break;
+            case 14:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_14));
+                break;
+            case 15:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_15));
+                break;
+            case 16:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_16));
+                break;
+            case 17:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_17));
+                break;
+            case 18:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_18));
+                break;
+            case 19:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_19));
+                break;
+            case 20:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_20));
+                break;
+            case 21:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_21));
+                break;
+            case 22:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_22));
+                break;
+            case 23:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_23));
+                break;
+            case 24:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_24));
+                break;
+            case 25:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_25));
+                break;
+            case 26:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_26));
+                break;
+            case 27:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_27));
+                break;
+            case 28:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_28));
+                break;
+            case 29:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_29));
+                break;
+            case 30:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_30));
+                break;
+            case 31:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_31));
+                break;
+            case 32:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_32));
+                break;
+            case 33:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_33));
+                break;
+            case 34:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_34));
+                break;
+            case 35:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_35));
+                break;
+            case 36:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_36));
+                break;
+            case 37:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_37));
+                break;
+            case 38:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_38));
+                break;
+            case 39:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_39));
+                break;
+            case 40:
+                mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_40));
+                break;
+        }
+    }
+
+    private void refreshOwnerInfoFont() {
+        final Resources res = getContext().getResources();
+        boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
+        int ownerinfoFont = isPrimary ? getOwnerInfoFont() : 0;
+
+        if (ownerinfoFont == 0) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 1) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+        }
+        if (ownerinfoFont == 2) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+        }
+        if (ownerinfoFont == 3) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+        }
+        if (ownerinfoFont == 4) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 5) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+        }
+        if (ownerinfoFont == 6) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 7) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+        }
+        if (ownerinfoFont == 8) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 9) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+        }
+        if (ownerinfoFont == 10) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 11) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+        }
+        if (ownerinfoFont == 12) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+        }
+        if (ownerinfoFont == 13) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+        }
+        if (ownerinfoFont == 14) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 15) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+        }
+        if (ownerinfoFont == 16) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 17) {
+            mOwnerInfo.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+        }
+        if (ownerinfoFont == 18) {
+            mOwnerInfo.setTypeface(Typeface.create("abelreg", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 19) {
+            mOwnerInfo.setTypeface(Typeface.create("adamcg-pro", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 20) {
+            mOwnerInfo.setTypeface(Typeface.create("adventpro", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 21) {
+            mOwnerInfo.setTypeface(Typeface.create("alexana-neue", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 22) {
+            mOwnerInfo.setTypeface(Typeface.create("alien-league", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 23) {
+            mOwnerInfo.setTypeface(Typeface.create("archivonar", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 24) {
+            mOwnerInfo.setTypeface(Typeface.create("autourone", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 25) {
+            mOwnerInfo.setTypeface(Typeface.create("azedo-light", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 26) {
+            mOwnerInfo.setTypeface(Typeface.create("badscript", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 27) {
+            mOwnerInfo.setTypeface(Typeface.create("bignoodle-regular", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 28) {
+            mOwnerInfo.setTypeface(Typeface.create("biko", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 29) {
+            mOwnerInfo.setTypeface(Typeface.create("blern", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 30) {
+            mOwnerInfo.setTypeface(Typeface.create("cherryswash", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 31) {
+            mOwnerInfo.setTypeface(Typeface.create("cocon", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 32) {
+            mOwnerInfo.setTypeface(Typeface.create("codystar", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 33) {
+            mOwnerInfo.setTypeface(Typeface.create("fester", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 34) {
+            mOwnerInfo.setTypeface(Typeface.create("fox-and-cat", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 35) {
+            mOwnerInfo.setTypeface(Typeface.create("ginora-sans", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 36) {
+            mOwnerInfo.setTypeface(Typeface.create("gobold-sys", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 37) {
+            mOwnerInfo.setTypeface(Typeface.create("ibmplex-mono", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 38) {
+            mOwnerInfo.setTypeface(Typeface.create("inkferno", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 39) {
+            mOwnerInfo.setTypeface(Typeface.create("instruction", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 40) {
+            mOwnerInfo.setTypeface(Typeface.create("jacklane", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 41) {
+            mOwnerInfo.setTypeface(Typeface.create("jura-reg", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 42) {
+            mOwnerInfo.setTypeface(Typeface.create("kellyslab", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 43) {
+            mOwnerInfo.setTypeface(Typeface.create("metropolis1920", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 44) {
+            mOwnerInfo.setTypeface(Typeface.create("monad", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 45) {
+            mOwnerInfo.setTypeface(Typeface.create("neonneon", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 46) {
+            mOwnerInfo.setTypeface(Typeface.create("noir", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 47) {
+            mOwnerInfo.setTypeface(Typeface.create("northfont", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 48) {
+            mOwnerInfo.setTypeface(Typeface.create("outrun-future", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 49) {
+            mOwnerInfo.setTypeface(Typeface.create("pompiere", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 50) {
+            mOwnerInfo.setTypeface(Typeface.create("qontra", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 51) {
+            mOwnerInfo.setTypeface(Typeface.create("raleway-light", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 52) {
+            mOwnerInfo.setTypeface(Typeface.create("reemkufi", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 53) {
+            mOwnerInfo.setTypeface(Typeface.create("riviera", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 54) {
+            mOwnerInfo.setTypeface(Typeface.create("roadrage-sys", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 55) {
+            mOwnerInfo.setTypeface(Typeface.create("satisfy", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 56) {
+            mOwnerInfo.setTypeface(Typeface.create("seaweedsc", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 57) {
+            mOwnerInfo.setTypeface(Typeface.create("sedgwick-ave", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 58) {
+            mOwnerInfo.setTypeface(Typeface.create("snowstorm-sys", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 59) {
+            mOwnerInfo.setTypeface(Typeface.create("themeable-clock", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 60) {
+            mOwnerInfo.setTypeface(Typeface.create("the-outbox", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 61) {
+            mOwnerInfo.setTypeface(Typeface.create("unionfont", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 62) {
+            mOwnerInfo.setTypeface(Typeface.create("vibur", Typeface.NORMAL));
+        }
+        if (ownerinfoFont == 63) {
+            mOwnerInfo.setTypeface(Typeface.create("voltaire", Typeface.NORMAL));
         }
     }
 
