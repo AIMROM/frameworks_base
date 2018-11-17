@@ -45,6 +45,8 @@ import android.hardware.biometrics.BiometricSourceType;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -2527,6 +2529,7 @@ public class NotificationPanelView extends PanelView implements
 
     @Override
     protected void onTrackingStarted() {
+        Secure.putInt(mContext.getContentResolver(), "sysui_rounded_size_top", -1);
         mFalsingManager.onTrackingStarted(mStatusBar.isKeyguardCurrentlySecure());
         super.onTrackingStarted();
         if (mQsFullyExpanded) {
@@ -2542,6 +2545,8 @@ public class NotificationPanelView extends PanelView implements
 
     @Override
     protected void onTrackingStopped(boolean expand) {
+        if (!expand)
+            Secure.putInt(mContext.getContentResolver(), "sysui_rounded_size_top", -2);
         mFalsingManager.onTrackingStopped();
         super.onTrackingStopped(expand);
         if (expand) {
