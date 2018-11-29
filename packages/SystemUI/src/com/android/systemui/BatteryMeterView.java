@@ -424,10 +424,28 @@ public class BatteryMeterView extends LinearLayout implements
                     mChargeIndicator = bolt + " ";
                     break;
                 case 2:
-                    mChargeIndicator = "⚡️ ";
+                    mChargeIndicator = "⚡️";
                     break;
                 case 3:
-                    mChargeIndicator = "~ ";
+                    mChargeIndicator = "~";
+                    break;
+                case 4:
+                    mChargeIndicator = "+";
+                    break;
+                case 5:
+                    mChargeIndicator = "*";
+                    break;
+                case 6:
+                    mChargeIndicator = "₹";
+                    break;
+                case 7:
+                    mChargeIndicator = "$";
+                    break;
+                case 8:
+                    mChargeIndicator = "€";
+                    break;
+                case 9:
+                    mChargeIndicator = "¢";
                     break;
             }
         }
