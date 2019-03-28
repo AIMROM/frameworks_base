@@ -167,4 +167,7 @@
 
   <!-- Themes -->
   <java-symbol type="color" name="theme_generic_semi_transparent_color" />
+
+  <!-- Smart charging battery percentage -->
+  <java-symbol type="integer" name="config_smartChargingBatteryLevel" />
 </resources>
