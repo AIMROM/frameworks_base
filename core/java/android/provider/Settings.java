@@ -5054,6 +5054,15 @@ public final class Settings {
         private static final Validator SCREEN_OFF_ANIMATION_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
         /**
+         * Accent Color
+         * @hide
+         */
+        public static final String ACCENT_COLOR = "accent_color";
+
+        /** @hide */
+        private static final Validator ACCENT_COLOR_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5122,6 +5131,7 @@ public final class Settings {
             QSFOOTER_SHOW_SETTINGS,
             QS_EDIT_TOGGLE,
             SCREEN_OFF_ANIMATION,
+            ACCENT_COLOR,
         };
 
         /**
@@ -5245,6 +5255,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QSFOOTER_SHOW_SETTINGS);
             PRIVATE_SETTINGS.add(QS_EDIT_TOGGLE);
             PRIVATE_SETTINGS.add(SCREEN_OFF_ANIMATION);
+            PRIVATE_SETTINGS.add(ACCENT_COLOR);
         }
 
         /**
@@ -5344,6 +5355,7 @@ public final class Settings {
             VALIDATORS.put(QSFOOTER_SHOW_SETTINGS, QSFOOTER_SHOW_SETTINGS_VALIDATOR);
             VALIDATORS.put(QS_EDIT_TOGGLE, QS_EDIT_TOGGLE_VALIDATOR);
             VALIDATORS.put(SCREEN_OFF_ANIMATION, SCREEN_OFF_ANIMATION_VALIDATOR);
+            VALIDATORS.put(ACCENT_COLOR, ACCENT_COLOR_VALIDATOR);
         }
 
         /**

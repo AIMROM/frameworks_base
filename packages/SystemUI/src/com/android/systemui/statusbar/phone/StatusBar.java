@@ -4142,6 +4142,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.Secure.AMBIENT_VISUALIZER_ENABLED),
                     false, this, UserHandle.USER_ALL);
         }
+
          @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
