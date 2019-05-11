@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Date styles requires clock -->
+    <color name="date_style_system_bg">@*android:color/background_material_dark</color>
+    <color name="date_style_system_accent_follow">@*android:color/transparent</color>
+</resources>
