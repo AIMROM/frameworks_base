@@ -28,4 +28,7 @@
 
     <!-- Max visible system icons -->
     <integer name="config_maxVisibleStatusIconContainer">6</integer>
+
+    <!-- Allow devices override audio panel location to the left side -->
+    <bool name="config_audioPanelOnLeftSide">false</bool>
 </resources>
