@@ -30,4 +30,7 @@
     <!-- Whether device ignores the RSSNR signal implementation -->
     <java-symbol type="bool" name="config_ignoreRssnrSignalLevel" />
 
+    <!-- Whether to use scaled brightness (set -1 to disable) -->
+    <java-symbol type="integer" name="config_useScaleBrightness" />
+
 </resources>
