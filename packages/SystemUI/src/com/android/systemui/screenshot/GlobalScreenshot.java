@@ -218,7 +218,7 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
             // Now replace all spaces and special chars with an underscore
             appNameString = appNameString.replaceAll("[\\\\/:*?\"<>|\\s]+", "_");
             mImageFileName = String.format(SCREENSHOT_FILE_NAME_TEMPLATE_APPNAME,
-                    imageDate, appNameString);
+                    appNameString, imageDate);
         } else {
             mImageFileName = String.format(SCREENSHOT_FILE_NAME_TEMPLATE, imageDate);
         }
