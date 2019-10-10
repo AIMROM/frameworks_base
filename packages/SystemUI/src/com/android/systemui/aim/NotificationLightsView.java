@@ -46,12 +46,15 @@ import com.android.systemui.R;
 
 public class NotificationLightsView extends RelativeLayout {
 
+    private static final boolean DEBUG = false;
+    private static final String TAG = "NotificationLightsView";
     private View mNotificationAnimView;
     private ValueAnimator mLightAnimatorLeft;
     private ValueAnimator mLightAnimatorRight;
     private WallpaperManager mWallManager;
 
     private boolean mPulsing;
+    private boolean mNotification;
     private boolean mAutoColorLeft;
     private boolean mAutoColorRight;
     private int lColor;
@@ -73,14 +76,14 @@ public class NotificationLightsView extends RelativeLayout {
 
     public NotificationLightsView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        Log.e("NotificationLightsView", "new");
+        if (DEBUG) Log.d(TAG, "new");
     }
 
     private Runnable mLightUpdate = new Runnable() {
         @Override
         public void run() {
-            Log.e("NotificationLightsView", "run");
-            animateNotification();
+            if (DEBUG) Log.d(TAG, "run");
+            animateNotification(mNotification);
         }
     };
 
@@ -94,10 +97,10 @@ public class NotificationLightsView extends RelativeLayout {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Log.e("NotificationLightsView", "draw");
+        if (DEBUG) Log.d(TAG, "draw");
     }
 
-    public void animateNotification() {
+    public void animateNotification(boolean mNotification) {
         mAutoColorLeft = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.PULSE_AMBIENT_LIGHT_AUTO_COLOR_LEFT, 1,
                 UserHandle.USER_CURRENT) == 1;
@@ -141,14 +144,17 @@ public class NotificationLightsView extends RelativeLayout {
         StringBuilder lsb = new StringBuilder();
         lsb.append("animateNotification lColor ");
         lsb.append(Integer.toHexString(lColor));
-        Log.e("NotificationLeftLightView", lsb.toString());
+        if (DEBUG) Log.d("NotificationLeftLightView", lsb.toString());
         ImageView leftView = (ImageView) findViewById(R.id.notification_animation_left);
         leftView.setColorFilter(lColor);
         mLightAnimatorLeft = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
         mLightAnimatorLeft.setDuration(lDuration);
+        //Infinite animation only on Always On Notifications
+        if (mNotification) mLightAnimatorLeft.setRepeatCount(ValueAnimator.INFINITE);
+        mLightAnimatorLeft.setRepeatMode(ValueAnimator.REVERSE);
         mLightAnimatorLeft.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                Log.e("NotificationLeftLightView", "onAnimationUpdate");
+                if (DEBUG) Log.d("NotificationLeftLightView", "onAnimationUpdate");
                 float progress = ((Float) animation.getAnimatedValue()).floatValue();
                 leftView.setScaleY(progress);
                 float alpha = 1.0f;
@@ -160,21 +166,24 @@ public class NotificationLightsView extends RelativeLayout {
                 leftView.setAlpha(alpha);
             }
         });
-        Log.e("NotificationLeftLightView", "start");
+        if (DEBUG) Log.d("NotificationLeftLightView", "start");
         mLightAnimatorLeft.start();
 
         // right edge
         StringBuilder rsb = new StringBuilder();
         rsb.append("animateNotification rColor ");
         rsb.append(Integer.toHexString(rColor));
-        Log.e("NotificationRightLightView", rsb.toString());
+        if (DEBUG) Log.d("NotificationRightLightView", rsb.toString());
         ImageView rightView = (ImageView) findViewById(R.id.notification_animation_right);
         rightView.setColorFilter(rColor);
         mLightAnimatorRight = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
         mLightAnimatorRight.setDuration(rDuration);
+        //Infinite animation only on Always On Notifications
+        if (mNotification) mLightAnimatorRight.setRepeatCount(ValueAnimator.INFINITE);
+        mLightAnimatorRight.setRepeatMode(ValueAnimator.REVERSE);
         mLightAnimatorRight.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                Log.e("NotificationRightLightView", "onAnimationUpdate");
+                if (DEBUG) Log.d("NotificationRightLightView", "onAnimationUpdate");
                 float progress = ((Float) animation.getAnimatedValue()).floatValue();
                 rightView.setScaleY(progress);
                 float alpha = 1.0f;
@@ -186,7 +195,7 @@ public class NotificationLightsView extends RelativeLayout {
                 rightView.setAlpha(alpha);
             }
         });
-        Log.e("NotificationRightLightView", "start");
+        if (DEBUG) Log.d("NotificationRightLightView", "start");
         mLightAnimatorRight.start();
     }
 }
