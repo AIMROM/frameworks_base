@@ -27,10 +27,12 @@ import android.animation.ValueAnimator;
 import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.StatusBarManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -40,8 +42,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.hardware.biometrics.BiometricSourceType;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -67,6 +72,7 @@ import com.android.systemui.DejankUtils;
 import com.android.systemui.Dependency;
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
+import com.android.systemui.aim.NotificationLightsView;
 import com.android.systemui.fragments.FragmentHostManager;
 import com.android.systemui.fragments.FragmentHostManager.FragmentListener;
 import com.android.systemui.plugins.FalsingManager;
@@ -337,6 +343,7 @@ public class NotificationPanelView extends PanelView implements
     private boolean mAffordanceHasPreview;
     private FalsingManager mFalsingManager;
     private String mLastCameraLaunchSource = KeyguardBottomAreaView.CAMERA_LAUNCH_SOURCE_AFFORDANCE;
+    private NotificationLightsView mPulseLightsView;
 
     private Runnable mHeadsUpExistenceChangedRunnable = new Runnable() {
         @Override
@@ -541,6 +548,7 @@ public class NotificationPanelView extends PanelView implements
         mKeyguardBottomArea = findViewById(R.id.keyguard_bottom_area);
         mQsNavbarScrim = findViewById(R.id.qs_navbar_scrim);
         mLastOrientation = getResources().getConfiguration().orientation;
+        mPulseLightsView = (NotificationLightsView) findViewById(R.id.lights_container);
 
         initBottomArea();
 
@@ -3369,6 +3377,9 @@ public class NotificationPanelView extends PanelView implements
         DozeParameters dozeParameters = DozeParameters.getInstance(mContext);
         final boolean animatePulse = !dozeParameters.getDisplayNeedsBlanking()
                 && dozeParameters.getAlwaysOn();
+        boolean pulseLights = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_AMBIENT_LIGHT, 0, UserHandle.USER_CURRENT) != 0;
+
         if (animatePulse) {
             mAnimateNextPositionUpdate = true;
         }
@@ -3376,6 +3387,13 @@ public class NotificationPanelView extends PanelView implements
         // The height callback will take care of pushing the clock to the right position.
         if (!mPulsing && !mDozing) {
             mAnimateNextPositionUpdate = false;
+        }
+        if ((mPulseLightsView != null) && pulseLights) {
+            mPulseLightsView.setVisibility(mPulsing ? View.VISIBLE : View.GONE);
+            if (mPulsing) {
+                mPulseLightsView.animateNotification();
+                mPulseLightsView.setPulsing(pulsing);
+            }
         }
         mNotificationStackScroller.setPulsing(pulsing, animatePulse);
         mKeyguardStatusView.setPulsing(pulsing);
