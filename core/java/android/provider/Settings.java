@@ -5030,6 +5030,21 @@ public final class Settings {
         private static final Validator QS_EDIT_TOGGLE_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
+         * Whether footer text shows
+         * @hide
+         */
+        public static final String FOOTER_TEXT_SHOW = "footer_text_show";
+
+        /** @hide */
+        private static final Validator FOOTER_TEXT_SHOW_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
+         * QS footer text
+         * @hide
+         */
+        public static final String FOOTER_TEXT_STRING = "footer_text_string";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
