@@ -28,7 +28,9 @@ import static com.android.systemui.statusbar.phone.StatusBar.SHOW_LOCKSCREEN_MED
 import android.annotation.MainThread;
 import android.annotation.Nullable;
 import android.app.Notification;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -49,14 +51,17 @@ import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.provider.Settings;
 
 import com.android.internal.config.sysui.SystemUiDeviceConfigFlags;
 import com.android.internal.statusbar.NotificationVisibility;
+import com.android.internal.util.aim.ImageHelper;
 import com.android.systemui.Dependency;
 import com.android.systemui.Dumpable;
 import com.android.systemui.Interpolators;
 import com.android.systemui.colorextraction.SysuiColorExtractor;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
+import com.android.systemui.R;
 import com.android.systemui.statusbar.notification.NotificationEntryListener;
 import com.android.systemui.statusbar.notification.NotificationEntryManager;
 import com.android.systemui.statusbar.notification.collection.NotificationEntry;
@@ -152,6 +157,7 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
 
     private StatusBar mStatusBar;
 
+    private int mAlbumArtFilter;
     private final DeviceConfig.OnPropertiesChangedListener mPropertiesChangedListener =
             new DeviceConfig.OnPropertiesChangedListener() {
         @Override
@@ -236,8 +242,41 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
                 mContext.getMainExecutor(),
                 mPropertiesChangedListener);
 
+        Handler mHandler = new Handler();
+        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
+        settingsObserver.observe();
+
         final TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable(this, LOCKSCREEN_MEDIA_METADATA);
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.LOCKSCREEN_ALBUM_ART_FILTER),
+                false, this, UserHandle.USER_ALL);
+            updateSettings();
+        }
+
+        /*
+         *  @hide
+         */
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    private void updateSettings() {
+        ContentResolver resolver = mContext.getContentResolver();
+        mAlbumArtFilter = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_ALBUM_ART_FILTER, 5,
+                UserHandle.USER_CURRENT);
     }
 
     @Override
@@ -711,7 +750,22 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
     };
 
     private Bitmap processArtwork(Bitmap artwork) {
-        return mMediaArtworkProcessor.processArtwork(mContext, artwork);
+        switch (mAlbumArtFilter) {
+            case 0:
+                // TODO: Implement a proper fix to use this recycled bitmap
+                return Bitmap.createBitmap(ImageHelper.getBlurredImage(mContext, artwork, 0.001f));
+            case 1:
+                return Bitmap.createBitmap(ImageHelper.toGrayscale(artwork));
+            case 2:
+                return Bitmap.createBitmap(ImageHelper.getColoredBitmap(new BitmapDrawable(mBackdropBack.getResources(), artwork), mContext.getResources().getColor(R.color.system_light_accent)));
+            case 3:
+                return Bitmap.createBitmap(ImageHelper.getBlurredImage(mContext, artwork, getLockScreenMediaBlurLevel()));
+            case 4:
+                return Bitmap.createBitmap(ImageHelper.getGrayscaleBlurredImage(mContext, artwork, getLockScreenMediaBlurLevel()));
+            case 5:
+            default:
+                return mMediaArtworkProcessor.processArtwork(mContext, artwork, getLockScreenMediaBlurLevel());
+        }
     }
 
     @MainThread
