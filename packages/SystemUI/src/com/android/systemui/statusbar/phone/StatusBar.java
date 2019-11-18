@@ -307,6 +307,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             "system:" + Settings.System.LOCKSCREEN_CHARGING_ANIMATION;
     private static final String PULSE_ON_NEW_TRACKS =
             Settings.Secure.PULSE_ON_NEW_TRACKS;
+    private static final String SHOW_BACK_ARROW_GESTURE =
+            Settings.Secure.SHOW_BACK_ARROW_GESTURE;
 
     private static final String BANNER_ACTION_CANCEL =
             "com.android.systemui.statusbar.banner_action_cancel";
@@ -763,6 +765,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         tunerService.addTunable(this, GAMING_MODE_HEADSUP_TOGGLE);
         tunerService.addTunable(this, LOCKSCREEN_CHARGING_ANIMATION);
         tunerService.addTunable(this, PULSE_ON_NEW_TRACKS);
+        tunerService.addTunable(this, SHOW_BACK_ARROW_GESTURE);
 
         mDisplayManager = mContext.getSystemService(DisplayManager.class);
 
@@ -5068,6 +5071,11 @@ public class StatusBar extends SystemUI implements DemoMode,
                         TunerService.parseIntegerSwitch(newValue, false);
                 if (mSliceProvider != null)
                     mSliceProvider.setPulseOnNewTracks(showPulseOnNewTracks);
+                break;
+            case SHOW_BACK_ARROW_GESTURE:
+                if (getNavigationBarView() != null) {
+                    getNavigationBarView().updateBackArrowForGesture();
+                }
                 break;
             default:
                 break;
