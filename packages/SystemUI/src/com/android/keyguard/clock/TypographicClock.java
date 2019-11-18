@@ -17,6 +17,9 @@ package com.android.keyguard.clock;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.Annotation;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -68,6 +71,7 @@ public class TypographicClock extends TextView {
             else mHours = mResources.getStringArray(R.array.type_clock_hours_24);
         mMinutes = mResources.getStringArray(R.array.type_clock_minutes);
         mAccentColor = mResources.getColor(R.color.typeClockAccentColor, null);
+        refreshLockFont();
     }
 
     /**
@@ -103,6 +107,7 @@ public class TypographicClock extends TextView {
         }
 
         setText(TextUtils.expandTemplate(spanType, mHours[hour], mMinutes[minute]));
+        refreshLockFont();
     }
 
     /**
@@ -136,5 +141,70 @@ public class TypographicClock extends TextView {
     @Override
     public boolean hasOverlappingRendering() {
         return false;
+    }
+
+    private int getLockClockFont() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.LOCK_CLOCK_FONTS, 0);
+    }
+
+    private void refreshLockFont() {
+        final Resources res = getContext().getResources();
+        boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
+        int lockClockFont = isPrimary ? getLockClockFont() : 0;
+        if (lockClockFont == 0) {
+            setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+        }
+        if (lockClockFont == 1) {
+            setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+        }
+        if (lockClockFont == 2) {
+            setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+        }
+        if (lockClockFont == 3) {
+            setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+        }
+        if (lockClockFont == 4) {
+            setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        }
+        if (lockClockFont == 5) {
+            setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+        }
+        if (lockClockFont == 6) {
+            setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+        }
+        if (lockClockFont == 7) {
+            setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+        }
+        if (lockClockFont == 8) {
+            setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+        }
+        if (lockClockFont == 9) {
+            setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+        }
+        if (lockClockFont == 10) {
+            setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+        }
+        if (lockClockFont == 11) {
+            setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+        }
+        if (lockClockFont == 12) {
+            setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+        }
+        if (lockClockFont == 13) {
+            setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+        }
+        if (lockClockFont == 14) {
+            setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        }
+        if (lockClockFont == 15) {
+            setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+        }
+        if (lockClockFont == 16) {
+            setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+        }
+        if (lockClockFont == 17) {
+            setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
+        }
     }
 }
