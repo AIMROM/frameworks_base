@@ -35,8 +35,9 @@
             android:id="@+id/ims_hd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="3dp"
-            android:paddingEnd="1dp"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="4dp"
+            android:paddingEnd="3dp"
             android:visibility="gone"
             />
 
@@ -68,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
             android:paddingStart="2.5dp"
-            android:paddingEnd="1dp"
+            android:paddingEnd="1.5dp"
             android:visibility="gone" />
         <Space
             android:id="@+id/mobile_roaming_space"
