@@ -191,6 +191,11 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
                Settings.System.LOCKDATE_FONT_SIZE, 18);
     }
 
+    private int getLockDateFont() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.LOCK_DATE_FONTS, 0);
+    }
+
     /**
      * Returns whether the current visible slice has a title/header.
      */
@@ -272,6 +277,7 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
             button.setContentDescription(rc.getContentDescription());
             button.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     mHasHeader ? mRowWithHeaderTextSize : mRowTextSize);
+            refreshLockDateFont(button);
 
             Drawable iconDrawable = null;
             SliceItem icon = SliceQuery.find(item.getSlice(),
@@ -526,6 +532,66 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
             case 40:
                 mRowTextSize = mContext.getResources().getDimensionPixelSize(R.dimen.lock_date_font_size_40);
                 break;
+        }
+    }
+
+    private void refreshLockDateFont(KeyguardSliceButton button) {
+        final Resources res = getContext().getResources();
+        boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
+        int lockDateFont = isPrimary ? getLockDateFont() : 0;
+        if (lockDateFont == 0) {
+            button.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+        }
+        if (lockDateFont == 1) {
+            button.setTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+        }
+        if (lockDateFont == 2) {
+            button.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+        }
+        if (lockDateFont == 3) {
+            button.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+        }
+        if (lockDateFont == 4) {
+            button.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        }
+        if (lockDateFont == 5) {
+            button.setTypeface(Typeface.create("sans-serif-light", Typeface.ITALIC));
+        }
+        if (lockDateFont == 6) {
+            button.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+        }
+        if (lockDateFont == 7) {
+            button.setTypeface(Typeface.create("sans-serif-thin", Typeface.ITALIC));
+        }
+        if (lockDateFont == 8) {
+            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+        }
+        if (lockDateFont == 9) {
+            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.ITALIC));
+        }
+        if (lockDateFont == 10) {
+            button.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.NORMAL));
+        }
+        if (lockDateFont == 11) {
+            button.setTypeface(Typeface.create("sans-serif-condensed-light", Typeface.ITALIC));
+        }
+        if (lockDateFont == 12) {
+            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
+        }
+        if (lockDateFont == 13) {
+            button.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD_ITALIC));
+        }
+        if (lockDateFont == 14) {
+            button.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        }
+        if (lockDateFont == 15) {
+            button.setTypeface(Typeface.create("sans-serif-medium", Typeface.ITALIC));
+        }
+        if (lockDateFont == 16) {
+            button.setTypeface(Typeface.create("sans-serif-black", Typeface.NORMAL));
+        }
+        if (lockDateFont == 17) {
+            button.setTypeface(Typeface.create("sans-serif-black", Typeface.ITALIC));
         }
     }
 
