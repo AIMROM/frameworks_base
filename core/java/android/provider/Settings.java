@@ -5407,6 +5407,15 @@ public final class Settings {
         public static final String LOCKSCREEN_STATUS_BAR = "lockscreen_status_bar";
 
         /**
+         * Whether to show or hide the qs services icon
+         * @hide
+         */
+        public static final String QS_SERVICES_TOGGLE = "qs_services_toggle";
+
+        /** @hide */
+        private static final Validator QS_SERVICES_TOGGLE_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5500,6 +5509,7 @@ public final class Settings {
             SLIM_RECENTS_BLACKLIST_VALUES,
             SLIM_RECENT_ENTER_EXIT_ANIMATION,
             STATUSBAR_PRIVACY_INDICATORS,
+            QS_SERVICES_TOGGLE,
         };
 
         /**
@@ -5648,6 +5658,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SLIM_RECENTS_BLACKLIST_VALUES);
             PRIVATE_SETTINGS.add(SLIM_RECENT_ENTER_EXIT_ANIMATION);
             PRIVATE_SETTINGS.add(STATUSBAR_PRIVACY_INDICATORS);
+            PRIVATE_SETTINGS.add(QS_SERVICES_TOGGLE);
         }
 
         /**
@@ -5772,6 +5783,7 @@ public final class Settings {
             VALIDATORS.put(SLIM_RECENTS_BLACKLIST_VALUES, SLIM_RECENTS_BLACKLIST_VALUES_VALIDATOR);
             VALIDATORS.put(SLIM_RECENT_ENTER_EXIT_ANIMATION, SLIM_RECENT_ENTER_EXIT_ANIMATION_VALIDATOR);
             VALIDATORS.put(STATUSBAR_PRIVACY_INDICATORS, STATUSBAR_PRIVACY_INDICATORS_VALIDATOR);
+            VALIDATORS.put(QS_SERVICES_TOGGLE, QS_SERVICES_TOGGLE_VALIDATOR);
         }
 
         /**
