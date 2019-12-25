@@ -353,13 +353,13 @@ public class QSFooterImpl extends FrameLayout implements Tunable, QSFooter,
     }
 
     private void updateVisibilities() {
-        mSettingsContainer.setVisibility(mQsDisabled ? View.GONE : View.VISIBLE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
         boolean settingsButtonVisible = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QSFOOTER_SHOW_SETTINGS, 1) != 0;
-        mMultiUserSwitch.setVisibility(showUserSwitcher() ? View.VISIBLE : View.INVISIBLE);
         mEditContainer.setVisibility(isEditEnabled() ? isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE : View.INVISIBLE);
+        mMultiUserSwitch.setVisibility(showUserSwitcher() ? View.VISIBLE : View.INVISIBLE);
         mRunningServicesButton.setVisibility(!isDemo && mExpanded ? View.VISIBLE : View.INVISIBLE);
+        mSettingsContainer.setVisibility(!settingsButtonVisible || mQsDisabled ? View.GONE : View.VISIBLE);
         mSettingsButton.setVisibility(settingsButtonVisible ? (isDemo || mExpanded ? View.VISIBLE : View.INVISIBLE) : View.GONE);
     }
 
