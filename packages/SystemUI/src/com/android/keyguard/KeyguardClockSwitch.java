@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.MathUtils;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,6 +37,7 @@ import androidx.annotation.VisibleForTesting;
 import com.android.internal.colorextraction.ColorExtractor;
 import com.android.internal.colorextraction.ColorExtractor.OnColorsChangedListener;
 import com.android.keyguard.clock.ClockManager;
+import com.android.keyguard.KeyguardSliceView;
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
 import com.android.systemui.colorextraction.SysuiColorExtractor;
@@ -119,7 +121,7 @@ public class KeyguardClockSwitch extends RelativeLayout {
      * Status area (date and other stuff) shown below the clock. Plugin can decide whether or not to
      * show it below the alternate clock.
      */
-    private View mKeyguardStatusArea;
+    private KeyguardSliceView mKeyguardStatusArea;
 
     /**
      * Maintain state so that a newly connected plugin can be initialized.
@@ -252,6 +254,7 @@ public class KeyguardClockSwitch extends RelativeLayout {
             mClockPlugin.onDestroyView();
             mClockPlugin = null;
         }
+        adjustStatusAreaPadding(plugin);
         if (plugin == null) {
             if (mShowingHeader) {
                 mClockView.setVisibility(View.GONE);
@@ -458,6 +461,14 @@ public class KeyguardClockSwitch extends RelativeLayout {
                 mBigClockContainer.setVisibility(VISIBLE);
             }
         }
+    }
+
+    private void adjustStatusAreaPadding(ClockPlugin plugin) {
+        final boolean mIsTypeClock = plugin != null && plugin.getName().equals("type");
+        mKeyguardStatusArea.setRowGravity(mIsTypeClock ? Gravity.LEFT : Gravity.CENTER);
+        mKeyguardStatusArea.setRowPadding(mIsTypeClock ? mContext.getResources()
+                .getDimensionPixelSize(R.dimen.keyguard_status_area_typeclock_padding) : 0, 0, 0,
+                0);
     }
 
     public void refreshLockFont() {
