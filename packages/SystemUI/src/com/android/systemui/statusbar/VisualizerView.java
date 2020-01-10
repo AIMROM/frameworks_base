@@ -78,6 +78,7 @@ public class VisualizerView extends View
     private float mDbFuzzFactor = 16f;
     private int mWidth, mHeight;
     private int mOpacity = 140;
+    private int mAmbientOpacity = 55;
 
     private Visualizer.OnDataCaptureListener mVisualizerListener =
             new Visualizer.OnDataCaptureListener() {
@@ -305,6 +306,11 @@ public class VisualizerView extends View
                 Settings.Secure.AMBIENT_VISUALIZER_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
     }
 
+    private void setAmbientSolidUnitsOpacity() {
+        mAmbientOpacity = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.AMBIENT_VISUALIZER_OPACITY, 55, UserHandle.USER_CURRENT);
+    }
+
     private void setLavaLampEnabled() {
         mLavaLampEnabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED , 0, UserHandle.USER_CURRENT) == 1;
@@ -445,7 +451,9 @@ public class VisualizerView extends View
         else if (color == Color.TRANSPARENT)
             color = Color.WHITE;
 
-        color = Color.argb(mOpacity, Color.red(color), Color.green(color), Color.blue(color));
+        color = (mDozing && mAmbientVisualizerEnabled)
+                ? Color.argb(mAmbientOpacity, Color.red(color), Color.green(color), Color.blue(color))
+                : Color.argb(mOpacity, Color.red(color), Color.green(color), Color.blue(color));
 
         if (mColor != color) {
             mColor = color;
@@ -469,25 +477,10 @@ public class VisualizerView extends View
 
     private void checkStateChanged() {
         boolean isVisible = getVisibility() == View.VISIBLE;
-        if (isVisible && mVisible && mPlaying && mDozing && !mPowerSaveMode
-                && mVisualizerEnabled && mAmbientVisualizerEnabled && !mOccluded) {
-            if (!mDisplaying) {
-                mDisplaying = true;
-                AsyncTask.execute(mLinkVisualizer);
-                animate()
-                        .alpha(0.40f)
-                        .withEndAction(null)
-                        .setDuration(800);
-                if (mLavaLampEnabled) mLavaLamp.start();
-            } else {
-                mPaint.setColor(mColor);
-                animate()
-                        .alpha(0.40f)
-                        .withEndAction(null)
-                        .setDuration(800);
-            }
-        } else if (isVisible && mVisible && mPlaying && !mDozing && !mPowerSaveMode
-                && mVisualizerEnabled && !mOccluded) {
+        if ((isVisible && mVisible && mPlaying && mDozing && !mPowerSaveMode
+                && mVisualizerEnabled && mAmbientVisualizerEnabled && !mOccluded)
+                || (isVisible && mVisible && mPlaying && !mDozing && !mPowerSaveMode
+                && mVisualizerEnabled && !mOccluded)) {
             if (!mDisplaying) {
                 mDisplaying = true;
                 AsyncTask.execute(mLinkVisualizer);
@@ -557,6 +550,9 @@ public class VisualizerView extends View
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.LOCKSCREEN_VISUALIZER_COLOR),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.AMBIENT_VISUALIZER_OPACITY),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -594,6 +590,9 @@ public class VisualizerView extends View
             } else if (uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.LOCKSCREEN_VISUALIZER_COLOR))) {
                 setDefaultColor();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.AMBIENT_VISUALIZER_OPACITY))) {
+                setAmbientSolidUnitsOpacity();
             }
         }
 
@@ -609,6 +608,7 @@ public class VisualizerView extends View
             checkStateChanged();
             updateViewVisibility();
             setDefaultColor();
+            setAmbientSolidUnitsOpacity();
         }
     }
 }

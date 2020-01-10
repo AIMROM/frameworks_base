@@ -9280,6 +9280,12 @@ public final class Settings {
         public static final String AMBIENT_VISUALIZER_ENABLED = "ambient_visualizer";
 
         /**
+         * Ambient Display Visualizer opacity
+         * @hide
+         */
+        public static final String AMBIENT_VISUALIZER_OPACITY = "ambient_visualizer_opacity";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
