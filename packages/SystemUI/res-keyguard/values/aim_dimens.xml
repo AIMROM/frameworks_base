@@ -196,4 +196,8 @@
     <!-- Accent Date styles padding-->
     <dimen name="widget_date_accent_box_padding_hor">10dp</dimen>
     <dimen name="widget_date_accent_box_padding_ver">6dp</dimen>
+
+    <!-- Custom text clock -->
+    <dimen name="custom_clock_left_padding">55dp</dimen>
+    <dimen name="custom_clock_top_margin">80dp</dimen>
 </resources>
