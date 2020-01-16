@@ -4705,6 +4705,18 @@ public final class Settings {
         private static final Validator LOCKSCREEN_MEDIA_BLUR_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
         /**
+         * FOD icon picker
+         * @hide
+         */
+        public static final String FOD_ICON = "fod_icon";
+
+        /**
+         * FOD use wallpaper color
+         * @hide
+         */
+        public static final String FOD_ICON_WALLPAPER_COLOR = "fod_icon_wallpaper_color";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
