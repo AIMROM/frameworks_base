@@ -26,4 +26,9 @@
     <color name="edge_light_red">#ffea4234</color>
     <color name="edge_light_yellow">#fffbbc06</color>
 
+    <!-- Binary clock -->
+    <color name="binary_clock_dot_color">#ffffff</color>
+    <color name="binary_clock_empty_dot_color">#ffffff</color>
+    <color name="binary_clock_ambient_dot_color">#ffffff</color>
+    <color name="binary_clock_ambient_empty_dot_color">#ffffff</color>
 </resources>
