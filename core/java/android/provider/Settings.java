@@ -5541,6 +5541,14 @@ public final class Settings {
         public static final String PULSE_TRIGGER_REASON = "pulse_trigger_reason";
 
         /**
+         * Whether hide everything on aod when ambient lights are enabled
+         * @hide
+         */
+        public static final String AMBIENT_NOTIFICATION_LIGHT_HIDE_AOD = "ambient_notification_light_hide_aod";
+
+        private static final Validator AMBIENT_NOTIFICATION_LIGHT_HIDE_AOD_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5649,6 +5657,7 @@ public final class Settings {
             AMBIENT_NOTIFICATION_LIGHT,
             AMBIENT_NOTIFICATION_LIGHT_ACTIVATED,
             AMBIENT_NOTIFICATION_LIGHT_ENABLED,
+            AMBIENT_NOTIFICATION_LIGHT_HIDE_AOD,
         };
 
         /**
@@ -5949,6 +5958,7 @@ public final class Settings {
             VALIDATORS.put(AMBIENT_NOTIFICATION_LIGHT, AMBIENT_NOTIFICATION_LIGHT_VALIDATOR);
             VALIDATORS.put(AMBIENT_NOTIFICATION_LIGHT_ACTIVATED, AMBIENT_NOTIFICATION_LIGHT_ACTIVATED_VALIDATOR);
             VALIDATORS.put(AMBIENT_NOTIFICATION_LIGHT_ENABLED, AMBIENT_NOTIFICATION_LIGHT_ENABLED_VALIDATOR);
+            VALIDATORS.put(AMBIENT_NOTIFICATION_LIGHT_HIDE_AOD, AMBIENT_NOTIFICATION_LIGHT_HIDE_AOD_VALIDATOR);
         }
 
         /**
