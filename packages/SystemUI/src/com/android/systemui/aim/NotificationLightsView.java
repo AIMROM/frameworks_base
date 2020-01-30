@@ -151,7 +151,7 @@ public class NotificationLightsView extends RelativeLayout {
         mLightAnimatorLeft.setDuration(lDuration);
         //Infinite animation only on Always On Notifications
         if (mNotification) mLightAnimatorLeft.setRepeatCount(ValueAnimator.INFINITE);
-        mLightAnimatorLeft.setRepeatMode(ValueAnimator.REVERSE);
+        mLightAnimatorLeft.setRepeatMode(ValueAnimator.RESTART);
         mLightAnimatorLeft.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (DEBUG) Log.d("NotificationLeftLightView", "onAnimationUpdate");
@@ -180,7 +180,7 @@ public class NotificationLightsView extends RelativeLayout {
         mLightAnimatorRight.setDuration(rDuration);
         //Infinite animation only on Always On Notifications
         if (mNotification) mLightAnimatorRight.setRepeatCount(ValueAnimator.INFINITE);
-        mLightAnimatorRight.setRepeatMode(ValueAnimator.REVERSE);
+        mLightAnimatorRight.setRepeatMode(ValueAnimator.RESTART);
         mLightAnimatorRight.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (DEBUG) Log.d("NotificationRightLightView", "onAnimationUpdate");
