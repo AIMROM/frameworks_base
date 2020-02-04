@@ -5,7 +5,4 @@
     <!-- Date styles requires clock -->
     <color name="date_style_system_bg">@*android:color/background_material_dark</color>
     <color name="date_style_system_accent_follow">@*android:color/transparent</color>
-
-    <!-- Custom text clock -->
-    <color name="custom_text_clock_top_fallback_color">#f5c887</color>
 </resources>
