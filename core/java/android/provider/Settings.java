@@ -5657,7 +5657,25 @@ public final class Settings {
          * Change font size for the system lockscreen owner
          * @hide
          */
-        public static final String LOCKOWNER_FONT_SIZE= "lockowner_font_size";
+        public static final String LOCKOWNER_FONT_SIZE = "lockowner_font_size";
+
+        /**
+         * Text clock alignment
+         * @hide
+         */
+        public static final String TEXT_CLOCK_ALIGNMENT = "text_clock_alignment";
+
+        /** @hide */
+        private static final Validator TEXT_CLOCK_ALIGNMENT_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
+         * Text clock padding
+         * @hide
+         */
+        public static final String TEXT_CLOCK_PADDING = "text_clock_padding";
+
+        /** @hide */
+        private static final Validator TEXT_CLOCK_PADDING_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -5777,6 +5795,8 @@ public final class Settings {
             PULSE_AMBIENT_LIGHT_LAYOUT,
             LOCKSCREEN_CLOCK,
             LOCKSCREEN_INFO,
+            TEXT_CLOCK_ALIGNMENT,
+            TEXT_CLOCK_PADDING,
         };
 
         /**
@@ -5946,6 +5966,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_LAYOUT);
             PRIVATE_SETTINGS.add(LOCKSCREEN_CLOCK);
             PRIVATE_SETTINGS.add(LOCKSCREEN_INFO);
+            PRIVATE_SETTINGS.add(TEXT_CLOCK_ALIGNMENT);
+            PRIVATE_SETTINGS.add(TEXT_CLOCK_PADDING);
         }
 
         /**
@@ -6094,6 +6116,8 @@ public final class Settings {
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_LAYOUT, PULSE_AMBIENT_LIGHT_LAYOUT_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_CLOCK, LOCKSCREEN_CLOCK_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_INFO, LOCKSCREEN_INFO_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_ALIGNMENT, TEXT_CLOCK_ALIGNMENT_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_PADDING, TEXT_CLOCK_PADDING_VALIDATOR);
         }
 
         /**
