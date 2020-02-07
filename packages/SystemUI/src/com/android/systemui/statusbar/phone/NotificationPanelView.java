@@ -3393,13 +3393,15 @@ public class NotificationPanelView extends PanelView implements
     }
 
     private void updatePulseLightState(boolean dozing) {
+        boolean pulseLights = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_AMBIENT_LIGHT, 0, UserHandle.USER_CURRENT) != 0;
         boolean mAmbientLights = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.AMBIENT_NOTIFICATION_LIGHT_ENABLED,
                 0, UserHandle.USER_CURRENT) != 0;
         if (DEBUG_PULSE_LIGHT) {
             Log.d(TAG, "updatePulseLightState dozing = " + dozing + " mAmbientLights = "  + mAmbientLights);
         }
-        if (mAmbientLights) {
+        if (pulseLights && mAmbientLights) {
             if (dozing) {
                 // TODO on screen off should we restart pulse?
                 // if that should work we need to decide at this point
@@ -3458,7 +3460,7 @@ public class NotificationPanelView extends PanelView implements
             mAnimateNextPositionUpdate = false;
         }
 
-        if (mPulseLightsView != null) {
+        if (mPulseLightsView != null && pulseLights) {
             if (DEBUG_PULSE_LIGHT) {
                 Log.d(TAG, "setPulsing pulsing = " + pulsing + " pulseLights = " + pulseLights
                         + " ambientLights = " + ambientLights + " activeNotif = " + activeNotif
@@ -3467,7 +3469,7 @@ public class NotificationPanelView extends PanelView implements
             }
             if (mPulsing) {
                 showAodContent(true);
-                if (activeNotif && (pulseReasonNotification || pulseForAll)) {
+                if (activeNotif && pulseReasonNotification) {
                     // show the bars if we have to
                     if (pulseLights) {
                         mPulseLightsView.animateNotification(true);
@@ -3486,6 +3488,10 @@ public class NotificationPanelView extends PanelView implements
                                 Settings.System.AMBIENT_NOTIFICATION_LIGHT, 1,
                                 UserHandle.USER_CURRENT);
                     }
+                } else if (pulseForAll) {
+                    mPulseLightsView.animateNotification(true);
+                    mPulseLightsView.setVisibility(View.VISIBLE);
+                    mPulseLightsView.setPulsing(pulsing);
                 }
             } else {
                 // continue to pulse - if not screen was turned on in the meantime
