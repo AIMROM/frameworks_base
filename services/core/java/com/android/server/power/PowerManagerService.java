@@ -1027,6 +1027,9 @@ public final class PowerManagerService extends SystemService
                 Settings.System.DOZE_ON_CHARGE),
                 false, mSettingsObserver, UserHandle.USER_ALL);
        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.PULSE_AMBIENT_LIGHT),
+                false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
                 Settings.System.AMBIENT_NOTIFICATION_LIGHT),
                 false, mSettingsObserver, UserHandle.USER_ALL);
         resolver.registerContentObserver(Settings.System.getUriFor(
@@ -1168,19 +1171,22 @@ public final class PowerManagerService extends SystemService
                 Settings.System.SMART_CHARGING_RESET_STATS, 0, UserHandle.USER_CURRENT) == 1;
         mDozeOnChargeEnabled = Settings.System.getIntForUser(resolver,
                 Settings.System.DOZE_ON_CHARGE, 0, UserHandle.USER_CURRENT) != 0;
-        boolean mAmbientLights = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.AMBIENT_NOTIFICATION_LIGHT_ENABLED,
-                0, UserHandle.USER_CURRENT) != 0;
-        if (mAmbientLights) {
-            boolean dozeOnNotification = Settings.System.getIntForUser(resolver,
-                    Settings.System.AMBIENT_NOTIFICATION_LIGHT, 0, UserHandle.USER_CURRENT) != 0;
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                     Settings.System.AMBIENT_NOTIFICATION_LIGHT_ACTIVATED, dozeOnNotification ? 1 : 0,
-                     UserHandle.USER_CURRENT);
-        } else {
-             Settings.System.putIntForUser(mContext.getContentResolver(),
-                     Settings.System.AMBIENT_NOTIFICATION_LIGHT_ACTIVATED, 0,
-                     UserHandle.USER_CURRENT);
+        boolean pulseLights = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_AMBIENT_LIGHT, 0, UserHandle.USER_CURRENT) != 0;
+        boolean mAmbientLights = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.AMBIENT_NOTIFICATION_LIGHT_ENABLED, 0, UserHandle.USER_CURRENT) != 0;
+        if (pulseLights) {
+            if (mAmbientLights) {
+                boolean dozeOnNotification = Settings.System.getIntForUser(resolver,
+                        Settings.System.AMBIENT_NOTIFICATION_LIGHT, 0, UserHandle.USER_CURRENT) != 0;
+                Settings.System.putIntForUser(mContext.getContentResolver(),
+                         Settings.System.AMBIENT_NOTIFICATION_LIGHT_ACTIVATED, dozeOnNotification ? 1 : 0,
+                         UserHandle.USER_CURRENT);
+            } else {
+                Settings.System.putIntForUser(mContext.getContentResolver(),
+                         Settings.System.AMBIENT_NOTIFICATION_LIGHT_ACTIVATED, 0,
+                         UserHandle.USER_CURRENT);
+            }
         }
         // depends on AMBIENT_NOTIFICATION_LIGHT_ACTIVATED - so MUST be afterwards
         // no need to call us again
