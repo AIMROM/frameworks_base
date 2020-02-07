@@ -55,6 +55,8 @@ public class NotificationLightsView extends RelativeLayout {
 
     private boolean mPulsing;
     private boolean mNotification;
+    private boolean mAccentColorLeft;
+    private boolean mAccentColorRight;
     private boolean mAutoColorLeft;
     private boolean mAutoColorRight;
     private int lColor;
@@ -101,11 +103,17 @@ public class NotificationLightsView extends RelativeLayout {
     }
 
     public void animateNotification(boolean mNotification) {
+        mAccentColorLeft = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.AMBIENT_NOTIFICATION_LIGHT_ACCENT_LEFT, 1,
+                UserHandle.USER_CURRENT) == 1;
+        mAccentColorRight = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT, 1,
+                UserHandle.USER_CURRENT) == 1;
         mAutoColorLeft = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.PULSE_AMBIENT_LIGHT_AUTO_COLOR_LEFT, 1,
+                Settings.System.PULSE_AMBIENT_LIGHT_AUTO_COLOR_LEFT, 0,
                 UserHandle.USER_CURRENT) == 1;
         mAutoColorRight = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT, 1,
+                Settings.System.PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT, 0,
                 UserHandle.USER_CURRENT) == 1;
         lColor = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.PULSE_AMBIENT_LIGHT_COLOR_LEFT, 0xFF3980FF,
@@ -145,6 +153,7 @@ public class NotificationLightsView extends RelativeLayout {
         lsb.append("animateNotification lColor ");
         lsb.append(Integer.toHexString(lColor));
         if (DEBUG) Log.d("NotificationLeftLightView", lsb.toString());
+        if (mAccentColorLeft) lColor = getResources().getColor(R.color.accent_device_default_light);
         ImageView leftView = (ImageView) findViewById(R.id.notification_animation_left);
         leftView.setColorFilter(lColor);
         mLightAnimatorLeft = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
@@ -174,6 +183,7 @@ public class NotificationLightsView extends RelativeLayout {
         rsb.append("animateNotification rColor ");
         rsb.append(Integer.toHexString(rColor));
         if (DEBUG) Log.d("NotificationRightLightView", rsb.toString());
+        if (mAccentColorRight) rColor = getResources().getColor(R.color.accent_device_default_light);
         ImageView rightView = (ImageView) findViewById(R.id.notification_animation_right);
         rightView.setColorFilter(rColor);
         mLightAnimatorRight = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
