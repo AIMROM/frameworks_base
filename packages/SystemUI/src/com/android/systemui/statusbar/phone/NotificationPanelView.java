@@ -3450,6 +3450,8 @@ public class NotificationPanelView extends PanelView implements
                 Settings.System.AMBIENT_NOTIFICATION_LIGHT_HIDE_AOD, 0, UserHandle.USER_CURRENT) != 0;
         boolean pulseForAll = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL, 0, UserHandle.USER_CURRENT) == 1;
+        boolean pulseForAllRepeat = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT, 0, UserHandle.USER_CURRENT) == 1;
 
         if (animatePulse) {
             mAnimateNextPositionUpdate = true;
@@ -3489,7 +3491,7 @@ public class NotificationPanelView extends PanelView implements
                                 UserHandle.USER_CURRENT);
                     }
                 } else if (pulseForAll) {
-                    mPulseLightsView.animateNotification(true);
+                    mPulseLightsView.animateNotification(pulseForAllRepeat);
                     mPulseLightsView.setVisibility(View.VISIBLE);
                     mPulseLightsView.setPulsing(pulsing);
                 }
