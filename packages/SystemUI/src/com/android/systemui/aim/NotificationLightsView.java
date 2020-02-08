@@ -232,4 +232,11 @@ public class NotificationLightsView extends RelativeLayout {
         if (DEBUG) Log.d("NotificationRightLightView", "start");
         mLightAnimatorRight.start();
     }
+
+    public void stopNotification() {
+        try {
+            mLightAnimatorLeft.end();
+            mLightAnimatorRight.end();
+        } catch (Exception e) { }
+    }
 }
