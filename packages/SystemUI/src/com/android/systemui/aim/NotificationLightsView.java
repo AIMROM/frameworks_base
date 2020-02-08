@@ -65,6 +65,7 @@ public class NotificationLightsView extends RelativeLayout {
     private int rDuration;
     private int lAnimation;
     private int rAnimation;
+    private int mLayout;
 
     public NotificationLightsView(Context context) {
         this(context, null);
@@ -135,6 +136,9 @@ public class NotificationLightsView extends RelativeLayout {
         rAnimation = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.PULSE_AMBIENT_LIGHT_REPEAT_MODE_RIGHT, 0,
                 UserHandle.USER_CURRENT);
+        mLayout = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_AMBIENT_LIGHT_LAYOUT, 0,
+                UserHandle.USER_CURRENT);
 
         if (mAutoColorLeft || mAutoColorRight) {
             try {
@@ -162,8 +166,12 @@ public class NotificationLightsView extends RelativeLayout {
         lsb.append(Integer.toHexString(lColor));
         if (DEBUG) Log.d("NotificationLeftLightView", lsb.toString());
         if (mAccentColorLeft) lColor = getResources().getColor(R.color.accent_device_default_light);
-        ImageView leftView = (ImageView) findViewById(R.id.notification_animation_left);
-        leftView.setColorFilter(lColor);
+        ImageView leftViewSolid = (ImageView) findViewById(R.id.notification_animation_left_solid);
+        ImageView leftViewFaded = (ImageView) findViewById(R.id.notification_animation_left_faded);
+        leftViewSolid.setColorFilter(lColor);
+        leftViewFaded.setColorFilter(lColor);
+        leftViewSolid.setVisibility(mLayout == 0 ? View.VISIBLE : View.GONE);
+        leftViewFaded.setVisibility(mLayout == 1 ? View.VISIBLE : View.GONE);
         mLightAnimatorLeft = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
         mLightAnimatorLeft.setDuration(lDuration);
         //Infinite animation only on Always On Notifications
@@ -173,14 +181,16 @@ public class NotificationLightsView extends RelativeLayout {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (DEBUG) Log.d("NotificationLeftLightView", "onAnimationUpdate");
                 float progress = ((Float) animation.getAnimatedValue()).floatValue();
-                leftView.setScaleY(progress);
+                leftViewSolid.setScaleY(progress);
+                leftViewFaded.setScaleY(progress);
                 float alpha = 1.0f;
                 if (progress <= 0.3f) {
                     alpha = progress / 0.3f;
                 } else if (progress >= 1.0f) {
                     alpha = 2.0f - progress;
                 }
-                leftView.setAlpha(alpha);
+                leftViewSolid.setAlpha(alpha);
+                leftViewFaded.setAlpha(alpha);
             }
         });
         if (DEBUG) Log.d("NotificationLeftLightView", "start");
@@ -192,8 +202,12 @@ public class NotificationLightsView extends RelativeLayout {
         rsb.append(Integer.toHexString(rColor));
         if (DEBUG) Log.d("NotificationRightLightView", rsb.toString());
         if (mAccentColorRight) rColor = getResources().getColor(R.color.accent_device_default_light);
-        ImageView rightView = (ImageView) findViewById(R.id.notification_animation_right);
-        rightView.setColorFilter(rColor);
+        ImageView rightViewSolid = (ImageView) findViewById(R.id.notification_animation_right_solid);
+        ImageView rightViewFaded = (ImageView) findViewById(R.id.notification_animation_right_faded);
+        rightViewSolid.setColorFilter(rColor);
+        rightViewFaded.setColorFilter(rColor);
+        rightViewSolid.setVisibility(mLayout == 0 ? View.VISIBLE : View.GONE);
+        rightViewFaded.setVisibility(mLayout == 1 ? View.VISIBLE : View.GONE);
         mLightAnimatorRight = ValueAnimator.ofFloat(new float[]{0.0f, 2.0f});
         mLightAnimatorRight.setDuration(rDuration);
         //Infinite animation only on Always On Notifications
@@ -203,14 +217,16 @@ public class NotificationLightsView extends RelativeLayout {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (DEBUG) Log.d("NotificationRightLightView", "onAnimationUpdate");
                 float progress = ((Float) animation.getAnimatedValue()).floatValue();
-                rightView.setScaleY(progress);
+                rightViewSolid.setScaleY(progress);
+                rightViewFaded.setScaleY(progress);
                 float alpha = 1.0f;
                 if (progress <= 0.3f) {
                     alpha = progress / 0.3f;
                 } else if (progress >= 1.0f) {
                     alpha = 2.0f - progress;
                 }
-                rightView.setAlpha(alpha);
+                rightViewSolid.setAlpha(alpha);
+                rightViewFaded.setAlpha(alpha);
             }
         });
         if (DEBUG) Log.d("NotificationRightLightView", "start");
