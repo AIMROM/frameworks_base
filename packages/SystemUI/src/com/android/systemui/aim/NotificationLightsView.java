@@ -63,6 +63,8 @@ public class NotificationLightsView extends RelativeLayout {
     private int rColor;
     private int lDuration;
     private int rDuration;
+    private int lAnimation;
+    private int rAnimation;
 
     public NotificationLightsView(Context context) {
         this(context, null);
@@ -127,6 +129,12 @@ public class NotificationLightsView extends RelativeLayout {
         rDuration = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.PULSE_AMBIENT_LIGHT_RIGHT_DURATION, 2000,
                 UserHandle.USER_CURRENT);
+        lAnimation = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_AMBIENT_LIGHT_REPEAT_MODE_LEFT, 0,
+                UserHandle.USER_CURRENT);
+        rAnimation = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PULSE_AMBIENT_LIGHT_REPEAT_MODE_RIGHT, 0,
+                UserHandle.USER_CURRENT);
 
         if (mAutoColorLeft || mAutoColorRight) {
             try {
@@ -160,7 +168,7 @@ public class NotificationLightsView extends RelativeLayout {
         mLightAnimatorLeft.setDuration(lDuration);
         //Infinite animation only on Always On Notifications
         if (mNotification) mLightAnimatorLeft.setRepeatCount(ValueAnimator.INFINITE);
-        mLightAnimatorLeft.setRepeatMode(ValueAnimator.RESTART);
+        mLightAnimatorLeft.setRepeatMode(lAnimation == 0 ? ValueAnimator.RESTART : ValueAnimator.REVERSE);
         mLightAnimatorLeft.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (DEBUG) Log.d("NotificationLeftLightView", "onAnimationUpdate");
@@ -190,7 +198,7 @@ public class NotificationLightsView extends RelativeLayout {
         mLightAnimatorRight.setDuration(rDuration);
         //Infinite animation only on Always On Notifications
         if (mNotification) mLightAnimatorRight.setRepeatCount(ValueAnimator.INFINITE);
-        mLightAnimatorRight.setRepeatMode(ValueAnimator.RESTART);
+        mLightAnimatorRight.setRepeatMode(rAnimation == 0 ? ValueAnimator.RESTART : ValueAnimator.REVERSE);
         mLightAnimatorRight.addUpdateListener(new AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (DEBUG) Log.d("NotificationRightLightView", "onAnimationUpdate");
