@@ -5594,6 +5594,15 @@ public final class Settings {
         private static final Validator PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
+         * Ambient Edge Light Layout
+         * @hide
+         */
+        public static final String PULSE_AMBIENT_LIGHT_LAYOUT = "pulse_ambient_light_layout";
+
+        /** @hide */
+        private static final Validator PULSE_AMBIENT_LIGHT_LAYOUT_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5708,6 +5717,7 @@ public final class Settings {
             AMBIENT_NOTIFICATION_LIGHT_ACCENT_LEFT,
             AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT,
             PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT,
+            PULSE_AMBIENT_LIGHT_LAYOUT,
         };
 
         /**
@@ -5874,6 +5884,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AMBIENT_NOTIFICATION_LIGHT_ACCENT_LEFT);
             PRIVATE_SETTINGS.add(AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT);
+            PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_LAYOUT);
         }
 
         /**
@@ -6019,6 +6030,7 @@ public final class Settings {
             VALIDATORS.put(AMBIENT_NOTIFICATION_LIGHT_ACCENT_LEFT, AMBIENT_NOTIFICATION_LIGHT_ACCENT_LEFT_VALIDATOR);
             VALIDATORS.put(AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT, AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT, PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT_VALIDATOR);
+            VALIDATORS.put(PULSE_AMBIENT_LIGHT_LAYOUT, PULSE_AMBIENT_LIGHT_LAYOUT_VALIDATOR);
         }
 
         /**
