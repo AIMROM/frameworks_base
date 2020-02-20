@@ -353,6 +353,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
             mWakeLock.acquire(300);
         }
 
+        setFODIcon(false);
         setDim(true);
         updateAlpha();
         dispatchPress();
@@ -364,7 +365,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     public void hideCircle() {
         mIsCircleShowing = false;
 
-        setFODIcon();
+        setFODIcon(true);
         invalidate();
 
         setDim(false);
@@ -383,7 +384,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
                 Settings.System.FOD_ICON, 0);
     }
 
-    private void setFODIcon() {
+    private void setFODIcon(boolean applyColor) {
         int fodicon = getFODIcon();
 
         if (fodicon == 0) {
@@ -430,7 +431,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
             this.setImageResource(R.drawable.fod_icon_sun_metro);
         }
 
-        if (useWallpaperColor()) {
+        if (useWallpaperColor() && applyColor) {
             try {
                 WallpaperManager wallpaperManager = WallpaperManager.getInstance(mContext);
                 Drawable wallpaperDrawable = wallpaperManager.getDrawable();
