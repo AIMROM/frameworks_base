@@ -96,6 +96,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
     private FODAnimation mFODAnimation;
     private boolean mIsRecognizingAnimEnabled;
+    private boolean mShouldRemoveIconOnAOD;
 
     private int mSelectedIcon;
     private final int[] ICON_STYLES = {
@@ -147,8 +148,15 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             if (dreaming) {
                 mBurnInProtectionTimer = new Timer();
                 mBurnInProtectionTimer.schedule(new BurnInProtectionTask(), 0, 60 * 1000);
+                if (mShouldRemoveIconOnAOD) {
+                    resetFODIcon(false);
+                }
             } else if (mBurnInProtectionTimer != null) {
                 mBurnInProtectionTimer.cancel();
+            }
+
+            if (mShouldRemoveIconOnAOD && !dreaming) {
+                resetFODIcon(true);
             }
         }
 
@@ -467,6 +475,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
         setColorFilter(Color.argb(mCurDim,0,0,0),
                 PorterDuff.Mode.SRC_ATOP);
+        setFODIcon();
         invalidate();
 
         dispatchRelease();
@@ -517,6 +526,27 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         red = red > 255 ? 255 : red;
 
         return Color.argb(Color.alpha(color), red, green, blue);
+    }
+
+    private int getFODIcon() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FOD_ICON, 0);
+    }
+
+    private void resetFODIcon(boolean show) {
+        if (show) {
+            setFODIcon();
+        } else {
+            this.setImageResource(0);
+        }
+    }
+
+    private void setFODIcon() {
+        if (mIsDreaming && mShouldRemoveIconOnAOD) {
+            return;
+        }
+
+        int fodicon = getFODIcon();
     }
 
     public void show() {
@@ -633,6 +663,11 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         }
 
         mWindowManager.updateViewLayout(this, mParams);
+    }
+
+    private void updateSettings() {
+        mShouldRemoveIconOnAOD = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SCREEN_OFF_FOD, 0) != 0;
     }
 
     private class BurnInProtectionTask extends TimerTask {
