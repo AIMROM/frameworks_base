@@ -49,7 +49,7 @@
 
     <!-- The width/height of the charging indicator view on keyguard. -->
     <dimen name="keyguard_charging_indication_height">60dp</dimen>
-    <dimen name="keyguard_charging_indication_width">32dp</dimen>
+    <dimen name="keyguard_charging_indication_width">35dp</dimen>
 
     <!-- Custom cutout overlay view sizes -->
     <dimen name="config_customCutoutTopWidth">0.0px</dimen>
