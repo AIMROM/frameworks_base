@@ -21,6 +21,7 @@ import static android.app.StatusBarManager.DISABLE_NONE;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_PORTRAIT;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_CIRCLE;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_DOTTED_CIRCLE;
+import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_TEXT;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_SOLID;
 import static com.android.settingslib.graph.BatteryMeterDrawableBase.BATTERY_STYLE_HIDDEN;
 
@@ -436,6 +437,7 @@ public class BatteryMeterView extends LinearLayout implements
         final boolean drawPercentInside = mShowBatteryPercent == 1
                                     && !mCharging;
         final boolean addPecentView = mShowBatteryPercent == 2
+                                    || mBatteryStyle == BATTERY_STYLE_TEXT
                                     || (mBatteryPercentCharging && mCharging)
                                     || mShowPercentMode == MODE_ON
                                     || mShowBatteryEstimate != 0;
@@ -469,7 +471,7 @@ public class BatteryMeterView extends LinearLayout implements
     }
 
     public void updateVisibility() {
-        if (mBatteryStyle == BATTERY_STYLE_HIDDEN) {
+        if (mBatteryStyle == BATTERY_STYLE_HIDDEN || mBatteryStyle == BATTERY_STYLE_TEXT) {
             mBatteryIconView.setVisibility(View.GONE);
             mBatteryIconView.setImageDrawable(null);
             //setVisibility(View.GONE);
