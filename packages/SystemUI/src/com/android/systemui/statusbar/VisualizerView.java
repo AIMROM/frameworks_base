@@ -58,6 +58,8 @@ public class VisualizerView extends View
             Settings.Secure.LOCKSCREEN_SOLID_FUDGE_FACTOR;
     private static final String LOCKSCREEN_SOLID_UNITS_OPACITY =
             Settings.Secure.LOCKSCREEN_SOLID_UNITS_OPACITY;
+    private static final String LOCKSCREEN_VISUALIZER_COLOR =
+            Settings.Secure.LOCKSCREEN_VISUALIZER_COLOR;
 
     private Paint mPaint;
     private Visualizer mVisualizer;
@@ -75,6 +77,7 @@ public class VisualizerView extends View
     private boolean mOccluded = false;
 
     private int mColor;
+    private int dColor;
     private Bitmap mCurrentBitmap;
 
     private ColorAnimator mLavaLamp;
@@ -222,6 +225,7 @@ public class VisualizerView extends View
         tunerService.addTunable(this, LOCKSCREEN_SOLID_UNITS_COUNT);
         tunerService.addTunable(this, LOCKSCREEN_SOLID_FUDGE_FACTOR);
         tunerService.addTunable(this, LOCKSCREEN_SOLID_UNITS_OPACITY);
+        tunerService.addTunable(this, LOCKSCREEN_VISUALIZER_COLOR);
     }
 
     @Override
@@ -253,6 +257,8 @@ public class VisualizerView extends View
             case LOCKSCREEN_LAVALAMP_ENABLED:
                 mLavaLampEnabled =
                         TunerService.parseIntegerSwitch(newValue, true);
+                if (!mAutoColor & !mLavaLampEnabled)
+                    setColor(dColor);
                 break;
             case LOCKSCREEN_LAVALAMP_SPEED:
                 mLavaLampSpeed = 10000;
@@ -283,6 +289,10 @@ public class VisualizerView extends View
                 try {
                     mOpacity = Integer.valueOf(newValue);
                 } catch (NumberFormatException ex) {}
+                break;
+            case LOCKSCREEN_VISUALIZER_COLOR:
+                dColor = 0xffffffff;
+                setColor(dColor);
                 break;
             default:
                 break;
@@ -437,9 +447,10 @@ public class VisualizerView extends View
     }
 
     private void setColor(int color) {
-        if (color == Color.TRANSPARENT) {
+        if (!mAutoColor && !mLavaLampEnabled)
+            color = dColor;
+        else if (color == Color.TRANSPARENT)
             color = Color.WHITE;
-        }
 
         color = Color.argb(mOpacity, Color.red(color), Color.green(color), Color.blue(color));
 
