@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2015 The CyanogenMod Project
- *               2017-2019 The LineageOS Project
- *               2018-2020 crDroid Android Project
+ *               2018-2019 crDroid Android Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,50 +19,38 @@ package com.android.systemui.statusbar;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.audiofx.Visualizer;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.android.systemui.Dependency;
-import com.android.systemui.tuner.TunerService;
 import com.android.internal.graphics.palette.Palette;
 import com.android.internal.util.aim.ColorAnimator;
 
 public class VisualizerView extends View
-        implements Palette.PaletteAsyncListener, TunerService.Tunable,
-        ColorAnimator.ColorAnimationListener {
+        implements Palette.PaletteAsyncListener, ColorAnimator.ColorAnimationListener {
 
     private static final String TAG = VisualizerView.class.getSimpleName();
     private static final boolean DEBUG = false;
 
-    private static final String LOCKSCREEN_VISUALIZER_ENABLED =
-            Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED;
-    private static final String LOCKSCREEN_VISUALIZER_AUTOCOLOR =
-            Settings.Secure.LOCKSCREEN_VISUALIZER_AUTOCOLOR;
-    private static final String LOCKSCREEN_LAVALAMP_ENABLED =
-            Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED;
-    private static final String LOCKSCREEN_LAVALAMP_SPEED =
-            Settings.Secure.LOCKSCREEN_LAVALAMP_SPEED;
-    private static final String LOCKSCREEN_SOLID_UNITS_COUNT =
-            Settings.Secure.LOCKSCREEN_SOLID_UNITS_COUNT;
-    private static final String LOCKSCREEN_SOLID_FUDGE_FACTOR =
-            Settings.Secure.LOCKSCREEN_SOLID_FUDGE_FACTOR;
-    private static final String LOCKSCREEN_SOLID_UNITS_OPACITY =
-            Settings.Secure.LOCKSCREEN_SOLID_UNITS_OPACITY;
-    private static final String LOCKSCREEN_VISUALIZER_COLOR =
-            Settings.Secure.LOCKSCREEN_VISUALIZER_COLOR;
-
     private Paint mPaint;
     private Visualizer mVisualizer;
     private ObjectAnimator mVisualizerColorAnimator;
+
+    private SettingsObserver mSettingObserver;
+    private Context mContext;
 
     private ValueAnimator[] mValueAnimators;
     private float[] mFFTPoints;
@@ -72,6 +59,7 @@ public class VisualizerView extends View
     private boolean mVisualizerEnabled = false;
     private boolean mVisible = false;
     private boolean mPlaying = false;
+    private boolean mPowerSaveMode = false;
     private boolean mDisplaying = false; // the state we're animating to
     private boolean mDozing = false;
     private boolean mOccluded = false;
@@ -81,7 +69,7 @@ public class VisualizerView extends View
     private Bitmap mCurrentBitmap;
 
     private ColorAnimator mLavaLamp;
-    private boolean mAutoColor;
+    private boolean mAutoColorEnabled;
     private boolean mLavaLampEnabled;
     private int mLavaLampSpeed;
     private boolean shouldAnimate;
@@ -135,7 +123,7 @@ public class VisualizerView extends View
 
             mVisualizer.setEnabled(false);
             mVisualizer.setCaptureSize(66);
-            mVisualizer.setDataCaptureListener(mVisualizerListener, Visualizer.getMaxCaptureRate(),
+            mVisualizer.setDataCaptureListener(mVisualizerListener,Visualizer.getMaxCaptureRate(),
                     false, true);
             mVisualizer.setEnabled(true);
 
@@ -166,7 +154,7 @@ public class VisualizerView extends View
             }
             shouldAnimate = false;
 
-            if (!mAutoColor && !mLavaLampEnabled) {
+            if (!mAutoColorEnabled && !mLavaLampEnabled) {
                 if (mCurrentBitmap != null) {
                     setBitmap(null);
                 } else {
@@ -182,6 +170,7 @@ public class VisualizerView extends View
 
     public VisualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mContext = context;
 
         mColor = Color.TRANSPARENT;
 
@@ -217,86 +206,18 @@ public class VisualizerView extends View
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        final TunerService tunerService = Dependency.get(TunerService.class);
-        tunerService.addTunable(this, LOCKSCREEN_VISUALIZER_ENABLED);
-        tunerService.addTunable(this, LOCKSCREEN_VISUALIZER_AUTOCOLOR);
-        tunerService.addTunable(this, LOCKSCREEN_LAVALAMP_ENABLED);
-        tunerService.addTunable(this, LOCKSCREEN_LAVALAMP_SPEED);
-        tunerService.addTunable(this, LOCKSCREEN_SOLID_UNITS_COUNT);
-        tunerService.addTunable(this, LOCKSCREEN_SOLID_FUDGE_FACTOR);
-        tunerService.addTunable(this, LOCKSCREEN_SOLID_UNITS_OPACITY);
-        tunerService.addTunable(this, LOCKSCREEN_VISUALIZER_COLOR);
+        mSettingObserver = new SettingsObserver(new Handler());
+        mSettingObserver.observe();
+        mSettingObserver.update();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mLavaLamp.stop();
-        Dependency.get(TunerService.class).removeTunable(this);
+        mSettingObserver.unobserve();
+        mSettingObserver = null;
         mCurrentBitmap = null;
-    }
-
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        switch (key) {
-            case LOCKSCREEN_VISUALIZER_ENABLED:
-                mVisualizerEnabled =
-                        TunerService.parseIntegerSwitch(newValue, true);
-                break;
-            case LOCKSCREEN_VISUALIZER_AUTOCOLOR:
-                mAutoColor =
-                        TunerService.parseIntegerSwitch(newValue, false);
-                if (mCurrentBitmap != null && mAutoColor && !mLavaLampEnabled) {
-                    Palette.generateAsync(mCurrentBitmap, this);
-                } else if (mCurrentBitmap != null) {
-                    setBitmap(null);
-                } else {
-                    setColor(Color.TRANSPARENT);
-                }
-                break;
-            case LOCKSCREEN_LAVALAMP_ENABLED:
-                mLavaLampEnabled =
-                        TunerService.parseIntegerSwitch(newValue, true);
-                if (!mAutoColor & !mLavaLampEnabled)
-                    setColor(dColor);
-                break;
-            case LOCKSCREEN_LAVALAMP_SPEED:
-                mLavaLampSpeed = 10000;
-                try {
-                    mLavaLampSpeed = Integer.valueOf(newValue);
-                } catch (NumberFormatException ex) {}
-                mLavaLamp.setAnimationTime(mLavaLampSpeed);
-                break;
-            case LOCKSCREEN_SOLID_UNITS_COUNT:
-                int oldUnits = mUnits;
-                mUnits = 32;
-                try {
-                    mUnits = Integer.valueOf(newValue);
-                } catch (NumberFormatException ex) {}
-                if (mUnits != oldUnits) {
-                    mFFTPoints = new float[mUnits * 4];
-                    onSizeChanged(0, 0, 0, 0);
-                }
-                break;
-            case LOCKSCREEN_SOLID_FUDGE_FACTOR:
-                mDbFuzzFactor = 16f;
-                try {
-                    mDbFuzzFactor = Integer.valueOf(newValue);
-                } catch (NumberFormatException ex) {}
-                break;
-            case LOCKSCREEN_SOLID_UNITS_OPACITY:
-                mOpacity = 140;
-                try {
-                    mOpacity = Integer.valueOf(newValue);
-                } catch (NumberFormatException ex) {}
-                break;
-            case LOCKSCREEN_VISUALIZER_COLOR:
-                dColor = 0xffffffff;
-                setColor(dColor);
-                break;
-            default:
-                break;
-        }
     }
 
     private void loadValueAnimators() {
@@ -373,6 +294,62 @@ public class VisualizerView extends View
     public void onStopAnimation(ColorAnimator colorAnimator, int lastColor) {
     }
 
+    private void setVisualizerEnabled() {
+        mVisualizerEnabled = Settings.Secure.getInt(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 0) == 1;
+    }
+
+    private void setLavaLampEnabled() {
+        mLavaLampEnabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED , 0, UserHandle.USER_CURRENT) == 1;
+        if (!mAutoColorEnabled && !mLavaLampEnabled)
+            setColor(dColor);
+    }
+
+    private void setLavaLampSpeed() {
+        mLavaLampSpeed = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_LAVALAMP_SPEED, 10000, UserHandle.USER_CURRENT);
+        mLavaLamp.setAnimationTime(mLavaLampSpeed);
+    }
+
+    private void setAutoColorEnabled() {
+        mAutoColorEnabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_VISUALIZER_AUTOCOLOR, 1, UserHandle.USER_CURRENT) == 1;
+        if (mCurrentBitmap != null && mAutoColorEnabled && !mLavaLampEnabled) {
+            Palette.generateAsync(mCurrentBitmap, this);
+        } else if (mCurrentBitmap != null) {
+            setBitmap(null);
+        } else {
+            setColor(Color.TRANSPARENT);
+        }
+    }
+
+    private void setSolidUnitsCount() {
+        int oldUnits = mUnits;
+        mUnits = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_SOLID_UNITS_COUNT, 32, UserHandle.USER_CURRENT);
+        if (mUnits != oldUnits) {
+            mFFTPoints = new float[mUnits * 4];
+            onSizeChanged(0, 0, 0, 0);
+        }
+    }
+
+    private void setSolidFudgeFactor() {
+        mDbFuzzFactor = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_SOLID_FUDGE_FACTOR, 16, UserHandle.USER_CURRENT);
+    }
+
+    private void setSolidUnitsOpacity() {
+        mOpacity = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_SOLID_UNITS_OPACITY, 140, UserHandle.USER_CURRENT);
+    }
+
+    private void setDefaultColor() {
+        dColor = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_VISUALIZER_COLOR, 0xffffffff, UserHandle.USER_CURRENT);
+        setColor(dColor);
+    }
+
     public void setVisible(boolean visible) {
         if (DEBUG) {
             Log.i(TAG, "setVisible() called with visible = [" + visible + "]");
@@ -397,6 +374,16 @@ public class VisualizerView extends View
                 Log.i(TAG, "setPlaying() called with playing = [" + playing + "]");
             }
             mPlaying = playing;
+            checkStateChanged();
+        }
+    }
+
+    public void setPowerSaveMode(boolean powerSaveMode) {
+        if (mPowerSaveMode != powerSaveMode) {
+            if (DEBUG) {
+                Log.i(TAG, "setPowerSaveMode() called with powerSaveMode = [" + powerSaveMode + "]");
+            }
+            mPowerSaveMode = powerSaveMode;
             checkStateChanged();
         }
     }
@@ -426,7 +413,7 @@ public class VisualizerView extends View
 
         if (mCurrentBitmap == null) {
             setColor(Color.TRANSPARENT);
-        } else if (mAutoColor && !mLavaLampEnabled) {
+        } else if (mAutoColorEnabled && !mLavaLampEnabled) {
             Palette.generateAsync(mCurrentBitmap, this);
         }
     }
@@ -447,7 +434,7 @@ public class VisualizerView extends View
     }
 
     private void setColor(int color) {
-        if (!mAutoColor && !mLavaLampEnabled)
+        if (!mAutoColorEnabled && !mLavaLampEnabled)
             color = dColor;
         else if (color == Color.TRANSPARENT)
             color = Color.WHITE;
@@ -476,8 +463,8 @@ public class VisualizerView extends View
 
     private void checkStateChanged() {
         boolean isVisible = getVisibility() == View.VISIBLE;
-        if (isVisible && mVisualizerEnabled && mPlaying &&
-                !mDozing && !mOccluded) {
+        if (isVisible && mPlaying && !mDozing && !mPowerSaveMode
+                && mVisualizerEnabled && !mOccluded) {
             if (!mDisplaying) {
                 mDisplaying = true;
                 AsyncTask.execute(mLinkVisualizer);
@@ -490,11 +477,102 @@ public class VisualizerView extends View
         } else {
             if (mDisplaying) {
                 mDisplaying = false;
-                animate()
-                        .alpha(0f)
-                        .withEndAction(mAsyncUnlinkVisualizer)
-                        .setDuration(isVisible ? 600 : 0);
+                mLavaLamp.stop();
+                if (isVisible) {
+                    animate()
+                            .alpha(0f)
+                            .withEndAction(mAsyncUnlinkVisualizer)
+                            .setDuration(600);
+                } else {
+                    animate().
+                            alpha(0f)
+                            .withEndAction(mAsyncUnlinkVisualizer)
+                            .setDuration(0);
+                }
             }
+        }
+    }
+
+    private class SettingsObserver extends ContentObserver {
+
+        public SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        protected void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_LAVALAMP_SPEED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_AUTOCOLOR),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_SOLID_UNITS_COUNT),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_SOLID_FUDGE_FACTOR),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_SOLID_UNITS_OPACITY),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_COLOR),
+                    false, this, UserHandle.USER_ALL);
+            update();
+        }
+
+        protected void unobserve() {
+            mContext.getContentResolver().unregisterContentObserver(this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            ContentResolver resolver = mContext.getContentResolver();
+            if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED))) {
+                setVisualizerEnabled();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_LAVALAMP_ENABLED))) {
+                setLavaLampEnabled();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_LAVALAMP_SPEED))) {
+                setLavaLampSpeed();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_AUTOCOLOR))) {
+                setAutoColorEnabled();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_SOLID_UNITS_COUNT))) {
+                setSolidUnitsCount();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_SOLID_FUDGE_FACTOR))) {
+                setSolidFudgeFactor();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_SOLID_UNITS_OPACITY))) {
+                setSolidUnitsOpacity();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_COLOR))) {
+                setDefaultColor();
+            }
+        }
+
+        protected void update() {
+            setVisualizerEnabled();
+            setLavaLampEnabled();
+            setLavaLampSpeed();
+            setAutoColorEnabled();
+            setSolidUnitsCount();
+            setSolidFudgeFactor();
+            setSolidUnitsOpacity();
+            checkStateChanged();
+            updateViewVisibility();
+            setDefaultColor();
         }
     }
 }
