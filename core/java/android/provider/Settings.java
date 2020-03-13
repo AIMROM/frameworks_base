@@ -9268,12 +9268,6 @@ public final class Settings {
         public static final String LOCKSCREEN_SOLID_UNITS_OPACITY = "lockscreen_solid_units_opacity";
 
         /**
-         * Switch between filters for lockscreen album art
-         * @hide
-         */
-        public static final String LOCKSCREEN_ALBUMART_FILTER = "lockscreen_albumart_filter";
-
-        /**
          * Ambient Display Visualizer
          * @hide
          */
