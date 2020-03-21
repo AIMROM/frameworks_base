@@ -49,7 +49,6 @@ import com.android.systemui.SystemUIFactory;
 import com.android.systemui.statusbar.NotificationData;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.StatusBarIconView;
-import com.android.systemui.statusbar.policy.NetworkTraffic;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
 
@@ -80,7 +79,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
     private View mNotificationIconAreaInner;
 
     private BatteryMeterView mBatteryMeterView;
-    private NetworkTraffic mNetworkTraffic;
     private BatteryMeterView mBatteryMeterViewKeyguard;
     private ClockController mClockController;
     private View mCenterClockLayout;
@@ -145,7 +143,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         mBatteryMeterViewKeyguard = (BatteryMeterView) keyguardStatusBar.findViewById(R.id.battery);
         scaleBatteryMeterViews(context);
 
-	mNetworkTraffic = (NetworkTraffic) statusBar.findViewById(R.id.networkTraffic);
         mDarkModeIconColorSingleTone = context.getColor(R.color.dark_mode_icon_color_single_tone);
         mLightModeIconColorSingleTone = context.getColor(R.color.light_mode_icon_color_single_tone);
         mCarrierLabel = (TextView) statusBar.findViewById(R.id.statusbar_carrier_text);

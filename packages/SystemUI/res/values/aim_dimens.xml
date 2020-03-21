@@ -15,30 +15,23 @@
      limitations under the License.
 -->
 <resources>
-    <!-- Network traffic monitor single-line text size -->
-    <dimen name="net_traffic_single_text_size">12dp</dimen>
-
-    <!-- Network traffic monitor multi-line text size -->
-    <dimen name="net_traffic_multi_text_size">8dp</dimen>
-
- <!-- Clear-All recents FAB -->
+    <!-- Clear-All recents FAB -->
     <dimen name="floating_action_button_height">54dp</dimen>
     <dimen name="floating_action_button_width">54dp</dimen>
     <dimen name="floating_action_button_translation_z">12dp</dimen>
     <dimen name="floating_action_button_margin_side">32dp</dimen>
     <dimen name="floating_action_button_margin_bottom">46dp</dimen>
 
-<!-- Recents task locking button -->
+    <!-- Recents task locking button -->
     <dimen name="recents_task_view_header_lock_button_padding">44dp</dimen>
     <!-- Membar spacing -->
     <dimen name="recents_membar_spacing">12dp</dimen>
 
-
-<!-- SS Crop & Share -->
+    <!-- SS Crop & Share -->
     <dimen name="crop_buttons">48dp</dimen>
     <dimen name="crop_buttons_inlet">32dp</dimen>
 
-<!-- Custom headers -->
+    <!-- Custom headers -->
     <dimen name="qs_panel_top_offset_normal">80dp</dimen>
     <dimen name="qs_panel_top_offset_header">110dp</dimen>
 
