@@ -368,13 +368,13 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
     };
 
     private void updateSettings() {
-        mHeaderImageEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
-                UserHandle.USER_CURRENT) == 1;
-        updateHeaderImageHeight();
+        updateHeaderImage();
     }
 
-    private void updateHeaderImageHeight() {
+    private void updateHeaderImage() {
+        mHeaderImageEnabled = Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
+                UserHandle.USER_CURRENT) == 1;
         int mImageHeight = Settings.System.getIntForUser(getContext().getContentResolver(),
                 Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT, 25,
                 UserHandle.USER_CURRENT);

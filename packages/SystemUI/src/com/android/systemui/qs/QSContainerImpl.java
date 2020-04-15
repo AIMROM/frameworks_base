@@ -145,8 +145,6 @@ public class QSContainerImpl extends FrameLayout implements
         public void onChange(boolean selfChange) {
             updateAlpha();
             updateHeaderImageHeight();
-            updateResources();
-            updateStatusbarVisibility();
         }
     }
 
