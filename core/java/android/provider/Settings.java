@@ -5639,14 +5639,6 @@ public final class Settings {
         public static final String LOCKCLOCK_FONT_SIZE = "lockclock_font_size";
 
         /**
-         * Statusbar header image height
-         * @hide
-         */
-        public static final String STATUS_BAR_CUSTOM_HEADER_HEIGHT = "status_bar_custom_header_height";
-
-        private static final Validator STATUS_BAR_CUSTOM_HEADER_HEIGHT_VALIDATOR = ANY_INTEGER_VALIDATOR;
-
-        /**
          * Whether to show lockscreen clock
          * @hide
          */
@@ -5811,7 +5803,6 @@ public final class Settings {
             AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT,
             PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT,
             PULSE_AMBIENT_LIGHT_LAYOUT,
-            STATUS_BAR_CUSTOM_HEADER_HEIGHT,
             LOCKSCREEN_CLOCK,
             LOCKSCREEN_INFO,
             TEXT_CLOCK_ALIGNMENT,
@@ -5984,7 +5975,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_LAYOUT);
-            PRIVATE_SETTINGS.add(STATUS_BAR_CUSTOM_HEADER_HEIGHT);
             PRIVATE_SETTINGS.add(LOCKSCREEN_CLOCK);
             PRIVATE_SETTINGS.add(LOCKSCREEN_INFO);
             PRIVATE_SETTINGS.add(TEXT_CLOCK_ALIGNMENT);
@@ -6136,12 +6126,10 @@ public final class Settings {
             VALIDATORS.put(AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT, AMBIENT_NOTIFICATION_LIGHT_ACCENT_RIGHT_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT, PULSE_AMBIENT_LIGHT_PULSE_FOR_ALL_REPEAT_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_LAYOUT, PULSE_AMBIENT_LIGHT_LAYOUT_VALIDATOR);
-            VALIDATORS.put(STATUS_BAR_CUSTOM_HEADER_HEIGHT, STATUS_BAR_CUSTOM_HEADER_HEIGHT_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_CLOCK, LOCKSCREEN_CLOCK_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_INFO, LOCKSCREEN_INFO_VALIDATOR);
             VALIDATORS.put(TEXT_CLOCK_ALIGNMENT, TEXT_CLOCK_ALIGNMENT_VALIDATOR);
-            VALIDATORS.put(TEXT_CLOCK_PADDING, TEXT_CLOCK_PADDING_VALIDATOR);
-        }
+            VALIDATORS.put(TEXT_CLOCK_PADDING, TEXT_CLOCK_PADDING_VALIDATOR);        }
 
         /**
          * These entries are considered common between the personal and the managed profile,
