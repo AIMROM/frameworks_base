@@ -5011,12 +5011,6 @@ public final class Settings {
         public static final String ALERT_SLIDER_NOTIFICATIONS = "alert_slider_notifications";
 
         /**
-         * Unlock keystore with fingerprint after reboot
-         * @hide
-         */
-        public static final String FP_UNLOCK_KEYSTORE = "fp_unlock_keystore";
-
-        /**
          * Show Settings icon in QS Footer
          *
          * @hide
@@ -5422,15 +5416,6 @@ public final class Settings {
         private static final Validator QS_SERVICES_TOGGLE_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
-         * Whether to show or hide the edit icon
-         * @hide
-         */
-        public static final String QS_USER_TOGGLE = "qs_user_toggle";
-
-        /** @hide */
-        private static final Validator QS_USER_TOGGLE_VALIDATOR = BOOLEAN_VALIDATOR;
-
-        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5525,7 +5510,6 @@ public final class Settings {
             SLIM_RECENT_ENTER_EXIT_ANIMATION,
             STATUSBAR_PRIVACY_INDICATORS,
             QS_SERVICES_TOGGLE,
-            QS_USER_TOGGLE,
         };
 
         /**
@@ -5675,7 +5659,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SLIM_RECENT_ENTER_EXIT_ANIMATION);
             PRIVATE_SETTINGS.add(STATUSBAR_PRIVACY_INDICATORS);
             PRIVATE_SETTINGS.add(QS_SERVICES_TOGGLE);
-            PRIVATE_SETTINGS.add(QS_USER_TOGGLE);
         }
 
         /**
@@ -5801,7 +5784,6 @@ public final class Settings {
             VALIDATORS.put(SLIM_RECENT_ENTER_EXIT_ANIMATION, SLIM_RECENT_ENTER_EXIT_ANIMATION_VALIDATOR);
             VALIDATORS.put(STATUSBAR_PRIVACY_INDICATORS, STATUSBAR_PRIVACY_INDICATORS_VALIDATOR);
             VALIDATORS.put(QS_SERVICES_TOGGLE, QS_SERVICES_TOGGLE_VALIDATOR);
-            VALIDATORS.put(QS_USER_TOGGLE, QS_USER_TOGGLE_VALIDATOR);
         }
 
         /**
