@@ -469,7 +469,6 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
     public void hideCircle() {
         mIsCircleShowing = false;
-        setImageResource(ICON_STYLES[mSelectedIcon]);
         setWallpaperColor(true);
         invalidate();
 
@@ -528,16 +527,11 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         return Color.argb(Color.alpha(color), red, green, blue);
     }
 
-    private int getFODIcon() {
-        return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.FOD_ICON, 0);
-    }
-
     private void resetFODIcon(boolean show) {
         if (show) {
             setFODIcon();
         } else {
-            this.setImageResource(0);
+            this.setImageResource(ICON_STYLES[mSelectedIcon]);
         }
     }
 
@@ -546,7 +540,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             return;
         }
 
-        int fodicon = getFODIcon();
+        this.setImageResource(ICON_STYLES[mSelectedIcon]);
     }
 
     public void show() {
