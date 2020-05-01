@@ -19,6 +19,8 @@ package com.android.systemui.biometrics;
 import android.app.WallpaperColors;
 import android.app.WallpaperManager;
 import android.content.ContentResolver;
+
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -50,6 +52,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import androidx.palette.graphics.Palette;
 
+import com.android.internal.widget.LockPatternUtils;
+import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.systemui.Dependency;
@@ -89,6 +93,8 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
     private boolean mIsCircleShowing;
     private boolean mIsAuthenticated;
     private Handler mHandler;
+
+    private LockPatternUtils mLockPatternUtils;
 
     private Timer mBurnInProtectionTimer;
     private WallpaperManager mWallManager;
@@ -173,11 +179,14 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         @Override
         public void onKeyguardBouncerChanged(boolean isBouncer) {
             mIsBouncer = isBouncer;
-
-            if (isBouncer) {
+            if (mUpdateMonitor.isFingerprintDetectionRunning()) {
+                if (isPinOrPattern(mUpdateMonitor.getCurrentUser()) || !isBouncer) {
+                    show();
+                } else {
+                    hide();
+                }
+            } else {
                 hide();
-            } else if (mIsKeyguard && mUpdateMonitor.isFingerprintDetectionRunning()) {
-                show();
             }
         }
 
@@ -257,6 +266,8 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         mCustomSettingsObserver.update();
         updatePosition();
         hide();
+
+        mLockPatternUtils = new LockPatternUtils(mContext);
 
         mUpdateMonitor = KeyguardUpdateMonitor.getInstance(context);
         mUpdateMonitor.registerCallback(mMonitorCallback);
@@ -549,8 +560,8 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             return;
         }
 
-        if (mIsBouncer) {
-            // Ignore show calls when Keyguard pin screen is being shown
+        if (mIsBouncer && !isPinOrPattern(mUpdateMonitor.getCurrentUser())) {
+            // Ignore show calls when Keyguard password screen is being shown
             return;
         }
 
@@ -558,6 +569,8 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
 
         mIsShowing = true;
         mIsAuthenticated = false;
+
+        updatePosition();
 
         updatePosition();
 
@@ -662,6 +675,20 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
     private void updateSettings() {
         mShouldRemoveIconOnAOD = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.SCREEN_OFF_FOD, 0) != 0;
+    }
+
+    private boolean isPinOrPattern(int userId) {
+        int passwordQuality = mLockPatternUtils.getActivePasswordQuality(userId);
+        switch (passwordQuality) {
+            // PIN
+            case DevicePolicyManager.PASSWORD_QUALITY_NUMERIC:
+            case DevicePolicyManager.PASSWORD_QUALITY_NUMERIC_COMPLEX:
+            // Pattern
+            case DevicePolicyManager.PASSWORD_QUALITY_SOMETHING:
+                return true;
+        }
+
+        return false;
     }
 
     private class BurnInProtectionTask extends TimerTask {
