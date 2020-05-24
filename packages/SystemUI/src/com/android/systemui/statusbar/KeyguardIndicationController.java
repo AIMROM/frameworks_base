@@ -137,7 +137,7 @@ public class KeyguardIndicationController implements StateListener,
     private boolean mPowerPluggedInWired;
     private boolean mPowerCharged;
     private int mChargingSpeed;
-    private double mChargingWattage;
+    private int mChargingWattage;
     private int mBatteryLevel;
     private int mChargingCurrent;
     private double mChargingVoltage;
@@ -718,10 +718,6 @@ public class KeyguardIndicationController implements StateListener,
          if (showbatteryInfo) {
             if (mChargingCurrent > 0) {
                 batteryInfo = batteryInfo + (mChargingCurrent / 1000) + "mA";
-            }
-            if (mChargingWattage > 0) {
-                batteryInfo = (batteryInfo == "" ? "" : batteryInfo + " · ") +
-                        String.format("%.1f" , (mChargingWattage / 1000 / 1000)) + "W";
             }
             if (mChargingVoltage > 0) {
                 batteryInfo = (batteryInfo == "" ? "" : batteryInfo + " · ") +
