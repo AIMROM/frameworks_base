@@ -15998,7 +15998,8 @@ public class PackageManagerService extends IPackageManager.Stub {
                 Slog.w(TAG, "Not removing non-existent package " + packageName);
                 return PackageManager.DELETE_FAILED_INTERNAL_ERROR;
             }
-            if (isSystemApp(uninstalledPs)) {
+            if (isUpdatedSystemApp(uninstalledPs)
+                    && ((deleteFlags & PackageManager.DELETE_SYSTEM_APP) == 0)) {
                 UserInfo userInfo = sUserManager.getUserInfo(userId);
                 if (userInfo == null || !userInfo.isAdmin()) {
                     Slog.w(TAG, "Not removing package " + packageName
