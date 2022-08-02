@@ -1534,6 +1534,10 @@ final class ActivityRecord {
         return info.applicationInfo.uid;
     }
 
+    int getPid() {
+        return app != null ? app.getPid() : 0;
+    }
+
     @Override
     public String toString() {
         if (stringName != null) {
